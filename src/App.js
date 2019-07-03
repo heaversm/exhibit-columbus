@@ -1,4 +1,7 @@
 //styles
+import './fonts/Gravur-Condensed.ttf';
+import './fonts/Gravur-CondensedBlack.ttf';
+import './fonts/Gravur-CondensedThin.ttf';
 import './scss/App.scss';
 
 //dependencies

@@ -12,7 +12,9 @@ $screen-md-max: $screen-lg-min - 1;
 $screen-lg-max: $max-width;
 
 // Font Stacks
-$font__hn: "HelveticaNeue", "Arial", sans-serif;
+$font__grav: "Gravur-Condensed","HelveticaNeue", "Arial", sans-serif;
+$font__grav--black: "Gravur-CondensedBlack","HelveticaNeue", "Arial", sans-serif;
+$font__grav--lt: "Gravur-CondensedLight","HelveticaNeue", "Arial", sans-serif;
 
 // Colors
 $c__gray: #4a4a4a;

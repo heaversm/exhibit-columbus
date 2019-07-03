@@ -3,16 +3,23 @@
 @import "./mixins.scss";
 @import "./components.scss";
 
-//TODO: Put the fonts on an OJ server
 @font-face {
-  font-family: "HelveticaNeue";
-  src: url("https://s3-us-west-2.amazonaws.com/oj-nrc/fonts/HelveticaNeue.ttf") format("truetype");
+  font-family: "Gravur-Condensed";
+  src: url("../fonts/Gravur-Condensed.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Gravur-CondensedBlack";
+  src: url("../fonts/Gravur-CondensedBlack.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Gravur-CondensedThin";
+  src: url("../fonts/Gravur-CondensedThin.ttf") format("truetype");
 }
 
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
-  font-family: $font__hn;
+  font-family: $font__grav;
   color: $c__gray;
   font-size: 1em;
   line-height: 1.25em;
@@ -27,7 +34,7 @@ body {
     color: $c__tomato;
   }
   input {
-    font-family: $font__hn;
+    font-family: $font__grav;
   }
 
   textarea { //mozilla places a red box shadow around these elements even if they are not invalid
@@ -40,7 +47,7 @@ body {
   h4,
   h5,
   h6 {
-    font-family: $font__hn;
+    font-family: $font__grav--black;
     font-weight: normal;
     color: black;
     line-height: 1em;
