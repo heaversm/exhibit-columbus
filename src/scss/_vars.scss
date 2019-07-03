@@ -16,9 +16,31 @@ $font__grav: "Gravur-Condensed","HelveticaNeue", "Arial", sans-serif;
 $font__grav--black: "Gravur-CondensedBlack","HelveticaNeue", "Arial", sans-serif;
 $font__grav--lt: "Gravur-CondensedLight","HelveticaNeue", "Arial", sans-serif;
 
+// Font Styles
+$fs__h1: 50px;
+$fs__h2: 40px;
+$fs__h3: 32px;
+$fs__h4: 24px;
+$fs__h5: 18px;
+$fs__h6: 16px;
+$fs__h7: 14px;
+
+$fs__map: (
+  h1: $fs__h1,
+  h2: $fs__h2,
+  h3: $fs__h3,
+  h4: $fs__h4,
+  h5: $fs__h5,
+  h6: $fs__h6,
+  h7: $fs__h7,
+);
+
 // Colors
 $c__gray: #4a4a4a;
 $c__tomato: #fe5000;
+
+// Layout
+$app__pad: 40px;
 
 //Animations
 $anim__dur--std: 300ms;

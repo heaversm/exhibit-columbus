@@ -17,7 +17,7 @@ class Confirmation extends React.Component {
   render() {
 
     return (
-      <div className="Confirmation">
+      <div className="Confirmation app_screen">
         <main>
           <div className="confirmation__title_container ctnr">
             <h1 className="confirmation__title">{siteData.confirmationTitle}</h1>

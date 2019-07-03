@@ -17,7 +17,7 @@ class Inspiration extends React.Component {
   render() {
 
     return (
-      <div className="Inspiration">
+      <div className="Inspiration app_screen">
         <main>
           <div className="inspiration__title_container ctnr">
             <h1 className="inspiration__title">{siteData.inspirationTitle}</h1>

@@ -54,6 +54,12 @@ body {
     margin: 0;
   }
 
+  @each $fs__name, $fs__value in $fs__map {
+    #{$fs__name} {
+      font-size: $fs__value;
+    }
+  }
+
   main {
     position: relative; //to overlay mobile nav container
   }

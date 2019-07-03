@@ -17,7 +17,7 @@ class Redesign extends React.Component {
   render() {
 
     return (
-      <div className="redesign">
+      <div className="redesign app_screen">
         <main>
           <section className="redesign__inspiration_section ctnr">
             <h1 className="redesign__inspiration_text">{siteData.redesignInspirationText}</h1>

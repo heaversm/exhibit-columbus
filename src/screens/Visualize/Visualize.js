@@ -17,7 +17,7 @@ class Visualize extends React.Component {
   render() {
 
     return (
-      <div className="Visualize">
+      <div className="Visualize app_screen">
         <main>
           <h1 className="visualize__title">{siteData.visualizeTitle}</h1>
           <section className="visualize__sentence_section ctnr">
