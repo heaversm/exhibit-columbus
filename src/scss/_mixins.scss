@@ -1,0 +1,55 @@
+@mixin media-query($point) {
+  @if $point == xl-up {
+    @media (min-width: $screen-xl-min) {
+      @content;
+    }
+  } @else if $point == lg-up {
+    @media (min-width: $screen-lg-min) {
+      @content;
+    }
+  } @else if $point == lg-only {
+    @media (min-width: $screen-lg-min) and (max-width: $screen-lg-max) {
+      @content;
+    }
+  } @else if $point == md-up {
+    @media (min-width: $screen-md-min) {
+      @content;
+    }
+  } @else if $point == md-only {
+    @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+      @content;
+    }
+  } @else if $point == sm-up {
+    @media (min-width: $screen-sm-min) {
+      @content;
+    }
+  } @else if $point == md-down {
+    @media (max-width: $screen-md-max) {
+      @content;
+    }
+  } @else if $point == sm-only {
+    @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+      @content;
+    }
+  } @else if $point == sm-down {
+    @media (max-width: $screen-sm-max) {
+      @content;
+    }
+  } @else if $point == xs-up {
+    @media (min-width: $screen-xs-min) {
+      @content;
+    }
+  } @else if $point == xs-down {
+    @media (max-width: $screen-xs-max) {
+      @content;
+    }
+  } @else if $point == xs-only {
+    @media (min-width: $screen-xs-min) and (max-width: $screen-xs-max) {
+      @content;
+    }
+  } @else {
+    @media ($point) {
+      @content;
+    }
+  }
+}

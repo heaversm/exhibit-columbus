@@ -1,25 +1,27 @@
+//styles
+import './scss/App.scss';
+
+//dependencies
+import { Route, BrowserRouter as Router } from 'react-router-dom';
+
+import Confirmation from './screens/Confirmation/Confirmation';
+import Home from './screens/Home/Home';
+import Inspiration from './screens/Inspiration/Inspiration';
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Redesign from './screens/Redesign/Redesign';
+import Visualize from './screens/Visualize/Visualize';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Route exact path="/" component={Home} />
+        <Route exact path="/inspiration" component={Inspiration} />
+        <Route exact path="/redesign" component={Redesign} />
+        <Route exact path="/visualize" component={Visualize} />
+        <Route exact path="/confirmation" component={Confirmation} />
+      </div>
+    </Router>
   );
 }
 

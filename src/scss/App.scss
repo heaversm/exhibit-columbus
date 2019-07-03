@@ -1,0 +1,60 @@
+@import "./flexboxgrid.scss";
+@import "./vars.scss";
+@import "./mixins.scss";
+@import "./components.scss";
+
+//TODO: Put the fonts on an OJ server
+@font-face {
+  font-family: "HelveticaNeue";
+  src: url("https://s3-us-west-2.amazonaws.com/oj-nrc/fonts/HelveticaNeue.ttf") format("truetype");
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  font-family: $font__hn;
+  color: $c__gray;
+  font-size: 1em;
+  line-height: 1.25em;
+  background-color: white;
+  * {
+    box-sizing: border-box;
+  }
+  img {
+    max-width: 100%;
+  }
+  a {
+    color: $c__tomato;
+  }
+  input {
+    font-family: $font__hn;
+  }
+
+  textarea { //mozilla places a red box shadow around these elements even if they are not invalid
+    box-shadow: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: $font__hn;
+    font-weight: normal;
+    color: black;
+    line-height: 1em;
+    margin: 0;
+  }
+
+  main {
+    position: relative; //to overlay mobile nav container
+  }
+  button {
+    border: none;
+    text-decoration: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: transparent;
+  }
+}
