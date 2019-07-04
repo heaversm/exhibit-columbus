@@ -53,3 +53,15 @@
     }
   }
 }
+
+@mixin button {
+  border: none;
+  text-decoration: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent;
+}
+
+@mixin anim__all {
+  transition: all $anim__time--std linear;
+}

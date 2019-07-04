@@ -42,5 +42,14 @@ $c__tomato: #fe5000;
 // Layout
 $app__pad: 40px;
 
+$button__radius: 20px;
+$button__pad: 10px 20px;
+$button__border_width: 2px;
+$button__border_color: $c__tomato;
+$button__text_color: $c__tomato;
+$button__text_color--active: white;
+$button__bg_color: white;
+$button__bg_color--active: $c__tomato;
+
 //Animations
-$anim__dur--std: 300ms;
+$anim__time--std: 300ms;

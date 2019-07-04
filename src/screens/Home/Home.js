@@ -18,14 +18,20 @@ class Home extends React.Component {
 
     return (
       <div className="Home app_screen">
-        <div className="intro__title_container ctnr">
-          <h1 className="intro__title">{siteData.introTitle}</h1>
-          <div className="intro__continue_container">
-            <Link to="/inspiration">{siteData.introContinueButtonText}</Link>
+        <div className="home__title_container ctnr">
+          <div className="row center-xs">
+            <div className="col-xs-6">
+              <h1 className="home__title">{siteData.introTitle}</h1>
+              <Link className="home__continue_button button button--rounded" to="/inspiration">{siteData.introContinueButtonText}</Link>
+            </div>
           </div>
-          <div className="intro__visions_container">
+          
+        </div>
+        <div className="home__continue_container">
+          
+        </div>
+        <div className="home__visions_container">
 
-          </div>
         </div>
       </div>
     )

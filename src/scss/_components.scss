@@ -8,3 +8,29 @@
   height: 100vh;
   overflow-x: hidden;
 }
+
+.ctnr {
+  position: relative;
+}
+
+.button {
+  @include button;
+  padding: $button__pad;
+  border: $button__border_width solid $button__border_color;
+  color: $button__text_color;
+  background-color: $button__bg_color;
+  @include anim__all;
+
+  &:active {
+    color: $button__text_color--active;
+    background-color: $button__bg_color--active;
+  }
+
+  &--rounded {
+    border-radius: $button__radius;
+  }
+}
+
+a.button {
+  display: inline-block;
+}

@@ -1,3 +1,9 @@
-.Home {
+@import "../../scss/vars.scss";
+@import "../../scss/mixins.scss";
 
+.home {
+  &__continue_button {
+    margin-top: 50px;
+    font-size: $fs__h2;
+  }
 }
