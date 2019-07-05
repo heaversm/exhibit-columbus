@@ -17,190 +17,192 @@ const siteData = {
   "visualizeSkipButtonLabel": "Skip",
   "confirmationTitle": "Success",
   "confirmationContinueButtonText": "Continue",
-  "visions": [
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-    {
-      "image": "inspiration.jpg",
-      "text": "Let's redesign parks to transport us to different spaces and times.",
-      "author": "Victor V."
-    },
-  ]
 };
 
+const visionsData = [
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+  {
+    "image": "inspiration.jpg",
+    "text": "Let's redesign parks to transport us to different spaces and times.",
+    "author": "Victor V."
+  },
+]
+
 export {
-  siteData
+  siteData,
+  visionsData
 };

@@ -48,7 +48,7 @@ class Vision extends React.Component {
               <img
                 className="vision__image"
                 src={`./assets/images/temp/${data.image}`}
-                alt="Inspiration"
+                alt="Vision"
               />
               <div className="vision__content_container">
                 <div className="vision__content">
