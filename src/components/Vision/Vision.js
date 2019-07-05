@@ -10,21 +10,20 @@ class Vision extends React.Component {
   state = {}
 
   render() {
-    const { index, data } = this.props;
+    const { index, data, isActive } = this.props;
 
-    const level = Math.ceil((index+1)/visionData.DIVISIONS);
-    const levelScaleBase = Math.pow(visionData.SCALE_BASE,level);
-    const levelScaleVariance = visionData.SCALE_BASE_VARIANCE/level;
-    const levelRotation = visionData.GROUP_ROTATIONS[level-1];
-    const levelTranslation = visionData.GROUP_TRANSLATIONS[level-1];
+    const level = Math.ceil((index+1)/visionData.DIVISIONS); //current group of visions
+    const levelScaleBase = Math.pow(visionData.SCALE_BASE,level); //base scale per group
+    const levelScaleVariance = visionData.SCALE_BASE_VARIANCE/level; //amount the scale can vary for this group
+    const levelRotation = visionData.GROUP_ROTATIONS[level-1]; //rotation for this group
+    const levelTranslation = visionData.GROUP_TRANSLATIONS[level-1]; //base translation for this group
     
-    const curTranslation = _.random(levelTranslation-visionData.GROUP_TRANSLATIONS_VARIANCE, levelTranslation+visionData.GROUP_TRANSLATIONS_VARIANCE)
-    const curScale = _.random(levelScaleBase-levelScaleVariance,levelScaleBase+levelScaleVariance);
-    //const dataRotation = data.rotation ? data.rotation : 60; //to get rotation from data file e.g transform: `rotate(${-index * dataRotation}deg)`
+    const curTranslation = _.random(levelTranslation-visionData.GROUP_TRANSLATIONS_VARIANCE, levelTranslation+visionData.GROUP_TRANSLATIONS_VARIANCE); //translation amount for this particular item
+    const curScale = _.random(levelScaleBase-levelScaleVariance,levelScaleBase+levelScaleVariance); //scale amount for this particular item
     return (
 
       <div
-        className="vision__rotator"
+        className={`vision__rotator ${isActive ? 'active' : ''}`}
         style={{
           transform: `rotate(${index * levelRotation}deg)`
         }}
@@ -32,7 +31,7 @@ class Vision extends React.Component {
         <div
           className="vision__positioner"
           style={{
-            transform: `translateX(${curTranslation}px)`
+            transform: `translateX(${isActive ? 0 : curTranslation}px)`
           }}
         >
           <div 
@@ -43,7 +42,7 @@ class Vision extends React.Component {
           >
             <div className="vision__container"
               style={{
-                transform: `translate(-50%,-50%) scale(${curScale})`
+                transform: `translate(-50%,-50%) scale(${isActive ? 1 : curScale})`
               }}
             >
               <img
