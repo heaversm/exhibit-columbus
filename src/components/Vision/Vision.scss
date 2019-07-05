@@ -1,0 +1,89 @@
+@import "../../scss/vars.scss";
+@import "../../scss/mixins.scss";
+
+.vision {
+  &__rotator {
+    position: absolute;
+    width: 0;
+    height: 0;
+    transform-origin: center;
+    left: 0;
+    top: 0;
+
+  }
+  &__positioner {
+    transform-origin: center;
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  &__reverser {
+    transform-origin: center;
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  &__container {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    padding: 10px;
+    position: relative;
+    transform: scale(.5) translate(-100%, -100%); //MH TODO: Not sure why 100% and not 50%
+    transition: transform $anim__time--std ease-in-out;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    &.active {
+      transform: scale(1);
+      .vision__content_container {
+        display: flex;
+      }
+      .vision__content{
+        opacity: 1;
+      }
+    }
+  }
+  &__image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 50%;
+  }
+  &__content_container {
+    height: 100%;
+    width: 100%;
+    display: none;
+  }
+  &__content {
+    word-break: break-word;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    z-index: 1;
+    position: relative;
+    padding: 10px;
+    opacity: 0;
+    background-color: white;
+    @include anim__all;
+    transition-delay: $anim__time--std;
+  }
+  &__author {
+    display: block;
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+}

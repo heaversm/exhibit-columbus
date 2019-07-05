@@ -1,16 +1,14 @@
+/* eslint-disable */
+
 import './Inspiration.scss';
 
-import { Link, Route, BrowserRouter as Router } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 import React from 'react';
 //import { Template } from '../../components';
 import { siteData } from '../../data/site_data';
 import { view } from 'react-easy-state';
 
 class Inspiration extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   state = {}
 

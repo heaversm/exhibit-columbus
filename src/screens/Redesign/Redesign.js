@@ -1,16 +1,15 @@
 import './Redesign.scss';
 
-import { Link, Route, BrowserRouter as Router } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 import React from 'react';
 //import { Template } from '../../components';
 import { siteData } from '../../data/site_data';
 import { view } from 'react-easy-state';
 
+/* eslint-disable */
+
+
 class Redesign extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   state = {}
 
@@ -23,8 +22,8 @@ class Redesign extends React.Component {
             <h1 className="redesign__inspiration_text">{siteData.redesignInspirationText}</h1>
             <div className="redesign__choice_container">
               <div className="redesign__choice">
-                <h2 className="redesign__choice_title"></h2>
-                <span className="redesign__choice_text"></span>
+                <h2 className="redesign__choice_title">Choice Title</h2>
+                <span className="redesign__choice_text">Choice Text</span>
               </div>
             </div>
           </section>

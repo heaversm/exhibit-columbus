@@ -1,1 +1,1 @@
-export { default as Template } from './Template/Template'; 
+export { default as Vision } from './Vision/Vision'; 
