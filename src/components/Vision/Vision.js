@@ -6,24 +6,21 @@ import { view } from 'react-easy-state';
 import { visionData } from '../../data/dev_data';
 
 class Vision extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   state = {}
 
   render() {
     const { index, data } = this.props;
 
-    const level = Math.ceil(index/visionData.DIVISIONS);
+    const level = Math.ceil((index+1)/visionData.DIVISIONS);
     const levelScaleBase = Math.pow(visionData.SCALE_BASE,level);
     const levelScaleVariance = visionData.SCALE_BASE_VARIANCE/level;
     const levelRotation = visionData.GROUP_ROTATIONS[level-1];
     const levelTranslation = visionData.GROUP_TRANSLATIONS[level-1];
     
+    const curTranslation = _.random(levelTranslation-visionData.GROUP_TRANSLATIONS_VARIANCE, levelTranslation+visionData.GROUP_TRANSLATIONS_VARIANCE)
     const curScale = _.random(levelScaleBase-levelScaleVariance,levelScaleBase+levelScaleVariance);
     //const dataRotation = data.rotation ? data.rotation : 60; //to get rotation from data file e.g transform: `rotate(${-index * dataRotation}deg)`
-    
     return (
 
       <div
@@ -35,7 +32,7 @@ class Vision extends React.Component {
         <div
           className="vision__positioner"
           style={{
-            transform: `translateX(${levelTranslation}px)`
+            transform: `translateX(${curTranslation}px)`
           }}
         >
           <div 

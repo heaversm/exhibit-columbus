@@ -32,15 +32,17 @@ class Home extends React.Component {
         </div>
         <div className="home__visions_container">
           <div className="home__visions_positioner">
-            {siteData.visions.map((vision, index) => {
-              return (
-                <Vision
-                  index={index}
-                  key={`vision--${index}`}
-                  data={vision}
-                />
-              )
-            })}
+            {
+              siteData.visions.map((vision, index) => {
+                return (
+                  <Vision
+                    index={index}
+                    key={`vision--${index}`}
+                    data={vision}
+                  />
+                )
+              }
+            )}
           </div>
         </div>
       </div>
