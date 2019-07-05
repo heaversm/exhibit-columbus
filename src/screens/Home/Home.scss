@@ -8,7 +8,7 @@
   }
   &__visions_container {
     position: relative;
-    height: calc(100vh - 695px);
+    height: calc(100vh - 353px); //MH - TODO: this should probably be calculated by JS or set explicit heights
   }
   &__visions_positioner {
     width: 0;

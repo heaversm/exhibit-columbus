@@ -8,28 +8,6 @@ import { Vision } from '../../components';
 import { siteData } from '../../data/site_data';
 import { view } from 'react-easy-state';
 
-const visions = [
-  {
-    "translateX": 150,
-  },
-  {
-    "translateX": 150,
-  },
-  {
-    "translateX": 150,
-  },
-  {
-    "translateX": 150,
-  },
-
-  {
-    "translateX": 150,
-  },
-  {
-    "translateX": 150,
-  },
-];
-
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -54,12 +32,12 @@ class Home extends React.Component {
         </div>
         <div className="home__visions_container">
           <div className="home__visions_positioner">
-            {visions.map((vision, index) => {
+            {siteData.visions.map((vision, index) => {
               return (
                 <Vision
                   index={index}
                   key={`vision--${index}`}
-                  data={visions[index]}
+                  data={vision}
                 />
               )
             })}
