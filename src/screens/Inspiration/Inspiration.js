@@ -2,16 +2,29 @@
 
 import './Inspiration.scss';
 
+import { inspirationsData, siteData } from '../../data/site_data';
+
+import { InspirationItem } from '../../components';
 import { Link } from 'react-router-dom';
 import React from 'react';
-//import p5 from 'p5';
-//import { Template } from '../../components';
-import { siteData } from '../../data/site_data';
+import { homeData } from '../../data/dev_data';
 import { view } from 'react-easy-state';
 
 class Inspiration extends React.Component {
 
-  state = {}
+  static defaultProps = {
+    numInspirations: inspirationsData.length
+  }
+
+  state = {
+    curInspirationIndex: -1,
+  }
+
+  handleInspirationItemClick = (index)=>{
+    this.setState({
+      curInspirationIndex: index
+    })
+  }
 
   render() {
 
@@ -25,9 +38,23 @@ class Inspiration extends React.Component {
           </div>
         </section>
         <section className="inspiration__examples_container">
-          <div className="inspiration__example_container">
-            <img src="" alt="" className="inspiration__example_image" />
-            <h2 className="inspiration__example_title"></h2>
+          <div className="inspiration__examples_positioner">
+          {
+              
+              inspirationsData.map((inspiration, index) => {
+                const isActive = this.state.curInspirationIndex === index;
+
+                return (
+                  <InspirationItem
+                    index={index}
+                    key={`inspiration--${index}`}
+                    data={inspiration}
+                    isActive={isActive}
+                    onInspirationItemClick={this.handleInspirationItemClick}
+                  />
+                )
+              }
+            )}
           </div>
         </section>
         <div className="inspiration__choice_container">
@@ -35,9 +62,7 @@ class Inspiration extends React.Component {
           <p className="inspiration__choice_text"></p>
           <p className="inspiration__choice_source"></p>
         </div>
-        <div className="inspiration__select_container">
-          <Link to="/redesign" className="inspiration__select_choice">{siteData.inspirationSelectButtonLabel}</Link>
-        </div>
+
       </main>
     )
   }

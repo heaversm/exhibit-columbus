@@ -17,6 +17,7 @@ const siteData = {
   "visualizeSkipButtonLabel": "Skip",
   "confirmationTitle": "Success",
   "confirmationContinueButtonText": "Continue",
+  "inspirationSelectButtonText": "Select",
 };
 
 const visionsData = [
@@ -254,9 +255,67 @@ const visionsData = [
     "author": "Mumbai, India",
     "image": "inspiration.jpg",
   },
+];
+const inspirationsData = [
+  {
+    "title": "Pedestrian Zones",
+    "description": "Brussels, one of Europe's most congested cities, is banning all motor vehicles from the city center, creating a massive pedestrian zone.",
+    "location": "Yvan Mayeur, Brussels, Belguim",
+    "image": "01.jpg",
+  },
+  {
+    "title": "Moving the Capital",
+    "description": "The President of Indonesia is planning on moving the capital from Jakarta, a city of 10 million, as it continues to sink nearly 10 inches annually.",
+    "location": "Joko Widodo, Jakarta, Indonesia",
+    "image": "02.jpg",
+  },
+  {
+    "title": "Affordable Accessory Housing",
+    "description": "In Los Angeles, community organizations are paying for homeowners to build a small second house in their backyards for use by Section-8 Voucher holders.",
+    "location": "LA-Más, Los Angeles, USA",
+    "image": "03.jpg",
+  },
+  {
+    "title": "No Traffic Signs",
+    "description": "In northern Holland, roads are being built without traffic signs. Though they may seem more dangerous, they're actually safer.",
+    "location": "Hans Monderman, Drachten, Holland",
+    "image": "04.jpg",
+  },
+  {
+    "title": "Smart Waste",
+    "description": "A company in Turkey installs sensors onto waste containers which collect data on the fullness, temperature, and location of the bin to improve waste management efficiency.",
+    "location": "Evreka, Ankara, Turkey",
+    "image": "05.jpg",
+  },
+  {
+    "title": "Single-Family Home Ban",
+    "description": "Minneapolis city council approved a radical plan that bans the building of single-family homes in order to address racial inequality and a history of housing discrimination.",
+    "location": "City Council, Minneapolis, USA",
+    "image": "06.jpg",
+  },
+  {
+    "title": "Oystertecture",
+    "description": "A community organization in New York City wants to restore the New York Harbor and protect the city from flooding by introducing a billion oysters back into the waters.",
+    "location": "Billion Oyster Project, New York City, USA",
+    "image": "07.jpg",
+  },
+  {
+    "title": "Facial Recognition Ban",
+    "description": "The 'Stop Secret Surveillance' ordinance passed in San Francisco, bans the use of facial recognition by city agencies and police, and requires public notice for other types of surveillance.",
+    "location": "Board of Supervisors, San Francisco, USA",
+    "image": "08.jpg",
+  },
+  {
+    "title": "Hydrogen Trains",
+    "description": "Two trains, which run by combining hydrogen and oxygen to create electricity, will be replacing diesel-powered trains in Germany. The trains are cheaper to run and better for the environment.",
+    "location": "Alstom, Germany",
+    "image": "09.jpg",
+  },
 ]
+
 
 export {
   siteData,
-  visionsData
+  visionsData,
+  inspirationsData
 };

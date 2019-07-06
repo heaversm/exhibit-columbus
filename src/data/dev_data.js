@@ -11,7 +11,17 @@ const visionData = {
   "SCALE_BASE_VARIANCE": 0.2, //how much the scale of each item varies as a % (+ or -)
 }
 
+const inspirationSettingsData = {
+  "DIVISIONS": 9, //number of inspirations in each group //MH TODO: (ideally find a better way to do this, as the next "level" will contain more items than the previous, but not sure by what amount)
+  "GROUP_ROTATIONS": [40], //the array of rotations of inspirations per group in degrees
+  "GROUP_TRANSLATIONS": [350], //the array of translations of items in pixels per group
+  "GROUP_TRANSLATIONS_VARIANCE": 0, //max number of pixels a vision can stray from its center (+ or -)
+  "SCALE_BASE": 0.5, //the largest scale each unselected item can be as a %
+  "SCALE_BASE_VARIANCE": 0.0, //how much the scale of each item varies as a % (+ or -)
+}
+
 export {
   homeData,
   visionData,
+  inspirationSettingsData
 };

@@ -2,5 +2,15 @@
 @import "../../scss/mixins.scss";
 
 .inspiration {
-  
+  &__examples_container {
+    position: relative;
+    height: calc(100vh - 180px); //MH - TODO: this should probably be calculated by JS or set explicit heights
+  }
+  &__examples_positioner {
+    width: 0;
+    height: 0;
+    position: relative;
+    top: 50%;
+    left: 50%;
+  }
 }
