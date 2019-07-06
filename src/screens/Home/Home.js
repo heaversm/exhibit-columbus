@@ -49,19 +49,16 @@ class Home extends React.Component {
   render() {
 
     return (
-      <div className="Home app_screen">
-        <div className="home__title_container ctnr">
+      <main className="Home app_screen">
+        <section className="home__title_container ctnr">
           <div className="row center-xs">
             <div className="col-xs-6">
               <h1 className="home__title">{siteData.introTitle}</h1>
+              <Link className="home__continue_button button button--rounded" to="/inspiration">{siteData.introContinueButtonText}</Link>
             </div>
           </div>
-
-        </div>
-        <div className="home__continue_container center-xs">
-          <Link className="home__continue_button button button--rounded" to="/inspiration">{siteData.introContinueButtonText}</Link>
-        </div>
-        <div className="home__visions_container">
+        </section>
+        <section className="home__visions_container">
           <div className="home__visions_positioner">
             {
               
@@ -79,8 +76,8 @@ class Home extends React.Component {
               }
             )}
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
     )
   }
 }
