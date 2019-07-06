@@ -11,7 +11,7 @@ const siteData = {
   "redesignInspirationText": "Your inspiration:",
   "visualizeTitle": "Visualize your future:",
   "visualizeLead": "Let's redesign ",
-  "visualizeSublead": "to ",
+  "visualizeSublead": " to ",
   "visualizeContinueButtonLabel": "Sign & Send",
   "visualizeSignTitle": "Sign your vision of the future",
   "visualizeSkipButtonLabel": "Skip",
@@ -21,184 +21,238 @@ const siteData = {
 
 const visionsData = [
   {
+    "object": "the city",
+    "objective": "escape rising seas by being mobile",
+    "author": "Yvan Mayeur, Brussels, Belguim",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "backyards",
+    "objective": "provide affordable housing.",
+    "author": "Joko Widodo, Jakarta, Indonesia",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "streets",
+    "objective": "remove signs and improve safety.",
+    "author": "LA-Más, Los Angeles, USA",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "trash bins",
+    "objective": "be more efficienty by collecting data.",
+    "author": "Hans Monderman, Drachten, Holland",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "zoning",
+    "objective": "ban single-family homes to address housing discrimination.",
+    "author": "Evreka, Ankara, Turkey",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "waterways",
+    "objective": "protect from flooding by improving the biome.",
+    "author": "City Council, Minneapolis, USA",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "public spaces",
+    "objective": "make it impossible to surveil.",
+    "author": "Billion Oyster Project, New York City, USA",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "trains",
+    "objective": "reduce pollution by running on hydrogen.",
+    "author": "Board of Supervisors, San Francisco, USA",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "skyscrapers",
+    "objective": "be taller as more people move to cities.",
+    "author": "Alstom, Germany",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "streets",
+    "objective": "be more accessible to robots.",
+    "author": "Jonathan Auerbach & Phyllis Wan",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "driverless cars",
+    "objective": "be shared.",
+    "author": "Scape, London, UK",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "sidewalks",
+    "objective": "be more playful.",
+    "author": "Mayor's Office of New Urban Mechanics, Boston, USA",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "commuting",
+    "objective": "use helicopters.",
+    "author": "Blade, New York City, USA",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "cars",
+    "objective": "fly.",
+    "author": "Japanese Government, Japan",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "parking",
+    "objective": "be autonomous.",
+    "author": "Ministry of Youth and ICT, Kigali, Rwanda",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "cafes",
+    "objective": "increase access to government services.",
+    "author": "Jaime Lerner, Curitiba, Brazil",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "buses",
+    "objective": "provide wifi.",
+    "author": "Biblioburro, Carribean Coast, Columbia",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "streets",
+    "objective": "ban cars on weekends and holidays.",
+    "author": "Garbage That Is Not Garbage, Curitiba, Brazil",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "buses",
+    "objective": "run like trains.",
+    "author": "Beatriz da Costa, Los Angeles, USA",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "libraries",
+    "objective": "expand access by being mobile.",
+    "author": "Honolulu, USA",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "recycling bins",
+    "objective": "pay people who use them.",
+    "author": "Antanas Mockus, Bogotá, Colombia",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "libraries",
+    "objective": "be smaller and more common.",
+    "author": "DARPA",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "mass transit",
+    "objective": "work in treacherous environments.",
+    "author": "European Space Agency",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "birds",
+    "objective": "carry sensors to measure inequality.",
+    "author": "Ani Liu, MIT Media Lab",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "city planning",
+    "objective": "be more inclusive by listening to residents.",
+    "author": "UN Food and Agriculture Organization",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "smartphones",
+    "objective": "be unusable when crossing streets.",
+    "author": "Nakuru, Kenya",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "garbage collection",
+    "objective": "be more cooperative.",
+    "author": "Jack Munro",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "traffic police",
+    "objective": "use humor to shame rule-breakers.",
+    "author": "Switzerland",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "marine animals",
+    "objective": "be spies.",
+    "author": "Doepel Strijkers, Rotterdam, Netherlands",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "wifi hubs",
+    "objective": "trick people into doing community service.",
+    "author": "Vo Trong Nghia Architects, Ho Chi Minh City, Vietnam",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "the moon",
+    "objective": "be a resource for rare elements.",
+    "author": "Brooklyn Public Library, Brooklyn, NY, USA",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "smells",
+    "objective": "remind us of loved ones and faraway places.",
+    "author": "EcoARK, Taipei, Taiwan",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "bugs",
+    "objective": "be a source of food.",
+    "author": "GoBetween, California, USA",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "waste and sewage",
+    "objective": "be a power source.",
+    "author": "muf, Tilbury, London, UK",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "animal blood",
+    "objective": "be used as a building material.",
+    "author": "Streetsense",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
   },
   {
+    "object": "laws",
+    "objective": "prevent doing harm to plants.",
+    "author": "Green Guerillas",
     "image": "inspiration.jpg",
-    "text": "Let's redesign parks to transport us to different spaces and times.",
-    "author": "Victor V."
+  },
+  {
+    "object": "parks",
+    "objective": "provide free heat to homes and greenhouses.",
+    "author": "Fritz Haeg",
+    "image": "inspiration.jpg",
+  },
+  {
+    "object": "college campuses",
+    "objective": "be a mountain.",
+    "author": "The Lowline Lab",
+    "image": "inspiration.jpg",
+  },
+  {
+    "object": "libraries",
+    "objective": "be a place for virtual competition.",
+    "author": "Mumbai, India",
+    "image": "inspiration.jpg",
   },
 ]
 

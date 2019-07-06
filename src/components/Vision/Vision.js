@@ -2,6 +2,7 @@ import './Vision.scss';
 
 import React from 'react';
 import _ from 'lodash';
+import { siteData } from '../../data/site_data';
 import { view } from 'react-easy-state';
 import { visionData } from '../../data/dev_data';
 
@@ -53,7 +54,7 @@ class Vision extends React.Component {
               <div className="vision__content_container">
                 <div className="vision__content">
                   <p className="vision">
-                    {data.text}
+                    {siteData.visualizeLead} {data.object} {siteData.visualizeSublead}  {data.objective}
                     <span className="vision__author">{data.author}</span>
                   </p>
                 </div>
