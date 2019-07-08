@@ -1,5 +1,6 @@
 import './InspirationItem.scss';
 
+import { Link } from 'react-router-dom';
 import React from 'react';
 import _ from 'lodash';
 import { inspirationSettingsData } from '../../data/dev_data';
@@ -60,7 +61,15 @@ class InspirationItem extends React.Component {
                   <h3 className="inspiration_item__choice_title">{data.title}</h3>
                   <p className="inspiration_item__choice_text">{data.description}</p>
                   <p className="inspiration_item__choice_source">{data.location}</p>
-                  <button className="button button--rounded inspiration_item__choice_button">{siteData.inspirationSelectButtonText}</button>
+                  <Link 
+                    className="button button--rounded inspiration_item__choice_button"
+                    to={{
+                      pathname: `/redesign/${data.id}`,
+                      state: {
+                        data: data
+                      }
+                    }}
+                  >{siteData.inspirationSelectButtonText}</Link>
                 </div>
               </div>
             </div>

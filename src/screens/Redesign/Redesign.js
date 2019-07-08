@@ -11,9 +11,21 @@ import { view } from 'react-easy-state';
 
 class Redesign extends React.Component {
 
-  state = {}
+  state = {
+    data: null,
+  }
+
+  componentDidMount () {
+    //const { id } = this.props.match.params
+    const { data } = this.props.location.state;
+    this.setState({
+      data: data
+    })
+  }
 
   render() {
+
+    console.log(this.state.data);
 
     return (
       <div className="redesign app_screen">
