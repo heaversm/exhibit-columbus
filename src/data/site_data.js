@@ -295,12 +295,15 @@ const visionsData = [
     "image": "inspiration.jpg",
   },
 ];
+
 const inspirationsData = [
   {
     "id": 1,
     "title": "Pedestrian Zones",
     "description": "Brussels, one of Europe's most congested cities, is banning all motor vehicles from the city center, creating a massive pedestrian zone.",
     "location": "Yvan Mayeur, Brussels, Belguim",
+    "object": "streets",
+    "objective": "ban cars and create pedestrian zones.",
     "image": "01.jpg",
   },
   {
@@ -308,6 +311,8 @@ const inspirationsData = [
     "title": "Moving the Capital",
     "description": "The President of Indonesia is planning on moving the capital from Jakarta, a city of 10 million, as it continues to sink nearly 10 inches annually.",
     "location": "Joko Widodo, Jakarta, Indonesia",
+    "object": "the city",
+    "objective": "escape rising seas by being mobile.",
     "image": "02.jpg",
   },
   {
@@ -315,6 +320,8 @@ const inspirationsData = [
     "title": "Affordable Accessory Housing",
     "description": "In Los Angeles, community organizations are paying for homeowners to build a small second house in their backyards for use by Section-8 Voucher holders.",
     "location": "LA-Más, Los Angeles, USA",
+    "object": "backyards",
+    "objective": "provide affordable housing.",
     "image": "03.jpg",
   },
   {
@@ -322,6 +329,8 @@ const inspirationsData = [
     "title": "No Traffic Signs",
     "description": "In northern Holland, roads are being built without traffic signs. Though they may seem more dangerous, they're actually safer.",
     "location": "Hans Monderman, Drachten, Holland",
+    "object": "streets",
+    "objective": "remove signs and improve safety.",
     "image": "04.jpg",
   },
   {
@@ -329,6 +338,8 @@ const inspirationsData = [
     "title": "Smart Waste",
     "description": "A company in Turkey installs sensors onto waste containers which collect data on the fullness, temperature, and location of the bin to improve waste management efficiency.",
     "location": "Evreka, Ankara, Turkey",
+    "object": "trash bins",
+    "objective": "be more efficienty by collecting data.",
     "image": "05.jpg",
   },
   {
@@ -336,6 +347,8 @@ const inspirationsData = [
     "title": "Single-Family Home Ban",
     "description": "Minneapolis city council approved a radical plan that bans the building of single-family homes in order to address racial inequality and a history of housing discrimination.",
     "location": "City Council, Minneapolis, USA",
+    "object": "zoning",
+    "objective": "ban single-family homes to address housing discrimination.",
     "image": "06.jpg",
   },
   {
@@ -343,6 +356,8 @@ const inspirationsData = [
     "title": "Oystertecture",
     "description": "A community organization in New York City wants to restore the New York Harbor and protect the city from flooding by introducing a billion oysters back into the waters.",
     "location": "Billion Oyster Project, New York City, USA",
+    "object": "waterways",
+    "objective": "protect from flooding by improving the biome.",
     "image": "07.jpg",
   },
   {
@@ -350,6 +365,8 @@ const inspirationsData = [
     "title": "Facial Recognition Ban",
     "description": "The 'Stop Secret Surveillance' ordinance passed in San Francisco, bans the use of facial recognition by city agencies and police, and requires public notice for other types of surveillance.",
     "location": "Board of Supervisors, San Francisco, USA",
+    "object": "public spaces",
+    "objective": "make it impossible to surveil.",
     "image": "08.jpg",
   },
   {
@@ -357,7 +374,72 @@ const inspirationsData = [
     "title": "Hydrogen Trains",
     "description": "Two trains, which run by combining hydrogen and oxygen to create electricity, will be replacing diesel-powered trains in Germany. The trains are cheaper to run and better for the environment.",
     "location": "Alstom, Germany",
+    "object": "trains",
+    "objective": "reduce pollution by running on hydrogen.",
     "image": "09.jpg",
+  },
+]
+
+const objectsData = [
+  {
+    "id": "1",
+    "object": "fish",
+    "image": "fish.jpg",
+    "title": "Fish",
+  },
+  {
+    "id": "2",
+    "object": "the city",
+    "image": "city.jpg",
+    "title": "The City",
+  },
+  {
+    "id": "3",
+    "object": "backyards",
+    "image": "backyard.jpg",
+    "title": "Backyards",
+  },
+  {
+    "id": "4",
+    "object": "backyards",
+    "image": "backyard.jpg",
+    "title": "Backyards",
+  },
+  {
+    "id": "5",
+    "object": "housing",
+    "image": "housing.jpg",
+    "title": "Housing",
+  },
+  {
+    "id": "6",
+    "object": "streets",
+    "image": "pedestrians.jpg",
+    "title": "Streets",
+  },
+  {
+    "id": "7",
+    "object": "roads",
+    "image": "roads.jpg",
+    "title": "Roads",
+  },
+  {
+    "id": "8",
+    "object": "security",
+    "image": "security.jpg",
+    "title": "Security",
+  },
+  {
+    "id": "9",
+    "object": "trains",
+    "image": "trains.jpg",
+    "title": "Trains",
+  },
+  {
+    "id": "10",
+    "object": "trash",
+    "image": "trash.jpg",
+    "title": "Trash",
   },
 ]
 
@@ -365,5 +447,6 @@ const inspirationsData = [
 export {
   siteData,
   visionsData,
-  inspirationsData
+  inspirationsData,
+  objectsData
 };
