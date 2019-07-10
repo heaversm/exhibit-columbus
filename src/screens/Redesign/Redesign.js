@@ -1,9 +1,10 @@
 import './Redesign.scss';
 
+//import { Template } from '../../components';
+import { inspirationsData, objectivesData, siteData } from '../../data/site_data';
+
 import { Link } from 'react-router-dom';
 import React from 'react';
-//import { Template } from '../../components';
-import { siteData } from '../../data/site_data';
 import { view } from 'react-easy-state';
 
 /* eslint-disable */
@@ -13,6 +14,7 @@ class Redesign extends React.Component {
 
   state = {
     data: null,
+    activeObjective: null,
   }
 
   componentDidMount() {
@@ -23,10 +25,43 @@ class Redesign extends React.Component {
     })
   }
 
+  renderObjectives = () => {
+
+    const {activeObjective} = this.state;
+
+    let objectives = []
+
+    for (let i = 0; i < 10; i++) {
+      const objectiveData = objectivesData[i];
+      objectives.push(
+        <div 
+          className={`redesign__objective ${i === activeObjective ? 'active' : ''}`}
+          key={`redesign__objective--${i}`}
+          onClick={()=>{this.handleObjectiveClick(i)}}
+        >
+          {objectiveData.title}
+        </div>
+      )
+    }
+    return objectives
+  }
+
+  handleObjectiveClick = (index)=>{
+    if (index === this.state.activeObjective){
+      this.setState({
+        activeObjective: null,
+      });
+    } else {
+      this.setState({
+        activeObjective: index,
+      });
+    }
+    
+  }
+
   render() {
 
-    const { data } = this.state;
-    console.log(data);
+    const { data, activeObjective } = this.state;
 
     if (data) {
       return (
@@ -39,7 +74,7 @@ class Redesign extends React.Component {
                 </div>
                 <div className="redesign__choice_container col-md-6 col-md-offset-2">
                   <div className="redesign__choice center-xs">
-                    <img src={`/assets/images/temp/inspirations/${data.image}`} alt={data.title} className="redesign__choice_image"/>
+                    <img src={`/assets/images/temp/inspirations/${data.image}`} alt={data.title} className="redesign__choice_image" />
                     <div className="redesign__choice_content">
                       <h2 className="redesign__choice_title">{data.title}</h2>
                       <span className="redesign__choice_text">
@@ -53,28 +88,41 @@ class Redesign extends React.Component {
             <section className="redesign__objects_section ctnr">
               <h3 className="redesign__objects_title">{siteData.redesignObjectsTitle}</h3>
               <div className="redesign__objects_container">
-                <div className="redesign__object_container">
-                  <img src="" alt="" className="redesign__object_image" />
-                  <h4 className="redesign__object_text"></h4>
-                </div>
+                {inspirationsData.map((inspiration, index) => {
+                  return (
+                    <div 
+                      className="redesign__object_container"
+                      key={`redesign__object--${index}`}
+                    >
+                      <img 
+                        src={`/assets/images/temp/inspirations/${inspiration.image}`}
+                        alt={inspiration.title} 
+                        className="redesign__object_image" 
+                      />
+                      <h4 className="redesign__object_text">{inspiration.title}</h4>
+                    </div>
+                  )
+                })}
+
               </div>
             </section>
             <section className="redesign__objectives_section ctnr">
               <h3 className="redesign__objectives_title">{siteData.redesignObjectivesTitle}</h3>
-              <div className="redesign__objectives_container">
-                <div className="redesign__objectives">
-                  <div className="redesign__objective"></div>
-                  <div className="redesign__objective--user_entry" data-id="user_entry">
-                    <input type="text" placeholder={siteData.redesignObjectiveUserSubmitText} className="redesign__objective_entry_field" />
-                  </div>
+              <div className="redesign__objectives_container row">
+                <div className="redesign__objectives col-md-8">
+                  {this.renderObjectives()}
                 </div>
-                <div className="redesign__objectives_more_container">
-                  <button className="redesign__objectives_more_button">{siteData.redesignMoreButtonLabel}</button>
+                <div className="redesign__objectives_divider_container col-md-1">
+                  <div className="redesign__objectives_divider"></div>
+                </div>
+                <div className="redesign__objectives_more_container col-md-3">
+                  <button className="button button--rounded button--md redesign__objectives_more_button">{siteData.redesignMoreButtonLabel}</button>
+                  <button className="button button--rounded button--md redesign__objectives_write_button">{siteData.redesignObjectiveUserSubmitText}</button>
                 </div>
               </div>
             </section>
-            <div className="redesign__visualize_section">
-              <Link to="/visualize" className="redesign__visualize_button">{siteData.redesignContinueButtonLabel}</Link>
+            <div className="redesign__visualize_section center-xs">
+              <Link to="/visualize" className={`redesign__visualize_button button button--rounded button--lg ${activeObjective !== null ? 'active' : ''}`}>{siteData.redesignContinueButtonLabel}</Link>
             </div>
           </main>
         </div>

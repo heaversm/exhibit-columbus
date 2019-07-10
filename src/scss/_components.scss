@@ -19,6 +19,7 @@
   border: $button__border_width solid $button__border_color;
   color: $button__text_color;
   background-color: $button__bg_color;
+  outline: 0;
   @include anim__all;
 
   &:active {
@@ -28,6 +29,20 @@
 
   &--rounded {
     border-radius: $button__radius;
+  }
+  &--md {
+    font-size: $fs__h4;
+    height: 50px;
+    border-radius: 25px;
+  }
+  &--lg {
+    font-size: $fs__h3;
+    height: 90px;
+    border-radius: 45px;
+    padding: 10px 100px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
   }
 }
 

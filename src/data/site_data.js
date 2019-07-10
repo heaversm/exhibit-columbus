@@ -382,65 +382,150 @@ const inspirationsData = [
 
 const objectsData = [
   {
-    "id": "1",
+    "id": 1,
     "object": "fish",
     "image": "fish.jpg",
     "title": "Fish",
   },
   {
-    "id": "2",
+    "id": 2,
     "object": "the city",
     "image": "city.jpg",
     "title": "The City",
   },
   {
-    "id": "3",
+    "id": 3,
     "object": "backyards",
     "image": "backyard.jpg",
     "title": "Backyards",
   },
   {
-    "id": "4",
+    "id": 4,
     "object": "backyards",
     "image": "backyard.jpg",
     "title": "Backyards",
   },
   {
-    "id": "5",
+    "id": 5,
     "object": "housing",
     "image": "housing.jpg",
     "title": "Housing",
   },
   {
-    "id": "6",
+    "id": 6,
     "object": "streets",
     "image": "pedestrians.jpg",
     "title": "Streets",
   },
   {
-    "id": "7",
+    "id": 7,
     "object": "roads",
     "image": "roads.jpg",
     "title": "Roads",
   },
   {
-    "id": "8",
+    "id": 8,
     "object": "security",
     "image": "security.jpg",
     "title": "Security",
   },
   {
-    "id": "9",
+    "id": 9,
     "object": "trains",
     "image": "trains.jpg",
     "title": "Trains",
   },
   {
-    "id": "10",
+    "id": 10,
     "object": "trash",
     "image": "trash.jpg",
     "title": "Trash",
   },
+]
+
+const objectivesData = [
+  {
+    "id": 1,
+    "title": "ban cars and create pedestrian zones.",
+  },
+  {
+    "id": 2,
+    "title": "escape rising seas by being mobile.",
+  },
+  {
+    "id": 3,
+    "title": "provide affordable housing.",
+  },
+  {
+    "id": 4,
+    "title": "remove signs and improve safety.",
+  },
+  {
+    "id": 5,
+    "title": "be more efficient by collecting data.",
+  },
+  {
+    "id": 6,
+    "title": "ban single-family homes to address housing discrimination.",
+  },
+  {
+    "id": 7,
+    "title": "protect from flooding by improving the biome.",
+  },
+  {
+    "id": 8,
+    "title": "make it impossible to surveil.",
+  },
+  {
+    "id": 9,
+    "title": "reduce pollution by running on hydrogen.",
+  },
+  {
+    "id": 10,
+    "title": "be taller as more people move to cities.",
+  },
+  {
+    "id": 11,
+    "title": "be more accessible to robots.",
+  },
+  {
+    "id": 12,
+    "title": "be more playful.",
+  },
+  {
+    "id": 13,
+    "title": "use helicopters.",
+  },
+  {
+    "id": 14,
+    "title": "fly.",
+  },
+  {
+    "id": 15,
+    "title": "provide wifi.",
+  },
+  {
+    "id": 16,
+    "title": "run like trains.",
+  },
+  {
+    "id": 17,
+    "title": "expand access by being mobile.",
+  },
+  {
+    "id": 18,
+    "title": "pay people who use them.",
+  },
+  {
+    "id": 19,
+    "title": "carry sensors to measure inequality.",
+  },
+  {
+    "id": 20,
+    "title": "be unusable when crossing streets.",
+  },
+  
+  
 ]
 
 
@@ -448,5 +533,6 @@ export {
   siteData,
   visionsData,
   inspirationsData,
-  objectsData
+  objectsData,
+  objectivesData
 };

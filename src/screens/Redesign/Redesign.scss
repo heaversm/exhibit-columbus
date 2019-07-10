@@ -43,4 +43,72 @@
   &__choice_title {
     font-size: $fs__h3;
   }
+  &__objects_container {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 20px 0;
+  }
+  &__object_container {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 20px;
+    overflow: hidden;
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+  &__objectives_section {
+    margin-top: 50px;
+  }
+  &__objectives_container {
+    display: flex;
+    margin-top: 20px; 
+    border: 2px solid $c__gray;
+    border-radius: 20px;
+    padding: 20px;
+  }
+  &__objectives {
+    overflow-y: auto;
+    height: 200px;
+  }
+  &__objective {
+    font-size: $fs__h4;
+    margin-top: 10px;
+    padding: 10px 0;
+    &:first-child {
+      padding-top: 0;
+    }
+    &.active {
+      background-color: lighten($c__gray,65%);
+    }
+  }
+  &__objectives_divider {
+    background-color: $c__gray;
+    width: 2px;
+    height: 100%;
+    margin: 0 auto;
+  }
+  &__objectives_more_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  &__objectives_write_button {
+    margin-top: 20px;
+  }
+  &__visualize_section {
+    margin-top: 50px;
+  }
+  &__visualize_button {
+    border-color: lighten($c__gray,50%);
+    color: lighten($c__gray,50%);
+    &.active {
+      background-color: $c__tomato;
+      color: white;
+      border-color: $c__tomato;
+    }
+  }
 }

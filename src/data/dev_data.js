@@ -20,8 +20,13 @@ const inspirationSettingsData = {
   "SCALE_BASE_VARIANCE": 0.0, //how much the scale of each item varies as a % (+ or -)
 }
 
+const redesignSettingsData = {
+  "SAMPLE_SIZE": 10, //how many random objectives to select for menu
+}
+
 export {
   homeData,
   visionData,
-  inspirationSettingsData
+  inspirationSettingsData,
+  redesignSettingsData
 };
