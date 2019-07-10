@@ -47,6 +47,9 @@
     overflow-x: auto;
     white-space: nowrap;
     padding: 20px 0;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
   &__object_container {
     width: 250px;
@@ -55,8 +58,12 @@
     display: inline-block;
     margin-left: 20px;
     overflow: hidden;
+    border: 5px solid transparent;
     &:first-child {
       margin-left: 0;
+    }
+    &.active {
+      border: 5px solid $c__tomato;
     }
   }
   &__objectives_section {
@@ -64,7 +71,7 @@
   }
   &__objectives_container {
     display: flex;
-    margin-top: 20px; 
+    margin-top: 20px;
     border: 2px solid $c__gray;
     border-radius: 20px;
     padding: 20px;
@@ -72,6 +79,9 @@
   &__objectives {
     overflow-y: auto;
     height: 200px;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
   &__objective {
     font-size: $fs__h4;
@@ -81,7 +91,7 @@
       padding-top: 0;
     }
     &.active {
-      background-color: lighten($c__gray,65%);
+      background-color: lighten($c__gray, 65%);
     }
   }
   &__objectives_divider {
@@ -103,8 +113,8 @@
     margin-top: 50px;
   }
   &__visualize_button {
-    border-color: lighten($c__gray,50%);
-    color: lighten($c__gray,50%);
+    border-color: lighten($c__gray, 50%);
+    color: lighten($c__gray, 50%);
     &.active {
       background-color: $c__tomato;
       color: white;

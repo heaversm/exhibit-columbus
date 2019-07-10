@@ -1,13 +1,17 @@
 import './Redesign.scss';
 
 //import { Template } from '../../components';
-import { inspirationsData, objectivesData, siteData } from '../../data/site_data';
+import { objectivesData, objectsData, siteData } from '../../data/site_data';
 
 import { Link } from 'react-router-dom';
 import React from 'react';
+import { redesignSettingsData } from '../../data/dev_data';
 import { view } from 'react-easy-state';
 
 /* eslint-disable */
+
+let currentObjectives = null; //will hold active random subset of objectives
+let currentObjects = null; //will hold active random subset of objectives
 
 
 class Redesign extends React.Component {
@@ -15,6 +19,7 @@ class Redesign extends React.Component {
   state = {
     data: null,
     activeObjective: null,
+    activeObject: null,
   }
 
   componentDidMount() {
@@ -22,46 +27,41 @@ class Redesign extends React.Component {
     const { data } = this.props.location.state;
     this.setState({
       data: data
-    })
+    });
+
+    currentObjectives = _.sampleSize(objectivesData, redesignSettingsData.SAMPLE_SIZE);
+    currentObjects = _.sampleSize(objectsData, redesignSettingsData.SAMPLE_SIZE);
   }
 
-  renderObjectives = () => {
-
-    const {activeObjective} = this.state;
-
-    let objectives = []
-
-    for (let i = 0; i < 10; i++) {
-      const objectiveData = objectivesData[i];
-      objectives.push(
-        <div 
-          className={`redesign__objective ${i === activeObjective ? 'active' : ''}`}
-          key={`redesign__objective--${i}`}
-          onClick={()=>{this.handleObjectiveClick(i)}}
-        >
-          {objectiveData.title}
-        </div>
-      )
+  handleObjectClick = (id) => {
+    if (id === this.state.activeObject) {
+      this.setState({
+        activeObject: null,
+      });
+    } else {
+      this.setState({
+        activeObject: id,
+      });
     }
-    return objectives
+
   }
 
-  handleObjectiveClick = (index)=>{
-    if (index === this.state.activeObjective){
+  handleObjectiveClick = (id) => {
+    if (id === this.state.activeObjective) {
       this.setState({
         activeObjective: null,
       });
     } else {
       this.setState({
-        activeObjective: index,
+        activeObjective: id,
       });
     }
-    
+
   }
 
   render() {
 
-    const { data, activeObjective } = this.state;
+    const { data, activeObjective,activeObject } = this.state;
 
     if (data) {
       return (
@@ -88,18 +88,21 @@ class Redesign extends React.Component {
             <section className="redesign__objects_section ctnr">
               <h3 className="redesign__objects_title">{siteData.redesignObjectsTitle}</h3>
               <div className="redesign__objects_container">
-                {inspirationsData.map((inspiration, index) => {
+                {objectsData.map((object, index) => {
                   return (
-                    <div 
-                      className="redesign__object_container"
+                    <div
+                      className={`redesign__object_container ${activeObject === object.id ? 'active' : ''}`}
                       key={`redesign__object--${index}`}
+                      onClick={()=>{
+                        this.handleObjectClick(object.id)
+                      }}
                     >
-                      <img 
-                        src={`/assets/images/temp/inspirations/${inspiration.image}`}
-                        alt={inspiration.title} 
-                        className="redesign__object_image" 
+                      <img
+                        src={`/assets/images/temp/objects/${object.image}`}
+                        alt={object.title}
+                        className="redesign__object_image"
                       />
-                      <h4 className="redesign__object_text">{inspiration.title}</h4>
+                      <h4 className="redesign__object_text">{object.title}</h4>
                     </div>
                   )
                 })}
@@ -110,7 +113,19 @@ class Redesign extends React.Component {
               <h3 className="redesign__objectives_title">{siteData.redesignObjectivesTitle}</h3>
               <div className="redesign__objectives_container row">
                 <div className="redesign__objectives col-md-8">
-                  {this.renderObjectives()}
+                  {
+                    currentObjectives.map((objective, index) => {
+                      return (
+                        <div
+                          className={`redesign__objective ${objective.id === activeObjective ? 'active' : ''}`}
+                          key={`redesign__objective--${index}`}
+                          onClick={() => { this.handleObjectiveClick(objective.id) }}
+                        >
+                          {objective.title}
+                        </div>
+                      )
+                    })
+                  }
                 </div>
                 <div className="redesign__objectives_divider_container col-md-1">
                   <div className="redesign__objectives_divider"></div>

@@ -401,9 +401,9 @@ const objectsData = [
   },
   {
     "id": 4,
-    "object": "backyards",
-    "image": "backyard.jpg",
-    "title": "Backyards",
+    "object": "trees",
+    "image": "tree.jpg",
+    "title": "Trees",
   },
   {
     "id": 5,
