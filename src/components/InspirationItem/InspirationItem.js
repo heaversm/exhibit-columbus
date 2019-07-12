@@ -5,6 +5,7 @@ import React from 'react';
 import _ from 'lodash';
 import { inspirationSettingsData } from '../../data/dev_data';
 import { siteData } from '../../data/site_data';
+import { userState } from '../../store';
 import { view } from 'react-easy-state';
 
 class InspirationItem extends React.Component {
@@ -61,15 +62,12 @@ class InspirationItem extends React.Component {
                   <h3 className="inspiration_item__choice_title">{data.title}</h3>
                   <p className="inspiration_item__choice_text">{data.description}</p>
                   <p className="inspiration_item__choice_source">{data.location}</p>
-                  <Link 
+                  <button 
                     className="button button--rounded inspiration_item__choice_button"
-                    to={{
-                      pathname: `/redesign/${data.id}`,
-                      state: {
-                        data: data
-                      }
+                    onClick={()=>{
+                      this.props.onInspirationSelectClick(data);
                     }}
-                  >{siteData.inspirationSelectButtonText}</Link>
+                  >{siteData.inspirationSelectButtonText}</button>
                 </div>
               </div>
             </div>

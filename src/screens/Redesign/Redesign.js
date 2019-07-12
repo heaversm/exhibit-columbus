@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 import _ from 'lodash';
 import { redesignSettingsData } from '../../data/dev_data';
+import { userState } from '../../store';
 import { view } from 'react-easy-state';
 
 class Redesign extends React.Component {
@@ -29,9 +30,9 @@ class Redesign extends React.Component {
 
   componentDidMount() {
     //const { id } = this.props.match.params
-    const { data } = this.props.location.state;
+    const { inspirationData } = userState;
     this.setState({
-      data: data,
+      data: inspirationData,
       objectives: _.sampleSize(objectivesData, redesignSettingsData.SAMPLE_SIZE),
       objects: _.sampleSize(objectsData, redesignSettingsData.SAMPLE_SIZE),
     });

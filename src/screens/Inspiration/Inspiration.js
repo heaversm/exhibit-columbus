@@ -8,6 +8,7 @@ import { InspirationItem } from '../../components';
 import { Link } from 'react-router-dom';
 import React from 'react';
 import { homeData } from '../../data/dev_data';
+import { userState } from '../../store';
 import { view } from 'react-easy-state';
 
 class Inspiration extends React.Component {
@@ -24,6 +25,11 @@ class Inspiration extends React.Component {
     this.setState({
       curInspirationIndex: index
     })
+  }
+
+  handleInspirationSelectClick = (data)=>{
+    userState.inspirationData = data;
+    this.props.history.push(`/redesign`)
   }
 
   render() {
@@ -51,6 +57,7 @@ class Inspiration extends React.Component {
                     data={inspiration}
                     isActive={isActive}
                     onInspirationItemClick={this.handleInspirationItemClick}
+                    onInspirationSelectClick={this.handleInspirationSelectClick}
                   />
                 )
               }

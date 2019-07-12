@@ -65,11 +65,7 @@ class App extends React.Component {
         <div className="App">
           <Route exact path="/" component={Home} />
           <Route exact path="/inspiration" component={Inspiration} />
-          <Route
-            path="/redesign/:id" 
-            exact={false}
-            component={Redesign} 
-          />
+          <Route exact path="/redesign" component={Redesign} />
           <Route exact path="/visualize" component={Visualize} />
           <Route exact path="/confirmation" component={Confirmation} />
         </div>
