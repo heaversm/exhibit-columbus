@@ -3,7 +3,6 @@ import './Redesign.scss';
 //import { Template } from '../../components';
 import { objectivesData, objectsData, siteData } from '../../data/site_data';
 
-import { Link } from 'react-router-dom';
 import React from 'react';
 import _ from 'lodash';
 import { redesignSettingsData } from '../../data/dev_data';
@@ -40,34 +39,54 @@ class Redesign extends React.Component {
   }
 
   handleWriteObjectiveType(event) {
+    const writtenObjective = {
+      "id": Math.floor(Math.random() * Math.floor(100000)), //TODO: find a way to ensure this is unique
+      "title": event.target.value,
+    }
     this.setState({
-      activeObjective: event.target.value,
+      activeObjective: writtenObjective,
     });
   }
 
-  handleObjectClick = (id) => {
-    if (id === this.state.activeObject) {
-      this.setState({
-        activeObject: null,
-      });
+  handleObjectClick = (object) => {
+    const {activeObject} = this.state;
+    if (activeObject !== null){
+      if (object.id === this.state.activeObject.id) {
+        this.setState({
+          activeObject: null,
+        });
+      } else {
+        this.setState({
+          activeObject: object,
+        });
+      }
     } else {
       this.setState({
-        activeObject: id,
+        activeObject: object,
       });
     }
+    
 
   }
 
-  handleObjectiveClick = (id) => {
-    if (id === this.state.activeObjective) {
-      this.setState({
-        activeObjective: null,
-      });
+  handleObjectiveClick = (objective) => {
+    const {activeObjective} = this.state;
+    if (activeObjective !== null){
+      if (objective.id === this.state.activeObjective.id) {
+        this.setState({
+          activeObjective: null,
+        });
+      } else {
+        this.setState({
+          activeObjective: objective,
+        });
+      }
     } else {
       this.setState({
-        activeObjective: id,
+        activeObjective: objective,
       });
     }
+    
 
   }
 
@@ -93,17 +112,15 @@ class Redesign extends React.Component {
   }
 
   handleVisualizeClick = () => {
-    console.log(this.state);
+    const {activeObject, activeObjective} = this.state;
+    userState.objectData = _.cloneDeep(activeObject); //MH not sure if we need deep clone here or not
+    userState.objectiveData = _.cloneDeep(activeObjective); //MH not sure if we need deep clone here or not
+    this.props.history.push(`/visualize`)
   }
 
   render() {
 
     const { data, objects, objectives, activeObjective, activeObject, isInWriteMode } = this.state;
-    let activeObjectData = null;
-
-    if (objects !== null && activeObject !== null){
-      activeObjectData = objects.find(object => object.id === activeObject);
-    }
 
     if (data) {
       return (
@@ -128,15 +145,15 @@ class Redesign extends React.Component {
               </div>
             </section>
             <section className="redesign__objects_section ctnr">
-              <h3 className="redesign__objects_title">{`${siteData.redesignObjectsTitle} ${activeObjectData !== null ? activeObjectData.title : ''}`}</h3>
+              <h3 className="redesign__objects_title">{`${siteData.redesignObjectsTitle} ${activeObject !== null ? activeObject.title : ''}`}</h3>
               <div className="redesign__objects_container">
                 {objects.map((object, index) => {
                   return (
                     <div
-                      className={`redesign__object_container ${activeObject === object.id ? 'active' : ''}`}
+                      className={`redesign__object_container ${activeObject !== null && activeObject.id === object.id ? 'active' : ''}`}
                       key={`redesign__object--${index}`}
                       onClick={() => {
-                        this.handleObjectClick(object.id)
+                        this.handleObjectClick(object)
                       }}
                     >
                       <img
@@ -161,9 +178,9 @@ class Redesign extends React.Component {
                         objectives.map((objective, index) => {
                           return (
                             <div
-                              className={`redesign__objective ${objective.id === activeObjective ? 'active' : ''}`}
+                              className={`redesign__objective ${activeObjective !== null && activeObjective.id === objective.id ? 'active' : ''}`}
                               key={`redesign__objective--${index}`}
-                              onClick={() => { this.handleObjectiveClick(objective.id) }}
+                              onClick={() => { this.handleObjectiveClick(objective) }}
                             >
                               {objective.title}
                             </div>

@@ -1,11 +1,9 @@
 import './InspirationItem.scss';
 
-import { Link } from 'react-router-dom';
 import React from 'react';
 import _ from 'lodash';
 import { inspirationSettingsData } from '../../data/dev_data';
 import { siteData } from '../../data/site_data';
-import { userState } from '../../store';
 import { view } from 'react-easy-state';
 
 class InspirationItem extends React.Component {

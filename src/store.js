@@ -1,4 +1,4 @@
-import { store, view } from 'react-easy-state';
+import { store } from 'react-easy-state';
 
 const userState = store({
   inspirationData: null,
