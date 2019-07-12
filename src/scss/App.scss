@@ -37,6 +37,7 @@ body {
   }
   input, button {
     font-family: $font__grav;
+    outline: 0;
   }
 
   textarea { //mozilla places a red box shadow around these elements even if they are not invalid

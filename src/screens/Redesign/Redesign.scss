@@ -94,6 +94,14 @@
       background-color: lighten($c__gray, 65%);
     }
   }
+  &__objective_input_container {
+    display: flex;
+  }
+  &__objective_input {
+    width: 100%;
+    height: 100%;
+    font-size: $fs__h1;
+  }
   &__objectives_divider {
     background-color: $c__gray;
     width: 2px;

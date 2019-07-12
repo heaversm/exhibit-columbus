@@ -11,6 +11,8 @@ import { view } from 'react-easy-state';
 
 class Redesign extends React.Component {
 
+
+
   state = {
     data: null, //will hold data passed from the inspiration screen
     activeObject: null, //will hold the currently selected object
@@ -18,6 +20,11 @@ class Redesign extends React.Component {
     objects: null, //will hold active random subset of objects
     objectives: null, //will hold active random subset of objectives
     isInWriteMode: false, //true when user chooses to write their own objective
+  }
+
+  constructor(props) {
+    super(props);
+    this.handleWriteObjectiveType = this.handleWriteObjectiveType.bind(this);
   }
 
   componentDidMount() {
@@ -29,6 +36,12 @@ class Redesign extends React.Component {
       objects: _.sampleSize(objectsData, redesignSettingsData.SAMPLE_SIZE),
     });
 
+  }
+
+  handleWriteObjectiveType(event) {
+    this.setState({
+      activeObjective: event.target.value,
+    });
   }
 
   handleObjectClick = (id) => {
@@ -64,15 +77,32 @@ class Redesign extends React.Component {
     });
   }
 
-  handleWriteObjectiveClick = ()=>{
+  handleHelpChooseClick = () => {
     this.setState({
       activeObjective: null,
+      isInWriteMode: false,
     });
+  }
+
+  handleWriteObjectiveClick = () => {
+    this.setState({
+      activeObjective: null,
+      isInWriteMode: true,
+    });
+  }
+
+  handleVisualizeClick = () => {
+    console.log(this.state);
   }
 
   render() {
 
-    const { data, objects, objectives, activeObjective, activeObject } = this.state;
+    const { data, objects, objectives, activeObjective, activeObject, isInWriteMode } = this.state;
+    let activeObjectData = null;
+
+    if (objects !== null && activeObject !== null){
+      activeObjectData = objects.find(object => object.id === activeObject);
+    }
 
     if (data) {
       return (
@@ -97,7 +127,7 @@ class Redesign extends React.Component {
               </div>
             </section>
             <section className="redesign__objects_section ctnr">
-              <h3 className="redesign__objects_title">{siteData.redesignObjectsTitle}</h3>
+              <h3 className="redesign__objects_title">{`${siteData.redesignObjectsTitle} ${activeObjectData !== null ? activeObjectData.title : ''}`}</h3>
               <div className="redesign__objects_container">
                 {objects.map((object, index) => {
                   return (
@@ -123,42 +153,77 @@ class Redesign extends React.Component {
             <section className="redesign__objectives_section ctnr">
               <h3 className="redesign__objectives_title">{siteData.redesignObjectivesTitle}</h3>
               <div className="redesign__objectives_container row">
-                <div className="redesign__objectives col-md-8">
-                  {
-                    objectives.map((objective, index) => {
-                      return (
-                        <div
-                          className={`redesign__objective ${objective.id === activeObjective ? 'active' : ''}`}
-                          key={`redesign__objective--${index}`}
-                          onClick={() => { this.handleObjectiveClick(objective.id) }}
-                        >
-                          {objective.title}
-                        </div>
-                      )
-                    })
-                  }
-                </div>
+                {
+                  !isInWriteMode ? (
+                    <div className="redesign__objectives col-md-8">
+                      {
+                        objectives.map((objective, index) => {
+                          return (
+                            <div
+                              className={`redesign__objective ${objective.id === activeObjective ? 'active' : ''}`}
+                              key={`redesign__objective--${index}`}
+                              onClick={() => { this.handleObjectiveClick(objective.id) }}
+                            >
+                              {objective.title}
+                            </div>
+                          )
+                        })
+                      }
+                    </div>
+                  ) : (
+                      <div className="redesign__objective_input_container col-md-8">
+                        <input
+                          type="text"
+                          className="redesign__objective_input"
+                          placeholder={siteData.redesignObjectiveInputPlaceholder}
+                          onChange={this.handleWriteObjectiveType}
+                        />
+                      </div>
+                    )
+                }
+
                 <div className="redesign__objectives_divider_container col-md-1">
                   <div className="redesign__objectives_divider"></div>
                 </div>
                 <div className="redesign__objectives_more_container col-md-3">
-                  <button
-                    className="button button--rounded button--md redesign__objectives_more_button"
-                    onClick={this.handleLoadMoreObjectivesClick}
-                  >
-                    {siteData.redesignMoreButtonLabel}
-                  </button>
-                  <button
-                    className="button button--rounded button--md redesign__objectives_write_button"
-                    onClick={this.handleWriteObjectiveClick}
-                  >
-                    {siteData.redesignObjectiveUserSubmitText}
-                  </button>
+                  {
+                    !isInWriteMode &&
+
+                    <button
+                      className="button button--rounded button--md redesign__objectives_more_button"
+                      onClick={this.handleLoadMoreObjectivesClick}
+                    >
+                      {siteData.redesignMoreButtonLabel}
+                    </button>
+                  }
+                  {
+                    isInWriteMode ? (
+                      <button
+                        className="button button--rounded button--md redesign__objectives_help_button"
+                        onClick={this.handleHelpChooseClick}
+                      >
+                        {siteData.redesignObjectiveHelpChooseText}
+                      </button>
+                    ) : (
+                        <button
+                          className="button button--rounded button--md redesign__objectives_write_button"
+                          onClick={this.handleWriteObjectiveClick}
+                        >
+                          {siteData.redesignObjectiveUserSubmitText}
+                        </button>
+                      )
+                  }
+
                 </div>
               </div>
             </section>
             <div className="redesign__visualize_section center-xs">
-              <Link to="/visualize" className={`redesign__visualize_button button button--rounded button--lg ${activeObjective !== null && activeObject !== null ? 'active' : ''}`}>{siteData.redesignContinueButtonLabel}</Link>
+              <button
+                className={`redesign__visualize_button button button--rounded button--lg ${activeObjective !== null && activeObject !== null ? 'active' : ''}`}
+                onClick={this.handleVisualizeClick}
+              >
+                {siteData.redesignContinueButtonLabel}
+              </button>
             </div>
           </main>
         </div>
