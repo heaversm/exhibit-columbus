@@ -2,5 +2,36 @@
 @import "../../scss/mixins.scss";
 
 .visualize {
-
+  &__sentence {
+    font-size: $fs__h2;
+  }
+  &__sentence_entry {
+    border-bottom: 1px solid black;
+  }
+  &__sign_modal_container {
+    .modal__content_container {
+      padding: 50px;
+      border-radius: 5px;
+      width: 80%;
+    }
+  }
+  &__signature_container {
+    margin-top: 50px;
+    height: 100px;
+    border-bottom: 1px solid black;
+  }
+  &__sign_buttons {
+    display: flex;
+    margin-top: 50px;
+  }
+  &__sign_button {
+    border-radius: 5px;
+    &--skip {
+      border-color: $c__gray;
+      color: $c__gray;
+      &:active {
+        border-color: $c__tomato;
+      }
+    }
+  }
 }
