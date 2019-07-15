@@ -24,9 +24,15 @@ const redesignSettingsData = {
   "SAMPLE_SIZE": 10, //how many random objectives to select for menu
 }
 
+const visualizeSettingsData = {
+  "SAMPLE_SIZE": 10, //how many images per category
+  "CATEGORIES": ["people", "objects","background"] //names of categories to display in tab order
+}
+
 export {
   homeData,
   visionData,
   inspirationSettingsData,
-  redesignSettingsData
+  redesignSettingsData,
+  visualizeSettingsData
 };

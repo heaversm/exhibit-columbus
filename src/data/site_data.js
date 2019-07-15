@@ -530,11 +530,202 @@ const objectivesData = [
   
 ]
 
+const visualizeData = {
+  "objects": [
+    {
+      "id": 1,
+      "object": "factory",
+      "image": "01.png",
+      "title": "Factory",
+    },
+    {
+      "id": 2,
+      "object": "church",
+      "image": "02.png",
+      "title": "Church",
+    },
+    {
+      "id": 3,
+      "object": "building",
+      "image": "03.png",
+      "title": "Building",
+    },
+    {
+      "id": 4,
+      "object": "gantry",
+      "image": "04.png",
+      "title": "Gantry",
+    },
+    {
+      "id": 5,
+      "object": "racoon",
+      "image": "05.png",
+      "title": "Racoon",
+    },
+    {
+      "id": 6,
+      "object": "airstream",
+      "image": "06.png",
+      "title": "Airstream",
+    },
+    {
+      "id": 7,
+      "object": "space center",
+      "image": "07.png",
+      "title": "Space center",
+    },
+    {
+      "id": 8,
+      "object": "apple",
+      "image": "08.png",
+      "title": "Apple",
+    },
+    {
+      "id": 9,
+      "object": "pigeon",
+      "image": "09.png",
+      "title": "Pigeon",
+    },
+    {
+      "id": 10,
+      "object": "tree",
+      "image": "10.png",
+      "title": "Tree",
+    },
+  ], 
+  "background": [
+    {
+      "id": 1,
+      "object": "starry_sky",
+      "image": "01.jpg",
+      "title":  "Starry_sky",
+    },
+    {
+      "id": 2,
+      "object": "bridge",
+      "image": "02.jpg",
+      "title":  "Bridge",
+    },
+    {
+      "id": 3,
+      "object": "bank",
+      "image": "03.jpg",
+      "title":  "Bank",
+    },
+    {
+      "id": 4,
+      "object": "lawn",
+      "image": "04.jpg",
+      "title":  "Lawn",
+    },
+    {
+      "id": 5,
+      "object": "snow",
+      "image": "05.jpg",
+      "title":  "Snow",
+    },
+    {
+      "id": 6,
+      "object": "grass",
+      "image": "06.jpg",
+      "title":  "Grass",
+    },
+    {
+      "id": 7,
+      "object": "flowers",
+      "image": "07.jpg",
+      "title":  "Flowers",
+    },
+    {
+      "id": 8,
+      "object": "sky",
+      "image": "08.jpg",
+      "title":  "Sky",
+    },
+    {
+      "id": 9,
+      "object": "city_grid",
+      "image": "09.jpg",
+      "title":  "City_grid",
+    },
+    {
+      "id": 10,
+      "object": "sand",
+      "image": "10.jpg",
+      "title":  "Sand",
+    },
+  ],
+  "people": [
+    {
+      "id": 1,
+      "object": "cyclist",
+      "image": "01.png",
+      "title": "Cyclist",
+    },
+    {
+      "id": 2,
+      "object": "hailing_taxi",
+      "image": "02.png",
+      "title": "Hailing taxi",
+    },
+    {
+      "id": 3,
+      "object": "two_women_speaking",
+      "image": "03.png",
+      "title": "Two women speaking",
+    },
+    {
+      "id": 4,
+      "object": "boy_walking",
+      "image": "04.png",
+      "title": "Boy walking",
+    },
+    {
+      "id": 5,
+      "object": "man_walking",
+      "image": "05.png",
+      "title": "Man walking",
+    },
+    {
+      "id": 6,
+      "object": "kids_playing",
+      "image": "06.png",
+      "title": "Kids playing",
+    },
+    {
+      "id": 7,
+      "object": "boy_skating",
+      "image": "07.png",
+      "title": "Boy skating",
+    },
+    {
+      "id": 8,
+      "object": "men_on_bench",
+      "image": "08.png",
+      "title": "Men on bench",
+    },
+    {
+      "id": 9,
+      "object": "woman_walking",
+      "image": "09.png",
+      "title": "Woman walking",
+    },
+    {
+      "id": 10,
+      "object": "old_people",
+      "image": "10.png",
+      "title": "Old people",
+    },
+  ], 
+  
+}
+
 
 export {
   siteData,
   visionsData,
   inspirationsData,
   objectsData,
-  objectivesData
+  objectivesData,
+  visualizeData,
 };

@@ -7,7 +7,7 @@ import { inspirationsData, siteData } from '../../data/site_data';
 import { InspirationItem } from '../../components';
 import { Link } from 'react-router-dom';
 import React from 'react';
-import { homeData } from '../../data/dev_data';
+import { inspirationSettingsData } from '../../data/dev_data';
 import { userState } from '../../store';
 import { view } from 'react-easy-state';
 
@@ -19,7 +19,15 @@ class Inspiration extends React.Component {
 
   state = {
     curInspirationIndex: -1,
+    curInspirations: null,
   }
+
+  componentDidMount(){
+    this.state.curInspirations = _.sampleSize(inspirationsData,inspirationSettingsData.DIVISIONS);
+    this.forceUpdate();
+  }
+  
+
 
   handleInspirationItemClick = (index)=>{
     this.setState({
@@ -34,6 +42,12 @@ class Inspiration extends React.Component {
 
   render() {
 
+    const {curInspirations, curInspirationIndex} = this.state;
+
+    if (!curInspirations){
+      return (<div>Loading</div>)
+    }
+
     return (
       <main className="Inspiration app_screen">
         <section className="inspiration__title_container ctnr">
@@ -47,8 +61,8 @@ class Inspiration extends React.Component {
           <div className="inspiration__examples_positioner">
           {
               
-              inspirationsData.map((inspiration, index) => {
-                const isActive = this.state.curInspirationIndex === index;
+              curInspirations.map((inspiration, index) => {
+                const isActive = curInspirationIndex === index;
 
                 return (
                   <InspirationItem

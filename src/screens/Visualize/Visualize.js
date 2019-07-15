@@ -1,15 +1,19 @@
 import './Visualize.scss';
 
+import { siteData, visualizeData } from '../../data/site_data';
+
 import { Link } from 'react-router-dom';
 import React from 'react';
-import { siteData } from '../../data/site_data';
 import { userState } from '../../store';
 import { view } from 'react-easy-state';
+import { visualizeSettingsData } from '../../data/dev_data';
 
 class Visualize extends React.Component {
 
   state = {
     signModalActive: false, //when true, show sign modal
+    curImageCategory: visualizeSettingsData.CATEGORIES[0], //fills with the name of the selected images category
+    curImage: null, //fills with the data of the selected image item from the curImageCategory
   }
 
   handleVisualizeContinueClick = () => {
@@ -19,22 +23,32 @@ class Visualize extends React.Component {
   handleVisualizeSkipClick = () => {
     this.toggleSignModal(false)
   }
-  
+
   handleVisualizeSignClick = () => {
     this.toggleSignModal(false)
   }
 
-  toggleSignModal(doShow){
-    console.log(doShow)
+  toggleSignModal(doShow) {
     this.setState({
       signModalActive: doShow,
     });
-    console.log(this.state);
+  }
+
+  handleVisualizeCategoryClick = (visualizeCategory) => {
+    this.setState({
+      curImageCategory: visualizeCategory
+    })
+  }
+
+  handleVisualizeImageClick = (visualizeImage)=>{
+    this.setState({
+      curImage: visualizeImage
+    })
   }
 
   render() {
 
-    const {signModalActive} = this.state;
+    const { signModalActive, curImageCategory, curImage } = this.state;
 
     return (
       <div className="Visualize app_screen">
@@ -52,7 +66,42 @@ class Visualize extends React.Component {
           </section>
           <section className="visualize__canvas_section">
             <div className="visualize__canvas_container"></div>
-            <div className="visualize__images_container"></div>
+            <div className="visualize__images_container">
+              <div className="visualize__image_categories">
+                {
+                  visualizeSettingsData.CATEGORIES.map((category, index) => {
+                    return (
+                      <div
+                        className={`visualize__image_category ${curImageCategory === category ? 'active' : ''}`}
+                        onClick={() => { this.handleVisualizeCategoryClick(category) }}
+                        key={`visualize__image_category--${index}`}
+                      >
+                        {category}
+                      </div>
+                    )
+                  })
+                }
+              </div>
+              <div className="visualize__images__scroll_container">
+                <div className="visualize__images">
+                  {
+                    visualizeData[curImageCategory].map((imageItem, index) => {
+                      return (
+                        <div
+                          className={`visualize__image_container ${curImage && curImage.title === imageItem.title ? 'active' : ''}`}
+                          key={`visualize__image--${index}`}
+                          onClick={()=>{
+                            this.handleVisualizeImageClick(imageItem)
+                          }}
+                        >
+                          <img src={`./assets/images/temp/visualize/${curImageCategory}/${imageItem.image}`} alt={imageItem.title} className="visualize__image" />
+                        </div>
+                      )
+                    })
+                  }
+                </div>
+              </div>
+            </div>
           </section>
           <div className="visualize__continue_container center-xs">
             <button
