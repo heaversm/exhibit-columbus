@@ -4,6 +4,7 @@ import { siteData, visualizeData } from '../../data/site_data';
 
 import { Link } from 'react-router-dom';
 import React from 'react';
+import SVG from 'react-inlinesvg';
 import { userState } from '../../store';
 import { view } from 'react-easy-state';
 import { visualizeSettingsData } from '../../data/dev_data';
@@ -46,6 +47,10 @@ class Visualize extends React.Component {
     })
   }
 
+  handleCanvasControlClick = (control) => {
+    console.log(control);
+  }
+
   render() {
 
     const { signModalActive, curImageCategory, curImage } = this.state;
@@ -65,7 +70,30 @@ class Visualize extends React.Component {
             </div>
           </section>
           <section className="visualize__canvas_section">
-            <div className="visualize__canvas_container"></div>
+            <div className="visualize__canvas_container">
+              <div className="visualize__canvas_controls">
+                {
+                  visualizeSettingsData.CONTROLS.map((control,index)=>{
+                    return (
+                      <button 
+                        className={`visualize__canvas_control ${control.name} ${control.initialState ? control.initialState : ''}`}
+                        key={`visualize__canvas_control--${index}`}
+                        onClick={()=>{
+                          this.handleCanvasControlClick(control);
+                        }}
+                      >
+                        <SVG
+                            src={`./assets/images/icons/${control.icon}`}
+                            className="visualize__canvas_control_icon"
+                            //preloader={<Loader />}
+                        />
+                      </button>
+                    )
+                  })
+                }
+              </div>
+              
+            </div>
             <div className="visualize__images_container">
               <div className="visualize__image_categories">
                 {

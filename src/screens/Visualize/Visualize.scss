@@ -37,6 +37,9 @@
       }
     }
   }
+  &__images_container {
+    margin-top: 50px;
+  }
   &__image_categories {
     display: flex;
     border-bottom: 1px solid black;
@@ -87,4 +90,46 @@
     height: 100%;
     object-fit: cover;
   }
+  &__canvas_container {
+    height: 640px;
+    width: 640px;
+    margin: 0 auto;
+    position: relative;
+    border: 2px solid $c__gray;
+    border-radius: 50%;
+  }
+  &__canvas_controls {
+    width: 40px;
+    border: 2px solid $c__gray;
+    border-radius: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(80px,0);
+  }
+  &__canvas_control{
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+
+    svg {
+      width: 100%;
+      height: auto;
+    }
+
+    &.active {
+      svg {
+        fill: $c__tomato;
+      }
+    }
+    &.inactive {
+      svg {
+        fill: lighten($c__gray,50%);
+      }
+    }
+  }
+
 }

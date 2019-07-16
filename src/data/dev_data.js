@@ -26,7 +26,41 @@ const redesignSettingsData = {
 
 const visualizeSettingsData = {
   "SAMPLE_SIZE": 10, //how many images per category
-  "CATEGORIES": ["people", "objects","background"] //names of categories to display in tab order
+  "CATEGORIES": ["people", "objects","background"], //names of categories to display in tab order
+  "CONTROLS": [
+    {
+      "name": "front",
+      "initialState": "inactive",
+      "icon": "sort-up.svg",
+    },
+    {
+      "name": "back",
+      "initialState": "inactive",
+      "icon": "sort-down.svg",
+    },
+    {
+      "name": "scale",
+      "icon": "compress.svg",
+      "iconActive": "expand.svg",
+    },
+    {
+      "name": "rotate",
+      "icon": "rotate.svg",
+    },
+    {
+      "name": "blur",
+      "initialState": "blurry",
+      "icon": "eye.svg",
+    },
+    {
+      "name": "remove",
+      "icon": "trash.svg",
+    },
+    {
+      "name": "help",
+      "icon": "question.svg",
+    },
+  ], //controls enabled for user for canvas
 }
 
 export {
