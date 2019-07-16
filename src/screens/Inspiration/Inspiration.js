@@ -18,12 +18,12 @@ class Inspiration extends React.Component {
   }
 
   state = {
-    curInspirationIndex: -1,
-    curInspirations: null,
+    activeInspirationIndex: -1,
+    activeInspirations: null,
   }
 
   componentDidMount(){
-    this.state.curInspirations = _.sampleSize(inspirationsData,inspirationSettingsData.DIVISIONS);
+    this.state.activeInspirations = _.sampleSize(inspirationsData,inspirationSettingsData.DIVISIONS);
     this.forceUpdate();
   }
   
@@ -31,7 +31,7 @@ class Inspiration extends React.Component {
 
   handleInspirationItemClick = (index)=>{
     this.setState({
-      curInspirationIndex: index
+      activeInspirationIndex: index
     })
   }
 
@@ -42,9 +42,9 @@ class Inspiration extends React.Component {
 
   render() {
 
-    const {curInspirations, curInspirationIndex} = this.state;
+    const {activeInspirations, activeInspirationIndex} = this.state;
 
-    if (!curInspirations){
+    if (!activeInspirations){
       return (<div>Loading</div>)
     }
 
@@ -61,8 +61,8 @@ class Inspiration extends React.Component {
           <div className="inspiration__examples_positioner">
           {
               
-              curInspirations.map((inspiration, index) => {
-                const isActive = curInspirationIndex === index;
+              activeInspirations.map((inspiration, index) => {
+                const isActive = activeInspirationIndex === index;
 
                 return (
                   <InspirationItem

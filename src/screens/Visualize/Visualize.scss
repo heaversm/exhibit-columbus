@@ -98,6 +98,10 @@
     border: 2px solid $c__gray;
     border-radius: 50%;
   }
+  &__canvas {
+    border-radius: 50%;
+    overflow: hidden;
+  }
   &__canvas_controls {
     width: 40px;
     border: 2px solid $c__gray;

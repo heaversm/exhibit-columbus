@@ -22,7 +22,7 @@ class Home extends React.Component {
   }
 
   state = {
-    curVisionIndex: 0,
+    activeVisionIndex: 0,
   }
   
 
@@ -41,7 +41,7 @@ class Home extends React.Component {
     const {numVisions} = this.props;
     const newVisionIndex = _.random(0,numVisions-1);
     this.setState({
-      curVisionIndex: newVisionIndex
+      activeVisionIndex: newVisionIndex
     })
   }
   
@@ -63,7 +63,7 @@ class Home extends React.Component {
             {
               
               visionsData.map((vision, index) => {
-                const isActive = this.state.curVisionIndex === index;
+                const isActive = this.state.activeVisionIndex === index;
 
                 return (
                   <Vision
