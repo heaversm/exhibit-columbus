@@ -7,18 +7,11 @@ import Konva from 'konva';
 import { Link } from 'react-router-dom';
 import React from 'react';
 import SVG from 'react-inlinesvg';
+import { URLImage } from '../../components';
 import useImage from 'use-image';
 import { userState } from '../../store';
 import { view } from 'react-easy-state';
 import { visualizeSettingsData } from '../../data/dev_data';
-
-const CanvasImage = (imageURL) => {
-  console.log(imageURL);
-  const [image] = useImage('./assets/images/perspective-grid.png');
-  return <Image 
-    image={image} 
-  />;
-};
 
 class Visualize extends React.Component {
 
@@ -129,6 +122,7 @@ class Visualize extends React.Component {
   render() {
 
     const { signModalActive, activeImageCategory, activeImage } = this.state;
+    const canvasSize = visualizeSettingsData.CANVAS_SIZE;
 
     return (
       <div className="Visualize app_screen">
@@ -168,20 +162,14 @@ class Visualize extends React.Component {
               </div>
 
               <Stage
-                width={visualizeSettingsData.CANVAS_SIZE}
-                height={visualizeSettingsData.CANVAS_SIZE}
+                width={canvasSize}
+                height={canvasSize}
                 className="visualize__canvas"
               >
                 <Layer>
-                  <Rect
-                    x={320}
-                    y={320}
-                    width={50}
-                    height={50}
-                    fill={`red`}
-                  />
-                  <CanvasImage
-                    imageURL={'./assets/images/perspective-grid.png'}
+                  <URLImage
+                    src={'./assets/images/perspective-grid.png'}
+                    isDraggable={false}
                   />
                 </Layer>
               </Stage>
