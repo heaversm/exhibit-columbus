@@ -114,6 +114,9 @@ class Redesign extends React.Component {
   handleVisualizeClick = () => {
     const {activeObject, activeObjective} = this.state;
     userState.objectData = _.cloneDeep(activeObject); //MH not sure if we need deep clone here or not
+    // userState.objectData = {
+    //   chosenObject: _.cloneDeep(activeObject), //MH not sure if we need deep clone here or not
+    // }
     userState.objectiveData = _.cloneDeep(activeObjective); //MH not sure if we need deep clone here or not
     this.props.history.push(`/visualize`)
   }

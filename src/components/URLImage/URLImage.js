@@ -35,7 +35,6 @@ export default class URLImage extends React.Component {
 
     const {doCenterImage} = this.props;
 
-    console.log(this.image.setOffset);
     if (doCenterImage){
       //this.image.offsetX(-(this.image.width / 2));
       //this.image.offsetY(-(this.image.height / 2));

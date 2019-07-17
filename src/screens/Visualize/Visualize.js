@@ -1,6 +1,6 @@
 import './Visualize.scss';
 
-import { Image, Layer, Rect, Stage } from 'react-konva';
+import { Layer, Stage } from 'react-konva';
 import { siteData, visualizeData } from '../../data/site_data';
 
 import Konva from 'konva';
@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 import SVG from 'react-inlinesvg';
 import { URLImage } from '../../components';
-import useImage from 'use-image';
 import { userState } from '../../store';
 import { view } from 'react-easy-state';
 import { visualizeSettingsData } from '../../data/dev_data';
@@ -30,7 +29,21 @@ class Visualize extends React.Component {
   }
 
   componentDidMount() {
+
+    const {canvasImages} = this.state;
     //
+
+    
+    if (userState.objectData) {
+      //const activeImage = userState.objectData.chosenObject;
+      const activeCanvasImage = userState.objectData;
+      canvasImages.push(activeCanvasImage);
+      this.setState({
+        activeCanvasImage: activeCanvasImage,
+        canvasImages: canvasImages
+      })
+      
+    }
   }
 
   handleVisualizeContinueClick = () => {
@@ -121,8 +134,10 @@ class Visualize extends React.Component {
 
   render() {
 
-    const { signModalActive, activeImageCategory, activeImage } = this.state;
+    const { signModalActive, activeImageCategory, activeImage, activeControl, activeCanvasImage, canvasImages } = this.state;
     const canvasSize = visualizeSettingsData.CANVAS_SIZE;
+
+    console.log(canvasImages);
 
     return (
       <div className="Visualize app_screen">
@@ -145,7 +160,11 @@ class Visualize extends React.Component {
                   visualizeSettingsData.CONTROLS.map((control, index) => {
                     return (
                       <button
-                        className={`visualize__canvas_control ${control.name} ${control.initialState ? control.initialState : ''}`}
+                        className={`
+                          visualize__canvas_control ${control.name} 
+                          ${control.initialState ? control.initialState : ''} 
+                          ${activeControl && control.name === activeControl.name ? 'active' : ''}
+                        `}
                         key={`visualize__canvas_control--${index}`}
                         onClick={() => {
                           this.handleCanvasControlClick(control);
@@ -164,13 +183,34 @@ class Visualize extends React.Component {
               <Stage
                 width={canvasSize}
                 height={canvasSize}
-                className="visualize__canvas"
+                className="visualize__canvas canvas__stage"
               >
-                <Layer>
+                <Layer
+                  className={`canvas__grid_layer`}
+                >
                   <URLImage
                     src={'./assets/images/perspective-grid.png'}
                     isDraggable={false}
+                    className={`canvas__grid`}
                   />
+                </Layer>
+                <Layer
+                  className={`canvas__interactables_layer`}
+                >
+                  {
+                    canvasImages.map((canvasImage, index) => {
+                      console.log(canvasImage,activeCanvasImage);
+                      return (
+                        <URLImage
+                          src={`./assets/images/temp/objects/${canvasImage.image}`}
+                          isDraggable={true}
+                          isInteractable={activeCanvasImage && activeCanvasImage.object === canvasImage.object}
+                          className={`canvas__interactable`}
+                          key={`canvas__interactable--${index}`}
+                        />
+                      )
+                    })
+                  }
                 </Layer>
               </Stage>
 

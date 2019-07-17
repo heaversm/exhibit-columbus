@@ -531,7 +531,7 @@ const objectivesData = [
 ]
 
 const visualizeData = {
-  ...objectsData,
+  "objects": objectsData,
   "background": [
     {
       "id": 1,
