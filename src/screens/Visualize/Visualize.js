@@ -1,13 +1,14 @@
 import './Visualize.scss';
 
 import { Layer, Stage } from 'react-konva';
+import { URLImage, moveInArrayFromTo } from '../../components';
 import { siteData, visualizeData } from '../../data/site_data';
 
 import Konva from 'konva';
 import { Link } from 'react-router-dom';
 import React from 'react';
 import SVG from 'react-inlinesvg';
-import { URLImage } from '../../components';
+import _ from 'lodash';
 import { userState } from '../../store';
 import { view } from 'react-easy-state';
 import { visualizeSettingsData } from '../../data/dev_data';
@@ -71,7 +72,6 @@ class Visualize extends React.Component {
   }
 
   handleVisualizeImageClick = (visualizeImage) => {
-    console.log(this.state);  
     const { canvasImages} = this.state;
     canvasImages.push(visualizeImage);
 
@@ -122,7 +122,15 @@ class Visualize extends React.Component {
 
   }
   handleBackClick = () => {
-
+    const {activeCanvasImage, canvasImages} = this.state;
+    const activeIndex = canvasImages.findIndex(image => image.object === activeCanvasImage.object);
+    console.log(activeIndex,canvasImages);
+    const reorderedCanvasImages = moveInArrayFromTo(canvasImages,activeIndex,activeIndex-1);
+    this.setState({
+      canvasImages: reorderedCanvasImages,
+      activeCanvasImage: reorderedCanvasImages[activeIndex-1]
+    });
+    //console.log(reorderedCanvasImages);
   }
   handleScaleClick = () => {
 
@@ -145,8 +153,6 @@ class Visualize extends React.Component {
     const { signModalActive, activeImageCategory, activeImage, activeControl, activeCanvasImage, canvasImages } = this.state;
     const canvasSize = visualizeSettingsData.CANVAS_SIZE;
 
-    console.log(canvasImages);
-
     return (
       <div className="Visualize app_screen">
         <main>
@@ -162,7 +168,7 @@ class Visualize extends React.Component {
             </div>
           </section>
           <section className="visualize__canvas_section">
-            <div className="visualize__canvas_container">
+            <div className={`visualize__canvas_container ${canvasImages.length > 0 && 'interactables'}`}>
               <div className="visualize__canvas_controls">
                 {
                   visualizeSettingsData.CONTROLS.map((control, index) => {
@@ -170,7 +176,6 @@ class Visualize extends React.Component {
                       <button
                         className={`
                           visualize__canvas_control ${control.name} 
-                          ${control.initialState ? control.initialState : ''} 
                           ${activeControl && control.name === activeControl.name ? 'active' : ''}
                         `}
                         key={`visualize__canvas_control--${index}`}
@@ -207,7 +212,6 @@ class Visualize extends React.Component {
                 >
                   {
                     canvasImages.map((canvasImage, index) => {
-                      console.log(canvasImage,activeCanvasImage);
                       return (
                         <URLImage
                           src={`${canvasImage.image}`}

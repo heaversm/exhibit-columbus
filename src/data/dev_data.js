@@ -31,12 +31,10 @@ const visualizeSettingsData = {
   "CONTROLS": [
     {
       "name": "front",
-      "initialState": "inactive",
       "icon": "sort-up.svg",
     },
     {
       "name": "back",
-      "initialState": "inactive",
       "icon": "sort-down.svg",
     },
     {

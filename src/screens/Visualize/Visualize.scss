@@ -97,6 +97,13 @@
     position: relative;
     border: 2px solid $c__gray;
     border-radius: 50%;
+    &.interactables {
+      .visualize__canvas_controls {
+        .front path, .back path {
+          fill: black;
+        }
+      }
+    }
   }
   &__canvas {
     border-radius: 50%;
@@ -119,6 +126,10 @@
     margin: 0 auto;
     position: relative;
 
+    &.front path, &.back path {
+      fill: lighten($color: black, $amount: 50%);
+    }
+
     svg {
       width: 100%;
       height: auto;
@@ -129,11 +140,7 @@
         fill: $c__tomato;
       }
     }
-    &.inactive {
-      svg {
-        fill: lighten($c__gray,50%);
-      }
-    }
+
   }
 
 }

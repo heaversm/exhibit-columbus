@@ -11,7 +11,6 @@ export default class URLImage extends React.Component {
     x: visualizeSettingsData.CANVAS_SIZE/2, //default to placing image at center stage
     y: visualizeSettingsData.CANVAS_SIZE/2, //default to placing image at center stage
     doCenterImage: true, //when false, keep image origin at top left
-    isDraggable: true, //when true, allow the object to be dragged (only when isInteractable is true)
     isInteractable: false, //when true, image is the active image and thus can be scaled, rotated, etc
   }
   componentDidMount() {
@@ -52,13 +51,15 @@ export default class URLImage extends React.Component {
   };
   render() {
 
-    const {doCenterImage, isDraggable, isInteractable} = this.props;
+    const {doCenterImage, isInteractable, src} = this.props;
     let offsetX, offsetY = 0;
 
     if (this.state.image && doCenterImage){
       offsetX = this.state.image.width/2;
       offsetY = this.state.image.height/2;
     }
+
+    console.log(isInteractable,src);
     
     return (
       <Image
@@ -70,7 +71,8 @@ export default class URLImage extends React.Component {
         }}
         offsetX={offsetX}
         offsetY={offsetY}
-        draggable={isDraggable && isInteractable ? true : false}
+        draggable={isInteractable}
+        listening={isInteractable}
         onDragStart={() => {
           this.setState({
             isDragging: true
