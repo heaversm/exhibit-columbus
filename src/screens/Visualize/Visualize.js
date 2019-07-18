@@ -75,7 +75,7 @@ class Visualize extends React.Component {
     const { canvasImages } = this.state;
     canvasImages.push(visualizeImage);
     const newActiveIndex = canvasImages.length-1;
-    //canvasImages[newActiveIndex].zIndex = newActiveIndex;
+    canvasImages[newActiveIndex].zIndex = newActiveIndex;
 
     this.setState({
       activeImage: visualizeImage,
@@ -125,18 +125,20 @@ class Visualize extends React.Component {
   }
   handleBackClick = () => {
     const { canvasImages, activeCanvasImageIndex } = this.state;
-    const newCanvasImageIndex = activeCanvasImageIndex - 1;
+    // const newCanvasImageIndex = activeCanvasImageIndex - 1;
 
-    if (newCanvasImageIndex > -1) {
-      const objectAbove = _.cloneDeep(canvasImages[activeCanvasImageIndex]);
-      const objectBelow = _.cloneDeep(canvasImages[newCanvasImageIndex]);
-      canvasImages[newCanvasImageIndex] = objectAbove;
-      canvasImages[activeCanvasImageIndex] = objectBelow;
+    // if (newCanvasImageIndex > -1) {
+    //   const objectAbove = _.cloneDeep(canvasImages[activeCanvasImageIndex]);
+    //   const objectBelow = _.cloneDeep(canvasImages[newCanvasImageIndex]);
+    //   canvasImages[newCanvasImageIndex] = objectAbove;
+    //   canvasImages[activeCanvasImageIndex] = objectBelow;
 
-      this.setState({
-        activeCanvasImageIndex: newCanvasImageIndex,
-      });
-    }
+    //   this.setState({
+    //     activeCanvasImageIndex: newCanvasImageIndex,
+    //   });
+    // }
+    canvasImages[0].zIndex = 1;
+    canvasImages[1].zIndex = 0;
 
   }
   handleScaleClick = () => {
@@ -222,6 +224,7 @@ class Visualize extends React.Component {
                       return (
                         <URLImage
                           src={`${canvasImage.image}`}
+                          zIndex={canvasImage.zIndex}
                           isInteractable={activeCanvasImageIndex === index}
                           className={`canvas__interactable`}
                           key={`canvas__interactable--${canvasImage.object}_${index}`}

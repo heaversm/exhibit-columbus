@@ -56,6 +56,7 @@ export default class URLImage extends React.Component {
       <Image
         x={this.props.x}
         y={this.props.y}
+        zIndex={this.props.zIndex}
         shadowColor={visualizeSettingsData.INTERACTABLE_SHADOW_COLOR}
         shadowOffset={{ x: 5, y: 5 }}
         shadowEnabled={isInteractable}
