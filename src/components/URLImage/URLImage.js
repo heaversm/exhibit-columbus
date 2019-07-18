@@ -14,6 +14,7 @@ export default class URLImage extends React.Component {
     isInteractable: false, //when true, image is the active image and thus can be scaled, rotated, etc
   }
   componentDidMount() {
+    console.log('new mount');
     this.loadImage();
   }
   componentDidUpdate(oldProps) {

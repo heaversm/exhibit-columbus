@@ -74,11 +74,12 @@ class Visualize extends React.Component {
   handleVisualizeImageClick = (visualizeImage) => {
     const { canvasImages } = this.state;
     canvasImages.push(visualizeImage);
-
+    const newActiveIndex = canvasImages.length-1;
+    //canvasImages[newActiveIndex].zIndex = newActiveIndex;
 
     this.setState({
       activeImage: visualizeImage,
-      activeCanvasImageIndex: canvasImages.length - 1,
+      activeCanvasImageIndex: newActiveIndex,
       canvasImages: canvasImages,
     });
 
@@ -127,10 +128,12 @@ class Visualize extends React.Component {
     const newCanvasImageIndex = activeCanvasImageIndex - 1;
 
     if (newCanvasImageIndex > -1) {
-      const reorderedCanvasImages = moveInArrayFromTo(canvasImages, activeCanvasImageIndex, newCanvasImageIndex);
+      const objectAbove = _.cloneDeep(canvasImages[activeCanvasImageIndex]);
+      const objectBelow = _.cloneDeep(canvasImages[newCanvasImageIndex]);
+      canvasImages[newCanvasImageIndex] = objectAbove;
+      canvasImages[activeCanvasImageIndex] = objectBelow;
 
       this.setState({
-        canvasImages: reorderedCanvasImages,
         activeCanvasImageIndex: newCanvasImageIndex,
       });
     }
