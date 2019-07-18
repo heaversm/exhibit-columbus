@@ -19,7 +19,7 @@ class Visualize extends React.Component {
     signModalActive: false, //when true, show sign modal
     activeImageCategory: visualizeSettingsData.CATEGORIES[0], //fills with the name of the selected images category
     activeImage: null, //fills with the data of the selected image item from the activeImageCategory
-    activeCanvasImage: null, //fills with the reference to the current canvas image
+    activeCanvasImageIndex: -1, //fills with reference to the canvasImages index of the active item
     activeControl: null, //fills with active control
     frontEnabled: false, //true when we can order the active item higher up in the z-hierarchy
     backEnabled: false, //true when we can order the active item lower down in the z-hierarchy
@@ -31,19 +31,19 @@ class Visualize extends React.Component {
 
   componentDidMount() {
 
-    const {canvasImages} = this.state;
+    const { canvasImages } = this.state;
     //
 
-    
+
     if (userState.objectData) {
       //const activeImage = userState.objectData.chosenObject;
       const activeCanvasImage = userState.objectData;
       canvasImages.push(activeCanvasImage);
       this.setState({
-        activeCanvasImage: activeCanvasImage,
-        canvasImages: canvasImages
+        canvasImages: canvasImages,
+        activeCanvasImageIndex: canvasImages.length - 1,
       })
-      
+
     }
   }
 
@@ -72,16 +72,17 @@ class Visualize extends React.Component {
   }
 
   handleVisualizeImageClick = (visualizeImage) => {
-    const { canvasImages} = this.state;
+    const { canvasImages } = this.state;
     canvasImages.push(visualizeImage);
+
 
     this.setState({
       activeImage: visualizeImage,
-      activeCanvasImage: visualizeImage,
+      activeCanvasImageIndex: canvasImages.length - 1,
       canvasImages: canvasImages,
     });
-    
-    
+
+
   }
 
   handleCanvasControlClick = (control) => {
@@ -122,15 +123,18 @@ class Visualize extends React.Component {
 
   }
   handleBackClick = () => {
-    const {activeCanvasImage, canvasImages} = this.state;
-    const activeIndex = canvasImages.findIndex(image => image.object === activeCanvasImage.object);
-    console.log(activeIndex,canvasImages);
-    const reorderedCanvasImages = moveInArrayFromTo(canvasImages,activeIndex,activeIndex-1);
-    this.setState({
-      canvasImages: reorderedCanvasImages,
-      activeCanvasImage: reorderedCanvasImages[activeIndex-1]
-    });
-    //console.log(reorderedCanvasImages);
+    const { canvasImages, activeCanvasImageIndex } = this.state;
+    const newCanvasImageIndex = activeCanvasImageIndex - 1;
+
+    if (newCanvasImageIndex > -1) {
+      const reorderedCanvasImages = moveInArrayFromTo(canvasImages, activeCanvasImageIndex, newCanvasImageIndex);
+
+      this.setState({
+        canvasImages: reorderedCanvasImages,
+        activeCanvasImageIndex: newCanvasImageIndex,
+      });
+    }
+
   }
   handleScaleClick = () => {
 
@@ -150,7 +154,7 @@ class Visualize extends React.Component {
 
   render() {
 
-    const { signModalActive, activeImageCategory, activeImage, activeControl, activeCanvasImage, canvasImages } = this.state;
+    const { signModalActive, activeImageCategory, activeImage, activeControl, activeCanvasImageIndex, canvasImages } = this.state;
     const canvasSize = visualizeSettingsData.CANVAS_SIZE;
 
     return (
@@ -215,10 +219,9 @@ class Visualize extends React.Component {
                       return (
                         <URLImage
                           src={`${canvasImage.image}`}
-                          isDraggable={true}
-                          isInteractable={activeCanvasImage && activeCanvasImage.object === canvasImage.object}
+                          isInteractable={activeCanvasImageIndex === index}
                           className={`canvas__interactable`}
-                          key={`canvas__interactable--${canvasImage.object}`}
+                          key={`canvas__interactable--${canvasImage.object}_${index}`}
                         />
                       )
                     })
