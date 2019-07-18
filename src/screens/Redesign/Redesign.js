@@ -160,7 +160,7 @@ class Redesign extends React.Component {
                       }}
                     >
                       <img
-                        src={`/assets/images/temp/objects/${object.image}`}
+                        src={`${object.image}`}
                         alt={object.title}
                         className="redesign__object_image"
                       />

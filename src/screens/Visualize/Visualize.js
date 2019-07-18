@@ -71,9 +71,17 @@ class Visualize extends React.Component {
   }
 
   handleVisualizeImageClick = (visualizeImage) => {
+    console.log(this.state);  
+    const { canvasImages} = this.state;
+    canvasImages.push(visualizeImage);
+
     this.setState({
-      activeImage: visualizeImage
-    })
+      activeImage: visualizeImage,
+      activeCanvasImage: visualizeImage,
+      canvasImages: canvasImages,
+    });
+    
+    
   }
 
   handleCanvasControlClick = (control) => {
@@ -202,11 +210,11 @@ class Visualize extends React.Component {
                       console.log(canvasImage,activeCanvasImage);
                       return (
                         <URLImage
-                          src={`./assets/images/temp/objects/${canvasImage.image}`}
+                          src={`${canvasImage.image}`}
                           isDraggable={true}
                           isInteractable={activeCanvasImage && activeCanvasImage.object === canvasImage.object}
                           className={`canvas__interactable`}
-                          key={`canvas__interactable--${index}`}
+                          key={`canvas__interactable--${canvasImage.object}`}
                         />
                       )
                     })
@@ -238,12 +246,12 @@ class Visualize extends React.Component {
                       return (
                         <div
                           className={`visualize__image_container ${activeImage && activeImage.title === imageItem.title ? 'active' : ''}`}
-                          key={`visualize__image--${index}`}
+                          key={`visualize__image--${imageItem.title}`}
                           onClick={() => {
                             this.handleVisualizeImageClick(imageItem)
                           }}
                         >
-                          <img src={`./assets/images/temp/${activeImageCategory}/${imageItem.image}`} alt={imageItem.title} className="visualize__image" />
+                          <img src={`${imageItem.image}`} alt={imageItem.title} className="visualize__image" />
                         </div>
                       )
                     })

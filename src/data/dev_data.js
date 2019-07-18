@@ -26,7 +26,7 @@ const redesignSettingsData = {
 
 const visualizeSettingsData = {
   "SAMPLE_SIZE": 10, //how many images per category
-  "CATEGORIES": ["people", "objects","background"], //names of categories to display in tab order
+  "CATEGORIES": ["people", "objects","background","effects","foreground"], //names of categories to display in tab order
   "CANVAS_SIZE": 640, //width & height of canvas in pixels
   "CONTROLS": [
     {
