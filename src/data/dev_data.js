@@ -29,6 +29,9 @@ const visualizeSettingsData = {
   "CATEGORIES": ["people", "objects","background","effects","foreground"], //names of categories to display in tab order
   "CANVAS_SIZE": 640, //width & height of canvas in pixels
   "INTERACTABLE_SHADOW_COLOR": "#fe5000", //value for shadow color as hex or color name
+  "SCALE_INCREMENT": 0.1, //decimal percentage by which to scale an element each click
+  "SCALE_MAX": 2.0, //the largest we can scale an image
+  "SCALE_MIN": 0.5, //the smallest we can scale an image
   "CONTROLS": [
     {
       "name": "front",

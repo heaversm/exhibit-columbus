@@ -21,9 +21,8 @@ class Visualize extends React.Component {
     frontEnabled: false, //true when we can order the active item higher up in the z-hierarchy
     backEnabled: false, //true when we can order the active item lower down in the z-hierarchy
     layerEnabled: false, //true when there is more than 1 interactable
-    scaleUp: false, //true when we can no longer scale the active image down
-    blurUp: false, //true when we can no longer blur the image any more
     helpActive: false, //true when we are showing the help modal
+    updateScale: false, //when true, tell the activeCanvasImage to change its scale
     canvasImages: [], //fills with the non-foreground / background objects that have been placed on the canvas
   }
 
@@ -44,6 +43,12 @@ class Visualize extends React.Component {
       })
 
     }
+  }
+
+  handleScaleUpdateFinished = ()=>{
+    this.setState({
+      updateScale: false,
+    });
   }
 
   handleVisualizeContinueClick = () => {
@@ -113,6 +118,7 @@ class Visualize extends React.Component {
         if (layerEnabled) {
           this.handleNextLayerClick();
         }
+        break;
       case 'scale':
         this.handleScaleClick()
         break;
@@ -233,7 +239,9 @@ class Visualize extends React.Component {
   }
 
   handleScaleClick = () => {
-
+    this.setState({
+      updateScale: true,
+    })
   }
   handleRotateClick = () => {
 
@@ -263,12 +271,13 @@ class Visualize extends React.Component {
   toggleLayerClick = (doEnable)=>{
     this.setState({
       layerEnabled: doEnable,
+      updateScale: false,
     });
   }
 
   render() {
 
-    const { signModalActive, activeImageCategory, activeImage, activeCanvasImageIndex, canvasImages, frontEnabled, backEnabled, layerEnabled } = this.state;
+    const { signModalActive, activeImageCategory, activeImage, activeCanvasImageIndex, canvasImages, frontEnabled, backEnabled, layerEnabled, updateScale } = this.state;
     const canvasSize = visualizeSettingsData.CANVAS_SIZE;
 
     return (
@@ -287,11 +296,7 @@ class Visualize extends React.Component {
           </section>
           <section className="visualize__canvas_section">
             <div className={`
-              visualize__canvas_container 
-              ${canvasImages.length > 0 && 'interactables'}
-              ${!backEnabled && 'backDisabled'}
-              ${!frontEnabled && 'frontDisabled'}
-              ${!layerEnabled && 'layerDisabled'}
+              visualize__canvas_container ${canvasImages.length > 0 && 'interactables'} ${!backEnabled && 'backDisabled'} ${!frontEnabled && 'frontDisabled'} ${!layerEnabled && 'layerDisabled'}
             `}>
               <div className="visualize__canvas_controls">
                 {
@@ -333,11 +338,15 @@ class Visualize extends React.Component {
                 >
                   {
                     canvasImages.map((canvasImage, index) => {
+                      const isActiveCanvasImage = activeCanvasImageIndex === index;
+                      
                       return (
                         <URLImage
                           src={`${canvasImage.image}`}
                           zIndex={canvasImage.zIndex}
-                          isInteractable={activeCanvasImageIndex === index}
+                          isInteractable={isActiveCanvasImage}
+                          updateScale={isActiveCanvasImage ? updateScale : false}
+                          onUpdateScaleFinished={this.handleScaleUpdateFinished}
                           className={`canvas__interactable`}
                           key={`canvas__interactable--${canvasImage.object}_${index}`}
                         />

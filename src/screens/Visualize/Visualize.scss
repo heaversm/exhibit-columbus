@@ -98,21 +98,27 @@
     border: 2px solid $c__gray;
     border-radius: 50%;
 
-    &.backDisabled {
-      .back path {
-        fill: $c__gray--light;
+    &.interactables {
+      path {
+        fill: black;
+      }
+      &.backDisabled {
+        .back path {
+          fill: $c__gray--light;
+        }
+      }
+      &.frontDisabled {
+        .front path {
+          fill: $c__gray--light;
+        }
+      }
+      &.layerDisabled {
+        .layer path {
+          fill: $c__gray--light;
+        }
       }
     }
-    &.frontDisabled {
-      .front path {
-        fill: $c__gray--light;
-      }
-    }
-    &.layerDisabled {
-      .layer path {
-        fill: $c__gray--light;
-      }
-    }
+    
   }
   &__canvas {
     border-radius: 50%;
@@ -140,10 +146,8 @@
       height: auto;
     }
 
-    &.active {
-      path {
-        fill: $c__tomato;
-      }
+    path {
+      fill: $c__gray--light;
     }
 
   }

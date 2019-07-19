@@ -5,6 +5,8 @@ export default class URLImage extends React.Component {
   state = {
     image: null, //fills with the reference to the dom image and its properties (width, height, etc)
     isDragging: false, //when true, user is moving the image on screen
+    curScale: 1.0, //the scale in decimal percent
+    doScaleUp: false,
   };
 
   static defaultProps = {
@@ -12,14 +14,17 @@ export default class URLImage extends React.Component {
     y: visualizeSettingsData.CANVAS_SIZE / 2, //default to placing image at center stage
     doCenterImage: true, //when false, keep image origin at top left
     isInteractable: false, //when true, image is the active image and thus can be scaled, rotated, etc
+    updateScale: false, //when true, update the scale of the image, then set this back to false
   }
   componentDidMount() {
-    console.log('new mount');
     this.loadImage();
   }
-  componentDidUpdate(oldProps) {
-    if (oldProps.src !== this.props.src) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.src !== this.props.src) {
       this.loadImage();
+    }
+    if (!prevProps.updateScale && this.props.updateScale){ //update the scale
+      this.handleScaleImage();
     }
   }
   componentWillUnmount() {
@@ -42,9 +47,49 @@ export default class URLImage extends React.Component {
     // you will have to update layer manually:
     // this.imageNode.getLayer().batchDraw();
   };
+
+  handleScaleImage = ()=>{
+    const {curScale, doScaleUp} = this.state;
+    let newScale;
+
+    if (doScaleUp){ //make the image larger
+      newScale = curScale + visualizeSettingsData.SCALE_INCREMENT;
+      if (newScale + visualizeSettingsData.SCALE_INCREMENT >= visualizeSettingsData.SCALE_MAX){
+        this.setState({
+          curScale: newScale,
+          doScaleUp: false,
+        });
+      } else {
+        this.setState({
+          curScale: newScale
+        });
+      }
+    } else { //make the image smaller
+      newScale = curScale - visualizeSettingsData.SCALE_INCREMENT;
+      if (newScale - visualizeSettingsData.SCALE_INCREMENT <= visualizeSettingsData.SCALE_MIN){
+        this.setState({
+          curScale: newScale,
+          doScaleUp: true,
+        });
+      } else {
+        this.setState({
+          curScale: newScale,
+        });
+      }
+    }
+    this.props.onUpdateScaleFinished();
+  }
+
+  handleSwitchScaleDirection = (doScaleUp)=>{
+    this.setState({
+      doScaleUp: doScaleUp
+    });
+  }
+
   render() {
 
     const { doCenterImage, isInteractable } = this.props;
+    const {curScale} = this.state;
     let offsetX, offsetY = 0;
 
     if (this.state.image && doCenterImage) {
@@ -66,6 +111,8 @@ export default class URLImage extends React.Component {
         }}
         offsetX={offsetX}
         offsetY={offsetY}
+        scaleX={curScale}
+        scaleY={curScale}
         draggable={isInteractable}
         listening={isInteractable}
         onDragStart={(e) => {
