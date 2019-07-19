@@ -32,6 +32,7 @@ const visualizeSettingsData = {
   "SCALE_INCREMENT": 0.1, //decimal percentage by which to scale an element each click
   "SCALE_MAX": 2.0, //the largest we can scale an image
   "SCALE_MIN": 0.5, //the smallest we can scale an image
+  "ROTATION_INCREMENT": 10, //the amount by which we change the rotation each click
   "CONTROLS": [
     {
       "name": "front",
