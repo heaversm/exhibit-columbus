@@ -97,9 +97,7 @@
     position: relative;
     border: 2px solid $c__gray;
     border-radius: 50%;
-    .front path, .back path {
-      fill: black;
-    }
+
     &.backDisabled {
       .back path {
         fill: $c__gray--light;
@@ -107,6 +105,11 @@
     }
     &.frontDisabled {
       .front path {
+        fill: $c__gray--light;
+      }
+    }
+    &.layerDisabled {
+      .layer path {
         fill: $c__gray--light;
       }
     }

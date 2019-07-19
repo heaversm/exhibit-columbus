@@ -39,6 +39,10 @@ const visualizeSettingsData = {
       "icon": "sort-down.svg",
     },
     {
+      "name": "layer",
+      "icon": "layer.svg",
+    },
+    {
       "name": "scale",
       "icon": "compress.svg",
       "iconActive": "expand.svg",
