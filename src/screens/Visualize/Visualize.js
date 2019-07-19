@@ -1,11 +1,9 @@
 import './Visualize.scss';
 
-import { Layer, Stage } from 'react-konva';
 import { siteData, visualizeData } from '../../data/site_data';
 
 import React from 'react';
 import SVG from 'react-inlinesvg';
-import { URLImage } from '../../components';
 import { userState } from '../../store';
 import { view } from 'react-easy-state';
 import { visualizeSettingsData } from '../../data/dev_data';
@@ -16,46 +14,7 @@ class Visualize extends React.Component {
     signModalActive: false, //when true, show sign modal
     activeImageCategory: visualizeSettingsData.CATEGORIES[0], //fills with the name of the selected images category
     activeImage: null, //fills with the data of the selected image item from the activeImageCategory
-    activeCanvasImageIndex: -1, //fills with reference to the canvasImages index of the active item
-    activeControl: null, //fills with active control
-    frontEnabled: false, //true when we can order the active item higher up in the z-hierarchy
-    backEnabled: false, //true when we can order the active item lower down in the z-hierarchy
-    layerEnabled: false, //true when there is more than 1 interactable
     helpActive: false, //true when we are showing the help modal
-    updateScale: false, //when true, tell the activeCanvasImage to change its scale
-    updateRotation: false, //when true, tell the activeCanvasImage to rotate
-    canvasImages: [], //fills with the non-foreground / background objects that have been placed on the canvas
-  }
-
-  componentDidMount() {
-
-    const { canvasImages } = this.state;
-    //
-
-
-    if (userState.objectData) {
-      //const activeImage = userState.objectData.chosenObject;
-      const activeCanvasImage = userState.objectData;
-      activeCanvasImage.zIndex = 0;
-      canvasImages.push(activeCanvasImage);
-      this.setState({
-        canvasImages: canvasImages,
-        activeCanvasImageIndex: canvasImages.length - 1,
-      })
-
-    }
-  }
-
-  handleScaleUpdateFinished = ()=>{
-    this.setState({
-      updateScale: false,
-    });
-  }
-
-  handleRotateUpdateFinished = ()=>{
-    this.setState({
-      updateRotation: false,
-    });
   }
 
   handleVisualizeContinueClick = () => {
@@ -83,216 +42,12 @@ class Visualize extends React.Component {
   }
 
   handleVisualizeImageClick = (visualizeImage) => {
-    const { canvasImages } = this.state;
-    canvasImages.push(visualizeImage);
-    const newActiveIndex = canvasImages.length - 1;
-    canvasImages[newActiveIndex].zIndex = newActiveIndex;
-    canvasImages.removed = false;
-
-    const backEnabled = canvasImages.length > 1 ? true : false;
-
-    this.setState({
-      activeImage: visualizeImage,
-      activeCanvasImageIndex: newActiveIndex,
-      canvasImages: canvasImages,
-      backEnabled: backEnabled,
-      frontEnabled: false,
-      layerEnabled: backEnabled,
-    });
-
-
-  }
-
-  handleCanvasControlClick = (control) => {
-
-    const { backEnabled, frontEnabled, layerEnabled } = this.state;
-
-    this.setState({
-      activeControl: control
-    })
-
-    switch (control.name) {
-      case 'front':
-        if (frontEnabled) {
-          this.handleFrontClick();
-        }
-        break;
-      case 'back':
-        if (backEnabled) {
-          this.handleBackClick();
-        }
-        break;
-      case 'layer':
-        if (layerEnabled) {
-          this.handleNextLayerClick();
-        }
-        break;
-      case 'scale':
-        this.handleScaleClick()
-        break;
-      case 'rotate':
-        this.handleRotateClick();
-        break;
-      case 'blur':
-        this.handleBlurClick();
-        break;
-      case 'remove':
-        this.handleRemoveClick();
-        break;
-      case 'help':
-        this.handleHelpClick();
-        break;
-      default:
-        console.log('unknown button');
-        break;
-    }
-  }
-
-  handleFrontClick = () => {
-    const { canvasImages, activeCanvasImageIndex, backEnabled } = this.state;
-    const curCanvasImage = canvasImages[activeCanvasImageIndex];
-
-    if (curCanvasImage.zIndex < canvasImages.length - 1) {
-      const upperCanvasImage = canvasImages.find((canvasImage) => {
-        return canvasImage.zIndex === curCanvasImage.zIndex + 1;
-      });
-
-      const curZIndex = curCanvasImage.zIndex;
-      const upperZIndex = upperCanvasImage.zIndex;
-
-      curCanvasImage.zIndex = upperZIndex;
-      upperCanvasImage.zIndex = curZIndex;
-
-      if (upperZIndex === canvasImages.length - 1) {
-        this.toggleFrontClick(false);
-      }
-
-      if (!backEnabled && canvasImages.length > 1) {
-        this.toggleBackClick(true);
-      }
-
-    }
-  }
-  handleBackClick = () => {
-
-    const { canvasImages, activeCanvasImageIndex, frontEnabled } = this.state;
-    const curCanvasImage = canvasImages[activeCanvasImageIndex];
-
-    if (curCanvasImage.zIndex > 0) {
-      const lowerCanvasImage = canvasImages.find((canvasImage) => {
-        return canvasImage.zIndex === curCanvasImage.zIndex - 1;
-      });
-
-      const curZIndex = curCanvasImage.zIndex;
-      const lowerZIndex = lowerCanvasImage.zIndex;
-
-      curCanvasImage.zIndex = lowerZIndex;
-      lowerCanvasImage.zIndex = curZIndex;
-
-      if (lowerZIndex === 0) {
-        this.toggleBackClick(false);
-      }
-
-      if (!frontEnabled && canvasImages.length > 1) {
-        this.toggleFrontClick(true);
-      }
-
-    }
-  }
-
-  handleNextLayerClick = () => {
-
-    const { canvasImages, activeCanvasImageIndex, frontEnabled, backEnabled } = this.state;
-    if (canvasImages.length < 2) {
-      return;
-    }
-
-    const curCanvasImage = canvasImages[activeCanvasImageIndex];
-    let nextCanvasImage;
-    if (curCanvasImage.zIndex > 0) {
-      nextCanvasImage = canvasImages.find((canvasImage) => {
-        return canvasImage.zIndex === curCanvasImage.zIndex - 1;
-      });
-    } else {
-      nextCanvasImage = canvasImages.find((canvasImage) => {
-        return canvasImage.zIndex === canvasImages.length - 1;
-      });
-    }
-
-    if (nextCanvasImage.zIndex === 0){
-      if (!frontEnabled){
-        this.toggleFrontClick(true);
-      }
-      if (backEnabled){
-        this.toggleBackClick(false);
-      }
-    } else if (nextCanvasImage.zIndex === canvasImages.length-1){
-      if (frontEnabled){
-        this.toggleFrontClick(false);
-      }
-      if (!backEnabled){
-        this.toggleBackClick(true);
-      }
-    }
-    
-
-    const nextCanvasImageIndex = canvasImages.findIndex((canvasImage) => {
-      return canvasImage.zIndex === nextCanvasImage.zIndex;
-    });
-
-    this.setState({
-      activeImage: nextCanvasImage,
-      activeCanvasImageIndex: nextCanvasImageIndex,
-    });
-  }
-
-  handleScaleClick = () => {
-    this.setState({
-      updateScale: true,
-    });
-  }
-  handleRotateClick = () => {
-    this.setState({
-      updateRotation: true,
-    })
-  }
-  handleBlurClick = () => {
-
-  }
-  handleRemoveClick = () => {
-    const {canvasImages,activeCanvasImageIndex} = this.state;
-    if (canvasImages.length){
-      const curCanvasImage = canvasImages[activeCanvasImageIndex];
-      curCanvasImage.removed = true; //MH have to do this because we can't manipulate the array in any way or canvas manipulations will be lost
-    }
-  }
-  handleHelpClick = () => {
-
-  }
-
-  toggleBackClick = (doEnable) => {
-    this.setState({
-      backEnabled: doEnable,
-    });
-  }
-
-  toggleFrontClick = (doEnable) => {
-    this.setState({
-      frontEnabled: doEnable,
-    });
-  }
-
-  toggleLayerClick = (doEnable)=>{
-    this.setState({
-      layerEnabled: doEnable,
-      updateScale: false,
-    });
+    //add image to canvas
   }
 
   render() {
 
-    const { signModalActive, activeImageCategory, activeImage, activeCanvasImageIndex, canvasImages, frontEnabled, backEnabled, layerEnabled, updateScale, updateRotation } = this.state;
-    const canvasSize = visualizeSettingsData.CANVAS_SIZE;
+    const { signModalActive, activeImageCategory, activeImage } = this.state;
 
     return (
       <div className="Visualize app_screen">
@@ -309,9 +64,7 @@ class Visualize extends React.Component {
             </div>
           </section>
           <section className="visualize__canvas_section">
-            <div className={`
-              visualize__canvas_container ${canvasImages.length > 0 && 'interactables'} ${!backEnabled && 'backDisabled'} ${!frontEnabled && 'frontDisabled'} ${!layerEnabled && 'layerDisabled'}
-            `}>
+            <div className={`visualize__canvas_container`}>
               <div className="visualize__canvas_controls">
                 {
                   visualizeSettingsData.CONTROLS.map((control, index) => {
@@ -319,9 +72,6 @@ class Visualize extends React.Component {
                       <button
                         className={`visualize__canvas_control ${control.name}`}
                         key={`visualize__canvas_control--${index}`}
-                        onClick={() => {
-                          this.handleCanvasControlClick(control);
-                        }}
                       >
                         <SVG
                           src={`./assets/images/icons/${control.icon}`}
@@ -332,49 +82,14 @@ class Visualize extends React.Component {
                   })
                 }
               </div>
-
-              <Stage
-                width={canvasSize}
-                height={canvasSize}
-                className="visualize__canvas canvas__stage"
-              >
-                <Layer
-                  className={`canvas__grid_layer`}
-                >
-                  <URLImage
-                    src={'./assets/images/perspective-grid.png'}
-                    isDraggable={false}
-                    className={`canvas__grid`}
-                  />
-                </Layer>
-                <Layer
-                  className={`canvas__interactables_layer`}
-                >
-                  {
-                    canvasImages.map((canvasImage, index) => {
-                      const isActiveCanvasImage = activeCanvasImageIndex === index;
-
-                      if (canvasImage.removed){
-                        return;
-                      }
-                      
-                      return (
-                        <URLImage
-                          src={`${canvasImage.image}`}
-                          zIndex={canvasImage.zIndex}
-                          isInteractable={isActiveCanvasImage}
-                          updateScale={isActiveCanvasImage ? updateScale : false}
-                          onUpdateScaleFinished={this.handleScaleUpdateFinished}
-                          updateRotation={isActiveCanvasImage ? updateRotation : false}
-                          onUpdateRotationFinished={this.handleRotateUpdateFinished}
-                          className={`canvas__interactable`}
-                          key={`canvas__interactable--${canvasImage.object}_${index}`}
-                        />
-                      )
-                    })
-                  }
-                </Layer>
-              </Stage>
+              <div className="visualize__canvas">
+                <canvas
+                  id="collageCanvas"
+                  className="collage-canvas"
+                  width="640"
+                  height="640"
+                />
+              </div>
 
             </div>
             <div className="visualize__images_container">
@@ -399,7 +114,7 @@ class Visualize extends React.Component {
                     visualizeData[activeImageCategory].map((imageItem, index) => {
                       return (
                         <div
-                          className={`visualize__image_container ${activeImage && activeImage.title === imageItem.title ? 'active' : ''}`}
+                          className={`visualize__image_container image-button ${activeImage && activeImage.title === imageItem.title ? 'active' : ''}`}
                           key={`visualize__image--${imageItem.title}`}
                           onClick={() => {
                             this.handleVisualizeImageClick(imageItem)
