@@ -87,6 +87,7 @@ class Visualize extends React.Component {
     canvasImages.push(visualizeImage);
     const newActiveIndex = canvasImages.length - 1;
     canvasImages[newActiveIndex].zIndex = newActiveIndex;
+    canvasImages.removed = false;
 
     const backEnabled = canvasImages.length > 1 ? true : false;
 
@@ -259,7 +260,11 @@ class Visualize extends React.Component {
 
   }
   handleRemoveClick = () => {
-
+    const {canvasImages,activeCanvasImageIndex} = this.state;
+    if (canvasImages.length){
+      const curCanvasImage = canvasImages[activeCanvasImageIndex];
+      curCanvasImage.removed = true; //MH have to do this because we can't manipulate the array in any way or canvas manipulations will be lost
+    }
   }
   handleHelpClick = () => {
 
@@ -348,6 +353,10 @@ class Visualize extends React.Component {
                   {
                     canvasImages.map((canvasImage, index) => {
                       const isActiveCanvasImage = activeCanvasImageIndex === index;
+
+                      if (canvasImage.removed){
+                        return;
+                      }
                       
                       return (
                         <URLImage
