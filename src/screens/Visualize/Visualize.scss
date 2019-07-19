@@ -68,6 +68,10 @@
     &::-webkit-scrollbar {
       display: none;
     }
+    display: none;
+    &.active {
+      display: block;
+    }
   }
   &__image_container {
     width: 150px;

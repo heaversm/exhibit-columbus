@@ -1,5 +1,4 @@
 let canvasModule = {};
-let canvasInstance;
 
 canvasModule.main = function () {
   var self = this;
@@ -63,11 +62,13 @@ canvasModule.main = function () {
     addTick(); //run a timer which updates the stage continuously
     addFilters(); //effects like blur
     addControlsListeners(); //the buttons which manipulate images on the canvas
-    addInitialOrganism(); //add the organism image selected in the previous step (create)
+    //addInitialOrganism(); //add the organism image selected in the previous step (create)
   }
 
   var addControlsListeners = function () {
     isTouch = true;
+
+    $('.image-button').on('click', onImageButtonClick);
 
     // $('.front').on('click', onFrontClick); //send item in front of all others
     // $('.back').on('click', onBackClick); //send item behind all others
@@ -77,9 +78,72 @@ canvasModule.main = function () {
     // $('.scale').on('click', updateScale);
     // $('.blur').on('click', changeBlur);
 
-    // $('.image-button').on('click', onImageButtonClick);
     //$('.btn-save').on('click', onSaveClick); //user has saved their imagery
     initCanvasTouch();
+  }
+
+  var onImageButtonClick = function () {
+    var $thisItem = $(this);
+    var thisType = $thisItem.attr('data-type');
+
+    addingID = parseInt($thisItem.attr('data-id'));
+
+    
+
+    switch (thisType) {
+      case 'background':
+      case 'foreground':
+        onEnvironmentClick($thisItem, thisType);
+        break;
+      default:
+        onItemClick($thisItem);
+        break;
+    }
+  }
+
+  var onEnvironmentClick = function ($thisItem, thisType) {
+    //MH TODO: Handle foreground and background removal through control buttons
+    var thisImageURL = $thisItem.attr('src');
+    var thisType = $thisItem.attr('data-type');
+    loadEnvironment(thisImageURL, thisType);
+  }
+
+  var loadEnvironment = function (src, type) { //backgrounds and foregrounds loaded with this functionality as they need to be sized and manipulated differently
+    var envImg = new Image();
+    envImg.src = src;
+
+    $(envImg).load(function () {
+      drawEnvironment(envImg, type);
+    });
+  }
+
+  var drawEnvironment = function (envImg, type) {
+    var envBitmap = new createjs.Bitmap(envImg);
+    switch (type) {
+      case 'foreground':
+        envBitmap.y = gridBounds.y;
+        if (envForeground != null) {
+          stage.removeChild(envForeground);
+        }
+        envForeground = envBitmap;
+        stage.addChild(envBitmap);
+        stage.setChildIndex(envBitmap, 0); //foreground should be behind all other elements
+        break;
+      case 'background':
+        envBitmap.y = 0;
+        if (envBackground != null) {
+          stage.removeChild(envBackground);
+        }
+        envBackground = envBitmap;
+        stage.addChild(envBitmap);
+        stage.setChildIndex(envBitmap, 1); //background should be behind all other elements
+        break;
+    }
+    stageUpdate = true;
+  }
+
+  var onItemClick = function(){
+    
   }
 
   var initCanvasTouch = function () { //add the listeners that allow a user to use touch gestures to rotate and scale their imagery
@@ -141,5 +205,6 @@ canvasModule.main = function () {
 }
 
 window.onload = function () {
-  canvasInstance = new canvasModule.main();
+  window.canvasInstance = new canvasModule.main();
+  window.canvasInstance.init();
 }

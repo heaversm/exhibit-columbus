@@ -38,7 +38,7 @@ class Visualize extends React.Component {
   handleVisualizeCategoryClick = (visualizeCategory) => {
     this.setState({
       activeImageCategory: visualizeCategory
-    })
+    });
   }
 
   handleVisualizeImageClick = (visualizeImage) => {
@@ -109,23 +109,39 @@ class Visualize extends React.Component {
                 }
               </div>
               <div className="visualize__images__scroll_container">
-                <div className="visualize__images">
-                  {
-                    visualizeData[activeImageCategory].map((imageItem, index) => {
-                      return (
-                        <div
-                          className={`visualize__image_container image-button ${activeImage && activeImage.title === imageItem.title ? 'active' : ''}`}
-                          key={`visualize__image--${imageItem.title}`}
-                          onClick={() => {
-                            this.handleVisualizeImageClick(imageItem)
-                          }}
-                        >
-                          <img src={`${imageItem.image}`} alt={imageItem.title} className="visualize__image" />
-                        </div>
-                      )
-                    })
-                  }
-                </div>
+                {
+                  visualizeSettingsData.CATEGORIES.map((category, index) => {
+                    return (
+                      <div 
+                        className={`visualize__images ${category} ${activeImageCategory === category ? 'active' : ''}`}
+                        key={`visualize__images--${category}`}
+                      >
+                        {
+                          visualizeData[category].map((imageItem, index) => {
+                            return (
+                              <div
+                                className={`visualize__image_container ${activeImage && activeImage.title === imageItem.title ? 'active' : ''}`}
+                                key={`visualize__image--${imageItem.title}`}
+                              // onClick={() => {
+                              //   this.handleVisualizeImageClick(imageItem)
+                              // }}
+                              >
+                                <img
+                                  src={`${imageItem.image}`}
+                                  alt={imageItem.title}
+                                  className="visualize__image image-button"
+                                  data-type={activeImageCategory}
+                                  data-id={`${activeImageCategory}-${imageItem.id}`}
+                                />
+                              </div>
+                            )
+                          })
+                        }
+                      </div>
+                    )
+                  })
+                }
+
               </div>
             </div>
           </section>
