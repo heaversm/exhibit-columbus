@@ -97,11 +97,17 @@
     position: relative;
     border: 2px solid $c__gray;
     border-radius: 50%;
-    &.interactables {
-      .visualize__canvas_controls {
-        .front path, .back path {
-          fill: black;
-        }
+    .front path, .back path {
+      fill: black;
+    }
+    &.backDisabled {
+      .back path {
+        fill: $c__gray--light;
+      }
+    }
+    &.frontDisabled {
+      .front path {
+        fill: $c__gray--light;
       }
     }
   }
@@ -125,10 +131,6 @@
     display: block;
     margin: 0 auto;
     position: relative;
-
-    &.front path, &.back path {
-      fill: lighten($color: black, $amount: 50%);
-    }
 
     svg {
       width: 100%;

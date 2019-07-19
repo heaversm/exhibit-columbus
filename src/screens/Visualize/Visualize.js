@@ -1,14 +1,11 @@
 import './Visualize.scss';
 
 import { Layer, Stage } from 'react-konva';
-import { URLImage, moveInArrayFromTo } from '../../components';
 import { siteData, visualizeData } from '../../data/site_data';
 
-import Konva from 'konva';
-import { Link } from 'react-router-dom';
 import React from 'react';
 import SVG from 'react-inlinesvg';
-import _ from 'lodash';
+import { URLImage } from '../../components';
 import { userState } from '../../store';
 import { view } from 'react-easy-state';
 import { visualizeSettingsData } from '../../data/dev_data';
@@ -38,6 +35,7 @@ class Visualize extends React.Component {
     if (userState.objectData) {
       //const activeImage = userState.objectData.chosenObject;
       const activeCanvasImage = userState.objectData;
+      activeCanvasImage.zIndex = 0;
       canvasImages.push(activeCanvasImage);
       this.setState({
         canvasImages: canvasImages,
@@ -77,10 +75,14 @@ class Visualize extends React.Component {
     const newActiveIndex = canvasImages.length-1;
     canvasImages[newActiveIndex].zIndex = newActiveIndex;
 
+    const backEnabled = canvasImages.length > 1 ? true : false;
+
     this.setState({
       activeImage: visualizeImage,
       activeCanvasImageIndex: newActiveIndex,
       canvasImages: canvasImages,
+      backEnabled: backEnabled,
+      frontEnabled: false,
     });
 
 
@@ -121,25 +123,59 @@ class Visualize extends React.Component {
   }
 
   handleFrontClick = () => {
+    const { canvasImages, activeCanvasImageIndex, backEnabled } = this.state;
+    const curCanvasImage = canvasImages[activeCanvasImageIndex];
 
+    if (curCanvasImage.zIndex < canvasImages.length-1){
+      const upperCanvasImage = canvasImages.find((canvasImage)=>{
+        return canvasImage.zIndex === curCanvasImage.zIndex+1;
+      });
+  
+      const curZIndex = curCanvasImage.zIndex;
+      const upperZIndex = upperCanvasImage.zIndex;
+  
+      curCanvasImage.zIndex = upperZIndex;
+      upperCanvasImage.zIndex = curZIndex;
+
+      if (upperZIndex === canvasImages.length-1){
+        this.disableFrontClick();
+      }
+      
+      if (!backEnabled && canvasImages.length > 1){
+        this.setState({
+          backEnabled: true,
+        });
+      }
+
+    } 
   }
   handleBackClick = () => {
-    const { canvasImages, activeCanvasImageIndex } = this.state;
-    // const newCanvasImageIndex = activeCanvasImageIndex - 1;
 
-    // if (newCanvasImageIndex > -1) {
-    //   const objectAbove = _.cloneDeep(canvasImages[activeCanvasImageIndex]);
-    //   const objectBelow = _.cloneDeep(canvasImages[newCanvasImageIndex]);
-    //   canvasImages[newCanvasImageIndex] = objectAbove;
-    //   canvasImages[activeCanvasImageIndex] = objectBelow;
+    const { canvasImages, activeCanvasImageIndex, frontEnabled } = this.state;
+    const curCanvasImage = canvasImages[activeCanvasImageIndex];
 
-    //   this.setState({
-    //     activeCanvasImageIndex: newCanvasImageIndex,
-    //   });
-    // }
-    canvasImages[0].zIndex = 1;
-    canvasImages[1].zIndex = 0;
+    if (curCanvasImage.zIndex > 0){
+      const lowerCanvasImage = canvasImages.find((canvasImage)=>{
+        return canvasImage.zIndex === curCanvasImage.zIndex-1;
+      });
+  
+      const curZIndex = curCanvasImage.zIndex;
+      const lowerZIndex = lowerCanvasImage.zIndex;
+  
+      curCanvasImage.zIndex = lowerZIndex;
+      lowerCanvasImage.zIndex = curZIndex;
 
+      if (lowerZIndex === 0){
+        this.disableBackClick();
+      }
+      
+      if (!frontEnabled && canvasImages.length > 1){
+        this.setState({
+          frontEnabled: true,
+        });
+      }
+
+    } 
   }
   handleScaleClick = () => {
 
@@ -157,9 +193,21 @@ class Visualize extends React.Component {
 
   }
 
+  disableBackClick = ()=>{
+    this.setState({
+      backEnabled: false,
+    });
+  }
+
+  disableFrontClick = ()=>{
+    this.setState({
+      frontEnabled: false,
+    });
+  }
+
   render() {
 
-    const { signModalActive, activeImageCategory, activeImage, activeControl, activeCanvasImageIndex, canvasImages } = this.state;
+    const { signModalActive, activeImageCategory, activeImage, activeCanvasImageIndex, canvasImages, frontEnabled, backEnabled } = this.state;
     const canvasSize = visualizeSettingsData.CANVAS_SIZE;
 
     return (
@@ -177,16 +225,18 @@ class Visualize extends React.Component {
             </div>
           </section>
           <section className="visualize__canvas_section">
-            <div className={`visualize__canvas_container ${canvasImages.length > 0 && 'interactables'}`}>
+            <div className={`
+              visualize__canvas_container 
+              ${canvasImages.length > 0 && 'interactables'}
+              ${!backEnabled && 'backDisabled'}
+              ${!frontEnabled && 'frontDisabled'}
+            `}>
               <div className="visualize__canvas_controls">
                 {
                   visualizeSettingsData.CONTROLS.map((control, index) => {
                     return (
                       <button
-                        className={`
-                          visualize__canvas_control ${control.name} 
-                          ${activeControl && control.name === activeControl.name ? 'active' : ''}
-                        `}
+                        className={`visualize__canvas_control ${control.name}`}
                         key={`visualize__canvas_control--${index}`}
                         onClick={() => {
                           this.handleCanvasControlClick(control);
