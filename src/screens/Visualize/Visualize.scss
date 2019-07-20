@@ -136,6 +136,13 @@
     top: 0;
     right: 0;
     transform: translate(80px,0);
+    &.active {
+      .visualize__canvas_control:not(.inactive){
+        path {
+          fill: black;
+        }
+      }
+    }
   }
   &__canvas_control{
     width: 100%;

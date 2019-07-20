@@ -3,50 +3,67 @@ let canvasModule = {};
 canvasModule.main = function () {
   var self = this;
 
-  
+  //config
   var configObj = {
     stageWidth: 640,
     stageHeight: 640,
-  }; //will hold the config vars loaded from database
-  
+    borderColor: "#fe5000", //border refers to the active item shadow highlight
+    borderOffsetX: 5,
+    borderOffsetY: 5,
+    borderBlur: 0,
+  };
+
+  //canvas vars
+  var deactivateFunction; //function to call when mouse rolls out of screen
   var stage = null; //will hold all canvas references
   var stageUpdate = false; //tells stage when to update
   var gridImg, gridBitmap = null; //perspective plane
   var gridBounds; //holds Y pos of grid
-  
-  var imageryPath = 'assets/images/temp/';
-  
   var envForeground = null; //ref to the foreground bitmap
   var envBackground = null; //ref to the background bitmap
-  
-  var isTouch; //will determine how to handle button press / hold
-  
   var editItem; //reference to the bitmap being manipulated
   var editMode; //scale, move, etc
   var blurFilter = null;
-  
   var rotateInterval; //holds the timer to do repeat rotate calls on hold
-  
   var scaleInterval; //holds timer to do repeat scale calls on hold
-  
   var scaleMore = false; //make image larger when true, smaller when false
   var blurInterval; //holds the timer to do repeat blur calls on hold
-  
   var blurMore = true; //make more blurry when true, less blurry when false
   var blurHold = false; //true when user first holds mouse down, false when they release
-  
+  var ww,wh; //window width, height to determine rollout perimeter on desktop when mouse is down
+  var addingID; //will hold the ID of the image being added to the screen until it can be assigned to a canvas image, at which point it will be removed
+  var lastID; //will be used to help detect repeat additions of images
+  var initialOrganism = null; //will hold the data of the user's selection from the previous screen
+
+  //refs
+  var $activeButton; //keeps track of button clicked when inactive in order to deactivate it
+  var $canvasControls;
+
+  //control vars
+  var disabledTimer; //holds the timer to hide the tooltip for disabled buttons
+
+  //unused?
+  var imageryPath = 'assets/images/temp/';
+
+  //submission
   var saveID; //will store ID of scenario we are saving the image for
   var savedImage; //will store the path to the image on the server that we create from canvas
   var collageImg; //will hold the image created from the collage for use in both submitting to the smart museum and to the database
-  
-  var addingID; //will hold the ID of the image being added to the screen until it can be assigned to a canvas image, at which point it will be removed
-  var lastID; //will be used to help detect repeat additions of images
-  
-  var initialOrganism = null; //will hold the data of the user's selection from the previous screen
-  
+
+  //hammer
+  var isTouch; //will determine how to handle button press / hold
+  var touchInstance; //holds hammer.js touch events
+  var pinch, rotate; //hammer pinch and rotate instances
+
+
   self.init = function (initialOrganismData) {
     initialOrganism = initialOrganismData;
+    addRefs();
     initStage();
+  }
+
+  var addRefs = function(){
+    $canvasControls = $('.visualize__canvas_controls');
   }
 
   var loadGrid = function () { //add the grid that shows above the foreground to create perspective
@@ -107,7 +124,7 @@ canvasModule.main = function () {
   }
 
   var addInitialOrganism = function () { //add the organism image selected in the previous step (create)
-    if (initialOrganism){
+    if (initialOrganism) {
       loadItem(initialOrganism.image);
     }
   }
@@ -182,8 +199,6 @@ canvasModule.main = function () {
       addingID = null;
     }
 
-    console.log(addingID, lastID);
-
     itemContainer.addChild(itemBitmap);
     stage.addChild(itemContainer);
     if (isRepeat) { //if we've just added the same image to the screen, stagger this one's position so we can see both it and the previous
@@ -192,19 +207,120 @@ canvasModule.main = function () {
       self.centerElement(itemContainer); //put the item in the center of the canvas
     }
 
-    //addItemListeners(itemContainer);
+    addItemListeners(itemContainer);
     stageUpdate = true;
-
     itemContainer.dispatchEvent('click'); //make the item highlighted as if it were clicked on stage so it can be manipulated
 
   }
 
-  // var addItemListeners = function (item) {
-  //   item.on("mousedown", onItemDown); //figure out our mouse coordinates before triggering either a click or drag
-  //   item.on('click', toggleItemManipulation); //make an item manipulatable
-  //   item.on("pressmove", onDragItem); //drag an item
-  //   item.on('pressup', onDragUp); //stop dragging
-  // }
+  var addItemListeners = function (item) {
+    item.on("mousedown", onItemDown); //figure out our mouse coordinates before triggering either a click or drag
+    item.on('click', toggleItemManipulation); //make an item manipulatable
+    item.on("pressmove", onDragItem); //drag an item
+    item.on('pressup', onDragUp); //stop dragging
+  }
+
+  var onItemDown = function (e) {
+    this.offset = { x: this.x - e.stageX, y: this.y - e.stageY };
+  }
+
+  var toggleItemManipulation = function (e) { //make the item editable
+
+    checkIfTopItem(this); //if it is not the top item, make the button clickable that will allow us to send it to the top
+
+    if (editItem && editItem.id != this.id) { //we are switching to a new item
+      editItem.editable = false;
+      removeHighlight(editItem);
+      editItem = this;
+    }
+
+    if (this.editable) { //item is editable if it has been selected
+      if (!this.dragging) { //if we are not dragging the item, deselect it
+        this.editable = false;
+        removeHighlight(this);
+        editItem = null;
+      }
+    } else { //make it editable
+      editItem = this;
+      this.editable = true;
+      addHighlight(this);
+    }
+  }
+
+  var onDragItem = function (e) {
+    if (this.editable) {
+      this.dragging = true;
+      this.x = e.stageX + this.offset.x;
+      this.y = e.stageY + this.offset.y;
+      stageUpdate = true;
+    }
+  }
+
+  var onDragUp = function () {
+    this.dragging = false;
+  }
+
+  var checkIfTopItem = function (thisItem) { //see if the item is at the top of the stack
+    var numItems = stage.numChildren;
+    var itemIndex = stage.getChildIndex(thisItem);
+
+    var indexLimit = 1;
+    if (envForeground != null) {
+      indexLimit++;
+    }
+
+    if (envBackground != null) {
+      indexLimit++;
+    }
+
+    var isTop = false;
+
+    if (itemIndex == numItems - 1) {
+      isTop = true;
+    }
+
+    if (isTop) {
+      $('.front').addClass('inactive');
+      if (numItems > indexLimit + 1) { //as long as we can send the item back still, enable the back button (grid always at 1, hence the plus 1)
+        $('.back').removeClass('inactive');
+      }
+    } else {
+      if (itemIndex == indexLimit) { //can't go any further back, disable the bottom
+        $('.back').addClass('inactive');
+      } else {
+        $('.back').removeClass('inactive');
+      }
+      $('.front').removeClass('inactive');
+    }
+
+  }
+
+  var addHighlight = function (item) {
+    showCanvasControls(); //activate the buttons since we have an active item
+    item.shadow = new createjs.Shadow(configObj.borderColor, configObj.borderOffsetX, configObj.borderOffsetY, configObj.borderBlur); //add a highlight to the selected item
+    stageUpdate = true;
+    enableCanvasTouch(); //enable touch events for the highlighted item
+  }
+
+  var removeHighlight = function (item) {
+
+    hideCanvasControls();
+    if (item) {
+      item.shadow = null;
+    }
+
+    stageUpdate = true;
+    disableCanvasTouch(); //remove touch functionality for the item
+  }
+
+  var showCanvasControls = function () {
+    console.log('show cc')
+    $canvasControls.addClass('active');
+  }
+
+  var hideCanvasControls = function () {
+    $canvasControls.removeClass('active');
+  }
 
   self.setRandomPosition = function (el) { //occurs when we have just added the same item to the stage so they don't cover each other
     var elBounds = el.children[0].bitmapCache;

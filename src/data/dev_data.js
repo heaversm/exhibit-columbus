@@ -37,10 +37,12 @@ const visualizeSettingsData = {
     {
       "name": "front",
       "icon": "sort-up.svg",
+      "initalState": "inactive",
     },
     {
       "name": "back",
       "icon": "sort-down.svg",
+      "initalState": "inactive",
     },
     {
       "name": "scale",

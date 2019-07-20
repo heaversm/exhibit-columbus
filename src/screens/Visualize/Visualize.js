@@ -74,7 +74,7 @@ class Visualize extends React.Component {
                   visualizeSettingsData.CONTROLS.map((control, index) => {
                     return (
                       <button
-                        className={`visualize__canvas_control ${control.name}`}
+                        className={`visualize__canvas_control ${control.name} ${control.initalState ? control.initalState : ''}`}
                         key={`visualize__canvas_control--${index}`}
                       >
                         <SVG
