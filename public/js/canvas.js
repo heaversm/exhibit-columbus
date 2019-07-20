@@ -3,45 +3,49 @@ let canvasModule = {};
 canvasModule.main = function () {
   var self = this;
 
+  
   var configObj = {
     stageWidth: 640,
     stageHeight: 640,
   }; //will hold the config vars loaded from database
-
+  
   var stage = null; //will hold all canvas references
   var stageUpdate = false; //tells stage when to update
   var gridImg, gridBitmap = null; //perspective plane
   var gridBounds; //holds Y pos of grid
-
+  
   var imageryPath = 'assets/images/temp/';
-
+  
   var envForeground = null; //ref to the foreground bitmap
   var envBackground = null; //ref to the background bitmap
-
+  
   var isTouch; //will determine how to handle button press / hold
-
+  
   var editItem; //reference to the bitmap being manipulated
   var editMode; //scale, move, etc
   var blurFilter = null;
-
+  
   var rotateInterval; //holds the timer to do repeat rotate calls on hold
-
+  
   var scaleInterval; //holds timer to do repeat scale calls on hold
-
+  
   var scaleMore = false; //make image larger when true, smaller when false
   var blurInterval; //holds the timer to do repeat blur calls on hold
-
+  
   var blurMore = true; //make more blurry when true, less blurry when false
   var blurHold = false; //true when user first holds mouse down, false when they release
-
+  
   var saveID; //will store ID of scenario we are saving the image for
   var savedImage; //will store the path to the image on the server that we create from canvas
   var collageImg; //will hold the image created from the collage for use in both submitting to the smart museum and to the database
-
+  
   var addingID; //will hold the ID of the image being added to the screen until it can be assigned to a canvas image, at which point it will be removed
   var lastID; //will be used to help detect repeat additions of images
-
-  self.init = function () {
+  
+  var initialOrganism = null; //will hold the data of the user's selection from the previous screen
+  
+  self.init = function (initialOrganismData) {
+    initialOrganism = initialOrganismData;
     initStage();
   }
 
@@ -65,7 +69,7 @@ canvasModule.main = function () {
     addTick(); //run a timer which updates the stage continuously
     addFilters(); //effects like blur
     addControlsListeners(); //the buttons which manipulate images on the canvas
-    //addInitialOrganism(); //add the organism image selected in the previous step (create)
+    addInitialOrganism(); //add the organism image selected in the previous step (create)
   }
 
   var addControlsListeners = function () {
@@ -99,6 +103,12 @@ canvasModule.main = function () {
       default:
         onItemClick($thisItem);
         break;
+    }
+  }
+
+  var addInitialOrganism = function () { //add the organism image selected in the previous step (create)
+    if (initialOrganism){
+      loadItem(initialOrganism.image);
     }
   }
 
@@ -172,7 +182,7 @@ canvasModule.main = function () {
       addingID = null;
     }
 
-    console.log(addingID,lastID);
+    console.log(addingID, lastID);
 
     itemContainer.addChild(itemBitmap);
     stage.addChild(itemContainer);
@@ -200,18 +210,16 @@ canvasModule.main = function () {
     var elBounds = el.children[0].bitmapCache;
     el.regX = elBounds.width >> 1;
     el.regY = elBounds.height >> 1;
-    el.x = self.randomNumber(elBounds.width/2, configObj.stageWidth - elBounds.width/2);
-    el.y = self.randomNumber(elBounds.height/2, configObj.stageHeight - elBounds.height/2);
+    el.x = self.randomNumber(elBounds.width / 2, configObj.stageWidth - elBounds.width / 2);
+    el.y = self.randomNumber(elBounds.height / 2, configObj.stageHeight - elBounds.height / 2);
   }
 
   self.centerElement = function (el) {
     var elBounds = el.children[0].bitmapCache; //MH - https://github.com/CreateJS/EaselJS/issues/915 - 
-    console.log(elBounds);
     el.regX = elBounds.width >> 1;
     el.regY = elBounds.height >> 1;
     el.x = configObj.stageWidth >> 1;
     el.y = configObj.stageHeight >> 1;
-    console.log(el.regX,el.regY, el.x, el.y);
   }
 
   self.randomNumber = function (min, max) { //create random integer
@@ -276,7 +284,8 @@ canvasModule.main = function () {
 
 }
 
-window.onload = function () {
-  window.canvasInstance = new canvasModule.main();
-  window.canvasInstance.init();
-}
+// window.onload = function () {
+//   window.canvasInstance = new canvasModule.main();
+//   window.canvasInstance.init();
+// }
+window.canvasInstance = new canvasModule.main();

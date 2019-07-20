@@ -17,6 +17,10 @@ class Visualize extends React.Component {
     helpActive: false, //true when we are showing the help modal
   }
 
+  componentDidMount(){
+    window.canvasInstance.init(userState.objectData);
+  }
+
   handleVisualizeContinueClick = () => {
     this.toggleSignModal(true)
   }
