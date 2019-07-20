@@ -38,6 +38,9 @@ canvasModule.main = function () {
   var savedImage; //will store the path to the image on the server that we create from canvas
   var collageImg; //will hold the image created from the collage for use in both submitting to the smart museum and to the database
 
+  var addingID; //will hold the ID of the image being added to the screen until it can be assigned to a canvas image, at which point it will be removed
+  var lastID; //will be used to help detect repeat additions of images
+
   self.init = function () {
     initStage();
   }
@@ -86,9 +89,7 @@ canvasModule.main = function () {
     var $thisItem = $(this);
     var thisType = $thisItem.attr('data-type');
 
-    addingID = parseInt($thisItem.attr('data-id'));
-
-    
+    addingID = $thisItem.attr('data-id');
 
     switch (thisType) {
       case 'background':
@@ -142,8 +143,79 @@ canvasModule.main = function () {
     stageUpdate = true;
   }
 
-  var onItemClick = function(){
-    
+  var onItemClick = function ($thisItem) {
+    var thisImageURL = $thisItem.attr('src');
+    loadItem(thisImageURL);
+  }
+
+  var loadItem = function (src) { //anything that is not a bg or foreground element is loaded with this functionality
+    var itemImg = new Image();
+    itemImg.src = src;
+
+    $(itemImg).load(function () {
+      drawItem(itemImg);
+    });
+  }
+
+  var drawItem = function (itemImg) {
+    var itemBitmap = new createjs.Bitmap(itemImg);
+    itemBitmap.cache(0, 0, itemImg.width, itemImg.height);
+    var isRepeat = false; //repeat addition of an item just added to screen
+    var itemContainer = new createjs.Container();
+
+    if (addingID) {
+      if (lastID == addingID) {
+        isRepeat = true;
+      }
+      itemContainer.imgID = addingID;
+      lastID = addingID;
+      addingID = null;
+    }
+
+    console.log(addingID,lastID);
+
+    itemContainer.addChild(itemBitmap);
+    stage.addChild(itemContainer);
+    if (isRepeat) { //if we've just added the same image to the screen, stagger this one's position so we can see both it and the previous
+      self.setRandomPosition(itemContainer);
+    } else {
+      self.centerElement(itemContainer); //put the item in the center of the canvas
+    }
+
+    //addItemListeners(itemContainer);
+    stageUpdate = true;
+
+    itemContainer.dispatchEvent('click'); //make the item highlighted as if it were clicked on stage so it can be manipulated
+
+  }
+
+  // var addItemListeners = function (item) {
+  //   item.on("mousedown", onItemDown); //figure out our mouse coordinates before triggering either a click or drag
+  //   item.on('click', toggleItemManipulation); //make an item manipulatable
+  //   item.on("pressmove", onDragItem); //drag an item
+  //   item.on('pressup', onDragUp); //stop dragging
+  // }
+
+  self.setRandomPosition = function (el) { //occurs when we have just added the same item to the stage so they don't cover each other
+    var elBounds = el.children[0].bitmapCache;
+    el.regX = elBounds.width >> 1;
+    el.regY = elBounds.height >> 1;
+    el.x = self.randomNumber(elBounds.width/2, configObj.stageWidth - elBounds.width/2);
+    el.y = self.randomNumber(elBounds.height/2, configObj.stageHeight - elBounds.height/2);
+  }
+
+  self.centerElement = function (el) {
+    var elBounds = el.children[0].bitmapCache; //MH - https://github.com/CreateJS/EaselJS/issues/915 - 
+    console.log(elBounds);
+    el.regX = elBounds.width >> 1;
+    el.regY = elBounds.height >> 1;
+    el.x = configObj.stageWidth >> 1;
+    el.y = configObj.stageHeight >> 1;
+    console.log(el.regX,el.regY, el.x, el.y);
+  }
+
+  self.randomNumber = function (min, max) { //create random integer
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
   var initCanvasTouch = function () { //add the listeners that allow a user to use touch gestures to rotate and scale their imagery
