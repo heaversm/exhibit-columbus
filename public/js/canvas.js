@@ -14,6 +14,7 @@ canvasModule.main = function () {
     minScale: 0.5,
     maxScale: 1.5,
     scaleStep: 0.1,
+    blurLimit: 10,
   };
 
   //canvas vars
@@ -96,13 +97,12 @@ canvasModule.main = function () {
     isTouch = true;
 
     $('.image-button').on('click', onImageButtonClick);
-
     $('.front').on('click', onFrontClick); //send item in front of all others
     $('.back').on('click', onBackClick); //send item behind all others
     $('.remove').on('click', onRemoveClick); //delete item
     $('.rotate').on('click', updateRotate);
     $('.scale').on('click', updateScale);
-    // $('.blur').on('click', changeBlur);
+    $('.blur').on('click', changeBlur);
 
     //$('.btn-save').on('click', onSaveClick); //user has saved their imagery
     initCanvasTouch();
@@ -431,6 +431,51 @@ canvasModule.main = function () {
       editItem.scaleX = editItem.scaleY = scaleVal;
       stageUpdate = true;
     }
+  }
+
+  var changeBlur = function () {
+    if (editItem != null && editItem.editable) {
+      var blurVal = getBlur();
+      if (blurMore) {
+        if (blurVal < configObj.blurLimit) {
+          blurVal++;
+        } else { //we're at max bluriness, make successive calls blur less
+          $('.blur').removeClass('blurry');
+          blurMore = false;
+        }
+      } else {
+        if (blurVal > 0) {
+          blurVal--;
+        } else { //we are unblurred, make successive calls blur more
+          $('.blur').addClass('blurry');
+          blurMore = true;
+        }
+
+      }
+      updateBlur(blurVal);
+    }
+  }
+
+  var getBlur = function () {
+
+    var editItemImg = editItem.children[0];
+    if (editItemImg.filters == null) {
+      editItemImg.filters = [blurFilter];
+    }
+    return editItemImg.filters[0].blurX;
+  }
+
+  var updateBlur = function (thisVal) {
+    var editItemImg = editItem.children[0];
+
+    if (editItemImg.filters == null) {
+      editItemImg.filters = [blurFilter];
+    }
+
+    editItemImg.filters[0].blurX = editItemImg.filters[0].blurY = thisVal;
+
+    stageUpdate = true;
+    editItemImg.updateCache();
   }
 
   self.setRandomPosition = function (el) { //occurs when we have just added the same item to the stage so they don't cover each other
