@@ -30,7 +30,7 @@ canvasModule.main = function () {
   var blurInterval; //holds the timer to do repeat blur calls on hold
   var blurMore = true; //make more blurry when true, less blurry when false
   var blurHold = false; //true when user first holds mouse down, false when they release
-  var ww,wh; //window width, height to determine rollout perimeter on desktop when mouse is down
+  var ww, wh; //window width, height to determine rollout perimeter on desktop when mouse is down
   var addingID; //will hold the ID of the image being added to the screen until it can be assigned to a canvas image, at which point it will be removed
   var lastID; //will be used to help detect repeat additions of images
   var initialOrganism = null; //will hold the data of the user's selection from the previous screen
@@ -62,7 +62,7 @@ canvasModule.main = function () {
     initStage();
   }
 
-  var addRefs = function(){
+  var addRefs = function () {
     $canvasControls = $('.visualize__canvas_controls');
   }
 
@@ -94,8 +94,8 @@ canvasModule.main = function () {
 
     $('.image-button').on('click', onImageButtonClick);
 
-    // $('.front').on('click', onFrontClick); //send item in front of all others
-    // $('.back').on('click', onBackClick); //send item behind all others
+    $('.front').on('click', onFrontClick); //send item in front of all others
+    $('.back').on('click', onBackClick); //send item behind all others
     // $('.remove').on('click', onRemoveClick); //delete item
     // $('.help').on('click', onHelpClick); //display instructions for this page
     // $('.rotate').on('click', updateRotate);
@@ -314,12 +314,68 @@ canvasModule.main = function () {
   }
 
   var showCanvasControls = function () {
-    console.log('show cc')
     $canvasControls.addClass('active');
   }
 
   var hideCanvasControls = function () {
     $canvasControls.removeClass('active');
+  }
+
+  var onFrontClick = function () { //send item to the front of all other items
+    var $thisButton = $(this);
+    var $thisContainer = $thisButton.closest('.canvas-controls');
+    var isActive = $thisContainer.hasClass('active');
+
+    if (isActive) {
+      bringToFront(editItem);
+    }
+
+  }
+
+  var onBackClick = function () {
+    var $thisButton = $(this);
+    var $thisContainer = $thisButton.closest('.canvas-controls');
+    var isActive = $thisContainer.hasClass('active');
+
+    if (isActive) {
+      var buttonInactive = $thisButton.hasClass('inactive');
+      if (!buttonInactive) {
+        sendToBack(editItem);
+      }
+    }
+  }
+
+  var bringToFront = function (obj) {
+    stage.setChildIndex(obj, stage.getNumChildren() - 1);
+    $('.front').addClass('inactive');
+    $('.back').removeClass('inactive');
+  }
+
+  var sendToBack = function (obj) {
+    var curIndex = stage.getChildIndex(obj);
+    var indexLimit = 1; //index we must stay above
+    console.log(stage.numChildren);
+
+    if (envForeground != null) { //gotta stay in front of the foreground
+      indexLimit++;
+    }
+
+    if (envBackground != null) { //gotta stay in front of the background
+      indexLimit++;
+    }
+
+    if (curIndex > indexLimit) { //MH - doesn't account for background, foreground (grid at 1)
+      var nextClosestObject = stage.getChildAt(curIndex - 1);
+      stage.setChildIndex(nextClosestObject, curIndex);
+      stage.setChildIndex(obj, curIndex - 1);
+      if (curIndex == indexLimit + 1) { //cant go any further back than this otherwise we'd be behind the grid / environment images
+        $('.back').addClass('inactive');
+      }
+    }
+
+    if (curIndex < stage.numChildren) {
+      $('.front').removeClass('inactive');
+    }
   }
 
   self.setRandomPosition = function (el) { //occurs when we have just added the same item to the stage so they don't cover each other

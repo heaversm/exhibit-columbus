@@ -69,7 +69,7 @@ class Visualize extends React.Component {
           </section>
           <section className="visualize__canvas_section">
             <div className={`visualize__canvas_container`}>
-              <div className="visualize__canvas_controls">
+              <div className="visualize__canvas_controls canvas-controls">
                 {
                   visualizeSettingsData.CONTROLS.map((control, index) => {
                     return (
