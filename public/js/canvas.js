@@ -96,7 +96,7 @@ canvasModule.main = function () {
 
     $('.front').on('click', onFrontClick); //send item in front of all others
     $('.back').on('click', onBackClick); //send item behind all others
-    // $('.remove').on('click', onRemoveClick); //delete item
+    $('.remove').on('click', onRemoveClick); //delete item
     // $('.help').on('click', onHelpClick); //display instructions for this page
     // $('.rotate').on('click', updateRotate);
     // $('.scale').on('click', updateScale);
@@ -354,7 +354,6 @@ canvasModule.main = function () {
   var sendToBack = function (obj) {
     var curIndex = stage.getChildIndex(obj);
     var indexLimit = 1; //index we must stay above
-    console.log(stage.numChildren);
 
     if (envForeground != null) { //gotta stay in front of the foreground
       indexLimit++;
@@ -375,6 +374,22 @@ canvasModule.main = function () {
 
     if (curIndex < stage.numChildren) {
       $('.front').removeClass('inactive');
+    }
+  }
+
+  var onRemoveClick = function () {
+    var $thisButton = $(this);
+    var $thisContainer = $thisButton.closest('.canvas-controls');
+    var isActive = $thisContainer.hasClass('active');
+    if (isActive) {
+      var itemToRemove = editItem;
+      //need to remove this item from the goal tag array if not an organism
+      removeHighlight(editItem);
+      editItem = null;
+      if (itemToRemove) {
+        itemToRemove.removeAllEventListeners();
+      }
+      stage.removeChild(itemToRemove); //need to first remove item and image from array (or delete arrays if they're not being used)
     }
   }
 
