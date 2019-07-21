@@ -11,6 +11,9 @@ canvasModule.main = function () {
     borderOffsetX: 5,
     borderOffsetY: 5,
     borderBlur: 0,
+    minScale: 0.5,
+    maxScale: 1.5,
+    scaleStep: 0.1,
   };
 
   //canvas vars
@@ -97,9 +100,8 @@ canvasModule.main = function () {
     $('.front').on('click', onFrontClick); //send item in front of all others
     $('.back').on('click', onBackClick); //send item behind all others
     $('.remove').on('click', onRemoveClick); //delete item
-    // $('.help').on('click', onHelpClick); //display instructions for this page
-    // $('.rotate').on('click', updateRotate);
-    // $('.scale').on('click', updateScale);
+    $('.rotate').on('click', updateRotate);
+    $('.scale').on('click', updateScale);
     // $('.blur').on('click', changeBlur);
 
     //$('.btn-save').on('click', onSaveClick); //user has saved their imagery
@@ -390,6 +392,44 @@ canvasModule.main = function () {
         itemToRemove.removeAllEventListeners();
       }
       stage.removeChild(itemToRemove); //need to first remove item and image from array (or delete arrays if they're not being used)
+    }
+  }
+
+  var updateRotate = function () {
+    if (editItem != null && editItem.editable) {
+      //var editItemImg = editItem.children[0];
+      if (editItem.rotation < 360) {
+        editItem.rotation++;
+      } else {
+        editItem.rotation = 0;
+      }
+      stageUpdate = true;
+    }
+  }
+
+  var updateScale = function () {
+    var scaleVal;
+    if (editItem != null && editItem.editable) {
+      if (scaleMore) {
+        if (editItem.scaleX < configObj.maxScale) {
+          scaleVal = editItem.scaleX + configObj.scaleStep;
+        } else {
+          scaleVal = configObj.maxScale;
+          scaleMore = false;
+          $('.scale').removeClass('up');
+        }
+      } else {
+        if (editItem.scaleX > configObj.minScale) {
+          scaleVal = editItem.scaleX - configObj.scaleStep;
+        } else {
+          scaleVal = configObj.minScale;
+          scaleMore = true;
+          $('.scale').addClass('up');
+        }
+      }
+
+      editItem.scaleX = editItem.scaleY = scaleVal;
+      stageUpdate = true;
     }
   }
 
