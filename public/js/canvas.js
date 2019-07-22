@@ -15,6 +15,10 @@ canvasModule.main = function () {
     maxScale: 1.5,
     scaleStep: 0.1,
     blurLimit: 10,
+    signCanvasWidth: 720,
+    signCanvasHeight: 100,
+    signCanvasStroke: 5, //stroke width for signing your name,
+    signColor: '#000000', //hex for the signature color
   };
 
   //canvas vars
@@ -38,6 +42,15 @@ canvasModule.main = function () {
   var addingID; //will hold the ID of the image being added to the screen until it can be assigned to a canvas image, at which point it will be removed
   var lastID; //will be used to help detect repeat additions of images
   var initialOrganism = null; //will hold the data of the user's selection from the previous screen
+
+  //sign canvas vars
+  var signCanvasStage = null; //will hold all sign canvas references
+  var signatureShape = null; //will hold shape used to draw signature
+  var lastSignX, lastSignY = null;
+  var isSigning = false; //true when touching down on signature canvas
+  var signatureShapes = []; //store all shapes in a signature
+  var curSignatureShapeIndex = 0; //keeps track of which shape is being drawn
+
 
   //refs
   var $activeButton; //keeps track of button clicked when inactive in order to deactivate it
@@ -64,6 +77,44 @@ canvasModule.main = function () {
     initialOrganism = initialOrganismData;
     addRefs();
     initStage();
+    initSignCanvas();
+  }
+
+  const initSignCanvas = function () {
+    signCanvasStage = new createjs.Stage("signCanvas");
+    signCanvasStage.enableDOMEvents(true);
+    createjs.Touch.enable(signCanvasStage);
+    
+    // var signTouchEl = document.getElementById('signCanvas');
+    // var signTouchInstance = new Hammer.Manager(signTouchEl);
+
+    signCanvasStage.on("stagemousedown", function(event) {
+      console.log('down');
+      isSigning = true;
+      signatureShape = new createjs.Shape();
+      signCanvasStage.addChild(signatureShape);
+    });
+
+    signCanvasStage.on("stagemousemove",function(e) {
+      if (isSigning){
+        if (lastSignX) {
+          signatureShape.graphics.beginStroke(configObj.signColor)
+            .setStrokeStyle(configObj.signCanvasStroke, "round")
+            .moveTo(lastSignX, lastSignY)
+            .lineTo(e.stageX, e.stageY);
+          signCanvasStage.update();
+        }
+        lastSignX = e.stageX;
+        lastSignY = e.stageY;
+      }
+    });
+
+    signCanvasStage.on("stagemouseup", function(event) {
+      isSigning = false;
+      signatureShapes.push(signatureShape);
+      curSignatureShapeIndex++;
+    });
+
   }
 
   var addRefs = function () {
@@ -103,9 +154,19 @@ canvasModule.main = function () {
     $('.rotate').on('click', updateRotate);
     $('.scale').on('click', updateScale);
     $('.blur').on('click', changeBlur);
+    $('.help').on('click', onHelpClick);
+    $('.visualize__help_modal_container').on('click', onHelpCloseClick);
 
     //$('.btn-save').on('click', onSaveClick); //user has saved their imagery
     initCanvasTouch();
+  }
+
+  var onHelpClick = function(){
+    $('.visualize__help_modal_container').addClass('active');
+  }
+
+  var onHelpCloseClick = function(){
+    $('.visualize__help_modal_container').removeClass('active');
   }
 
   var onImageButtonClick = function () {
@@ -556,8 +617,4 @@ canvasModule.main = function () {
 
 }
 
-// window.onload = function () {
-//   window.canvasInstance = new canvasModule.main();
-//   window.canvasInstance.init();
-// }
 window.canvasInstance = new canvasModule.main();

@@ -1,6 +1,6 @@
 import './Visualize.scss';
 
-import { siteData, visualizeData } from '../../data/site_data';
+import { siteData, visualizeData, visualizeInstructionsData } from '../../data/site_data';
 
 import React from 'react';
 import SVG from 'react-inlinesvg';
@@ -17,7 +17,7 @@ class Visualize extends React.Component {
     helpActive: false, //true when we are showing the help modal
   }
 
-  componentDidMount(){
+  componentDidMount() {
     window.canvasInstance.init(userState.objectData);
   }
 
@@ -116,7 +116,7 @@ class Visualize extends React.Component {
                 {
                   visualizeSettingsData.CATEGORIES.map((category, index) => {
                     return (
-                      <div 
+                      <div
                         className={`visualize__images ${category} ${activeImageCategory === category ? 'active' : ''}`}
                         key={`visualize__images--${category}`}
                       >
@@ -157,12 +157,73 @@ class Visualize extends React.Component {
               {siteData.visualizeContinueButtonLabel}
             </button>
           </div>
+          <div className="visualize__help_modal_container modal__container">
+            <div className="modal__bg"></div>
+            <div className="visualize__instructions_container visualize__instructions_container--controls">
+              <ul className="visualize__instructions_list right-xs">
+                {
+
+                  visualizeSettingsData.CONTROLS.map((control, index) => {
+                    if (!visualizeInstructionsData.controls[control.name]) {
+                      return;
+                    }
+                    return (
+                      <li
+                        className="visualize__instructions_item"
+                        key={`visualize__instructions_item--${index}`}
+                      >
+                        {visualizeInstructionsData.controls[control.name]}
+                      </li>
+                    )
+                  })
+                }
+
+              </ul>
+            </div>
+            <div className="visualize__instructions_container visualize__instructions_container--canvas">
+              <ul className="visualize__instructions_list center-xs">
+                {
+                  visualizeInstructionsData.canvas.map((canvasInstruction, index) => {
+                    return (
+                      <li
+                        className="visualize__instructions_item"
+                        key={`visualize__instruction--${index}`}
+                      >
+                        {canvasInstruction}
+                      </li>
+                    )
+                  })
+                }
+              </ul>
+            </div>
+            <div className="visualize__instructions_container visualize__instructions_container--items">
+              <ul className="visualize__instructions_list center-xs">
+              {
+                  visualizeInstructionsData.items.map((itemInstruction, index) => {
+                    return (
+                      <li
+                        className="visualize__instructions_item"
+                        key={`visualize__instruction--${index}`}
+                      >
+                        {itemInstruction}
+                      </li>
+                    )
+                  })
+                }
+              </ul>
+            </div>
+          </div>
           <div className={`visualize__sign_modal_container modal__container ${signModalActive ? 'active' : ''}`}>
             <div className="modal__bg"></div>
             <div className="modal__content_container">
               <h2 className="visualize__sign_title">{siteData.visualizeSignTitle}</h2>
               <div className="visualize__signature_container">
-                <div className="visualize__signature_canvas"></div>
+                <canvas 
+                  id="signCanvas"
+                  className="visualize__signature_canvas"
+                  width="720"
+                  height="100"
+                />
               </div>
               <div className="visualize__sign_buttons row between-md">
                 <button
