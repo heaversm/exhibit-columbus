@@ -559,12 +559,12 @@ canvasModule.main = function () {
   }
 
   self.onSaveClick = function (doSign) { //user is done editing their image, have them give it a name
-
     if (editItem) { //if there's a highlighted item, remove its highlight
       editItem.editable = false;
       removeHighlight(editItem);
       editItem = null;
     }
+    stage.update();
     var $collageCanvas = document.getElementById("collageCanvas");
     collageImg = convertCanvasToImage($collageCanvas);
     collageImg.classList.add('visualize__collage_image');

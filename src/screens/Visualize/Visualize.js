@@ -21,12 +21,44 @@ class Visualize extends React.Component {
 
   componentDidMount() {
     window.canvasInstance.init(userState.objectData);
+    this.addMutationObserver();
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (!prevState.isProcessing && this.state.isProcessing) {
       window.canvasInstance.onSaveClick(this.state.isSigned);
     }
+  }
+
+  addMutationObserver = () => {
+    //Start watching for new specific nodes in outside app that contain class 'post_about_cat'
+    const mutationObserver = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
+        const newNodes = mutation.addedNodes;
+        newNodes.forEach(node => {
+          console.log(node);
+          if (node.classList && node.classList.contains('visualize__collage_image')) {
+            //collage has been created, hide the modal
+            this.handleCollageImageCreated();
+          }
+        });
+      });
+    });
+    mutationObserver.observe(document.querySelector('.visualize__canvas_image_container'), {
+      attributes: false,
+      characterData: false,
+      childList: true,
+      subtree: true,
+      attributeOldValue: false,
+      characterDataOldValue: false
+    });
+  }
+
+  handleCollageImageCreated = ()=>{
+    this.setState({
+      isProcessing: false,
+      signModalActive: false,
+    });
   }
 
   handleVisualizeContinueClick = () => {
@@ -96,7 +128,7 @@ class Visualize extends React.Component {
               <div className="visualize__canvas">
                 <canvas
                   id="collageCanvas"
-                  className="collage-canvas"
+                  className="collage-canvas visualize__collage_canvas"
                   width="640"
                   height="640"
                 />
@@ -104,6 +136,7 @@ class Visualize extends React.Component {
               </div>
 
             </div>
+            <div className="visualize__debugger"></div>
             <div className="visualize__images_container">
               <div className="visualize__image_categories">
                 {
@@ -221,7 +254,7 @@ class Visualize extends React.Component {
               </ul>
             </div>
           </div>
-          <div className={`visualize__sign_modal_container modal__container ${signModalActive ? 'active' : ''} ${isProcessing ? 'processing': ''}`}>
+          <div className={`visualize__sign_modal_container modal__container ${signModalActive ? 'active' : ''} ${isProcessing ? 'processing' : ''}`}>
             <div className="modal__bg"></div>
             <div className="modal__content_container">
               <h2 className="visualize__sign_title">{siteData.visualizeSignTitle}</h2>
