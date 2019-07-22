@@ -15,22 +15,29 @@ class Visualize extends React.Component {
     activeImageCategory: visualizeSettingsData.CATEGORIES[0], //fills with the name of the selected images category
     activeImage: null, //fills with the data of the selected image item from the activeImageCategory
     helpActive: false, //true when we are showing the help modal
+    isProcessing: false, //true when we have click sign and send or skip buttons
+    isSigned: false, //true when user has selected sign and send (vs skip) from modal
   }
 
   componentDidMount() {
     window.canvasInstance.init(userState.objectData);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevState.isProcessing && this.state.isProcessing) {
+      window.canvasInstance.onSaveClick(this.state.isSigned);
+    }
+  }
+
   handleVisualizeContinueClick = () => {
     this.toggleSignModal(true)
   }
 
-  handleVisualizeSkipClick = () => {
-    this.toggleSignModal(false)
-  }
-
-  handleVisualizeSignClick = () => {
-    this.toggleSignModal(false)
+  handleVisualizeSignClick = (doSign) => {
+    this.setState({
+      isProcessing: true,
+      isSigned: doSign,
+    });
   }
 
   toggleSignModal(doShow) {
@@ -51,7 +58,7 @@ class Visualize extends React.Component {
 
   render() {
 
-    const { signModalActive, activeImageCategory, activeImage } = this.state;
+    const { signModalActive, activeImageCategory, activeImage, isProcessing } = this.state;
 
     return (
       <div className="Visualize app_screen">
@@ -93,6 +100,7 @@ class Visualize extends React.Component {
                   width="640"
                   height="640"
                 />
+                <div className="visualize__canvas_image_container"></div>
               </div>
 
             </div>
@@ -165,7 +173,7 @@ class Visualize extends React.Component {
 
                   visualizeSettingsData.CONTROLS.map((control, index) => {
                     if (!visualizeInstructionsData.controls[control.name]) {
-                      return;
+                      return false;
                     }
                     return (
                       <li
@@ -198,7 +206,7 @@ class Visualize extends React.Component {
             </div>
             <div className="visualize__instructions_container visualize__instructions_container--items">
               <ul className="visualize__instructions_list center-xs">
-              {
+                {
                   visualizeInstructionsData.items.map((itemInstruction, index) => {
                     return (
                       <li
@@ -213,28 +221,38 @@ class Visualize extends React.Component {
               </ul>
             </div>
           </div>
-          <div className={`visualize__sign_modal_container modal__container ${signModalActive ? 'active' : ''}`}>
+          <div className={`visualize__sign_modal_container modal__container ${signModalActive ? 'active' : ''} ${isProcessing ? 'processing': ''}`}>
             <div className="modal__bg"></div>
             <div className="modal__content_container">
               <h2 className="visualize__sign_title">{siteData.visualizeSignTitle}</h2>
-              <div className="visualize__signature_container">
-                <canvas 
+
+              <div className={`visualize__signature_container`}>
+                <canvas
                   id="signCanvas"
                   className="visualize__signature_canvas"
                   width="720"
                   height="100"
                 />
+                <p
+                  className="visualize__processing_message"
+                >
+                  {visualizeInstructionsData.processingMessage}
+                </p>
               </div>
               <div className="visualize__sign_buttons row between-md">
                 <button
                   className="visualize__sign_button visualize__sign_button--send col-md-5 center-xs button"
-                  onClick={this.handleVisualizeSignClick}
+                  onClick={() => {
+                    this.handleVisualizeSignClick(true);
+                  }}
                 >
                   {siteData.visualizeContinueButtonLabel}
                 </button>
                 <button
                   className="visualize__sign_button visualize__sign_button--skip col-md-5 center-xs button"
-                  onClick={this.handleVisualizeSkipClick}
+                  onClick={() => {
+                    this.handleVisualizeSignClick(false);
+                  }}
                 >
                   {siteData.visualizeSkipButtonLabel}
                 </button>
@@ -242,7 +260,7 @@ class Visualize extends React.Component {
             </div>
           </div>
         </main>
-      </div>
+      </div >
     )
   }
 }

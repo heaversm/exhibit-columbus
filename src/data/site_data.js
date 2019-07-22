@@ -681,7 +681,8 @@ const visualizeInstructionsData = {
   "items": [
     "Choose images from the tabs here to place them on the canvas above.",
     "When you are finished, click the sign and send button to submit."
-  ]
+  ],
+  "processingMessage": "Your future is processing. Please wait."
 }
 
 

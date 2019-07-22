@@ -24,9 +24,20 @@
       border-radius: 5px;
       width: 80%;
     }
+    &.processing {
+      .visualize__processing_message {
+        visibility: visible;
+      }
+      .visualize__sign_buttons {
+        visibility: hidden;
+        pointer-events: none;
+      }
+    }
+  }
+  &__processing_message {
+    visibility: hidden;
   }
   &__signature_container {
-    margin-top: 50px;
     height: 100px;
     border-bottom: 1px solid black;
   }
@@ -130,9 +141,20 @@
       }
     }
   }
+  &__canvas_image_container {
+    display: none;
+  }
   &__canvas {
     border-radius: 50%;
     overflow: hidden;
+    &.active {
+      canvas {
+        display: none;
+      }
+      .visualize__canvas_image_container {
+        display: block;
+      }
+    }
   }
   &__canvas_controls {
     width: 40px;

@@ -13,7 +13,8 @@ canvasModule.main = function () {
     borderBlur: 0,
     minScale: 0.5,
     maxScale: 1.5,
-    scaleStep: 0.1,
+    scaleStep: 0.1, //percent of size each
+    rotateStep: 5, //degrees each rotate
     blurLimit: 10,
     signCanvasWidth: 720,
     signCanvasHeight: 100,
@@ -50,7 +51,7 @@ canvasModule.main = function () {
   var isSigning = false; //true when touching down on signature canvas
   var signatureShapes = []; //store all shapes in a signature
   var curSignatureShapeIndex = 0; //keeps track of which shape is being drawn
-
+  var signatureImg; //will hold the image created of a user's signature
 
   //refs
   var $activeButton; //keeps track of button clicked when inactive in order to deactivate it
@@ -84,19 +85,18 @@ canvasModule.main = function () {
     signCanvasStage = new createjs.Stage("signCanvas");
     signCanvasStage.enableDOMEvents(true);
     createjs.Touch.enable(signCanvasStage);
-    
+
     // var signTouchEl = document.getElementById('signCanvas');
     // var signTouchInstance = new Hammer.Manager(signTouchEl);
 
-    signCanvasStage.on("stagemousedown", function(event) {
-      console.log('down');
+    signCanvasStage.on("stagemousedown", function (event) {
       isSigning = true;
       signatureShape = new createjs.Shape();
       signCanvasStage.addChild(signatureShape);
     });
 
-    signCanvasStage.on("stagemousemove",function(e) {
-      if (isSigning){
+    signCanvasStage.on("stagemousemove", function (e) {
+      if (isSigning) {
         if (lastSignX) {
           signatureShape.graphics.beginStroke(configObj.signColor)
             .setStrokeStyle(configObj.signCanvasStroke, "round")
@@ -109,7 +109,7 @@ canvasModule.main = function () {
       }
     });
 
-    signCanvasStage.on("stagemouseup", function(event) {
+    signCanvasStage.on("stagemouseup", function (event) {
       isSigning = false;
       signatureShapes.push(signatureShape);
       curSignatureShapeIndex++;
@@ -157,15 +157,14 @@ canvasModule.main = function () {
     $('.help').on('click', onHelpClick);
     $('.visualize__help_modal_container').on('click', onHelpCloseClick);
 
-    //$('.btn-save').on('click', onSaveClick); //user has saved their imagery
     initCanvasTouch();
   }
 
-  var onHelpClick = function(){
+  var onHelpClick = function () {
     $('.visualize__help_modal_container').addClass('active');
   }
 
-  var onHelpCloseClick = function(){
+  var onHelpCloseClick = function () {
     $('.visualize__help_modal_container').removeClass('active');
   }
 
@@ -460,7 +459,7 @@ canvasModule.main = function () {
     if (editItem != null && editItem.editable) {
       //var editItemImg = editItem.children[0];
       if (editItem.rotation < 360) {
-        editItem.rotation++;
+        editItem.rotation += configObj.rotateStep;
       } else {
         editItem.rotation = 0;
       }
@@ -559,6 +558,59 @@ canvasModule.main = function () {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
+  self.onSaveClick = function (doSign) { //user is done editing their image, have them give it a name
+
+    if (editItem) { //if there's a highlighted item, remove its highlight
+      editItem.editable = false;
+      removeHighlight(editItem);
+      editItem = null;
+    }
+    var $collageCanvas = document.getElementById("collageCanvas");
+    collageImg = convertCanvasToImage($collageCanvas);
+    collageImg.classList.add('visualize__collage_image');
+
+    if (doSign){
+      var $signCanvas = document.getElementById("signCanvas");
+      signatureImg = convertCanvasToImage($signCanvas);
+      signatureImg.classList.add('visualize__signature_image')
+    }
+
+    saveImageToDrive();
+
+  }
+
+  var convertCanvasToImage = function (canvas) { //turn the canvas into an html image
+    var image = new Image();
+    image.src = canvas.toDataURL("image/png");
+    return image;
+  }
+
+  var saveImageToDrive = function () {
+    $('.visualize__canvas_image_container').html(collageImg);
+    $('.visualize__canvas').addClass('active');
+    // var imgSrc = $('.image-container').find('img').attr('src');
+    // savedImage = imgSrc;
+
+    // $.ajax({
+    //   type: "POST",
+    //   url: url,
+    //   dataType: 'json',
+    //   data: {
+    //     base64data: imgSrc,
+    //     imageID: saveID,
+    //     imageName: scenarioName,
+    //     imgTag: commonTag,
+    //     lat: finalPoint[1],
+    //     lng: finalPoint[0],
+    //     location: mapLoc
+    //   },
+    //   failure: function (errMsg) {
+    //     console.error("error:", errMsg);
+    //   },
+    //   success: onImageSavedToDrive
+    // });
+  }
+
   var initCanvasTouch = function () { //add the listeners that allow a user to use touch gestures to rotate and scale their imagery
     var touchEl = document.getElementById('collageCanvas');
     touchInstance = new Hammer.Manager(touchEl);
@@ -573,7 +625,7 @@ canvasModule.main = function () {
   var onCanvasTouch = function (e) {
     var rotationVal = e.rotation;
     var scaleVal = e.scale;
-    editItem.rotation = rotationVal;
+    editItem.rotation = rotationVal; //MH TODO: Think this might need to be editItem.rotation + rotationVal. Same with scale
     editItem.scaleX = editItem.scaleY = scaleVal;
     stageUpdate = true;
   }

@@ -32,6 +32,14 @@ body {
     max-width: 100%;
   }
 
+  button {
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+
   a {
     color: $c__tomato;
   }
