@@ -188,6 +188,7 @@
     display: block;
     margin: 0 auto;
     position: relative;
+    touch-action: manipulation; //prevent double tap zoom
 
     svg {
       width: 100%;

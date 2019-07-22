@@ -157,7 +157,7 @@ canvasModule.main = function () {
     $('.help').on('click', onHelpClick);
     $('.visualize__help_modal_container').on('click', onHelpCloseClick);
 
-    initCanvasTouch();
+    //initCanvasTouch();
   }
 
   var onHelpClick = function () {
@@ -361,7 +361,7 @@ canvasModule.main = function () {
     showCanvasControls(); //activate the buttons since we have an active item
     item.shadow = new createjs.Shadow(configObj.borderColor, configObj.borderOffsetX, configObj.borderOffsetY, configObj.borderBlur); //add a highlight to the selected item
     stageUpdate = true;
-    enableCanvasTouch(); //enable touch events for the highlighted item
+    //enableCanvasTouch(); //enable touch events for the highlighted item
   }
 
   var removeHighlight = function (item) {
@@ -372,7 +372,7 @@ canvasModule.main = function () {
     }
 
     stageUpdate = true;
-    disableCanvasTouch(); //remove touch functionality for the item
+    //disableCanvasTouch(); //remove touch functionality for the item
   }
 
   var showCanvasControls = function () {
