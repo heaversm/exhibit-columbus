@@ -23,7 +23,6 @@ canvasModule.main = function () {
   };
 
   //canvas vars
-  var deactivateFunction; //function to call when mouse rolls out of screen
   var stage = null; //will hold all canvas references
   var stageUpdate = false; //tells stage when to update
   var gridImg, gridBitmap = null; //perspective plane
@@ -31,17 +30,10 @@ canvasModule.main = function () {
   var envForeground = null; //ref to the foreground bitmap
   var envBackground = null; //ref to the background bitmap
   var editItem; //reference to the bitmap being manipulated
-  var editMode; //scale, move, etc
   var blurFilter = null;
-  var prevScaleVal, curScaleVal;
   var pinchScaleStart;
-  var rotateInterval; //holds the timer to do repeat rotate calls on hold
-  var scaleInterval; //holds timer to do repeat scale calls on hold
   var scaleMore = false; //make image larger when true, smaller when false
-  var blurInterval; //holds the timer to do repeat blur calls on hold
   var blurMore = true; //make more blurry when true, less blurry when false
-  var blurHold = false; //true when user first holds mouse down, false when they release
-  var ww, wh; //window width, height to determine rollout perimeter on desktop when mouse is down
   var addingID; //will hold the ID of the image being added to the screen until it can be assigned to a canvas image, at which point it will be removed
   var lastID; //will be used to help detect repeat additions of images
   var initialOrganism = null; //will hold the data of the user's selection from the previous screen
@@ -52,18 +44,10 @@ canvasModule.main = function () {
   var lastSignX, lastSignY = null;
   var isSigning = false; //true when touching down on signature canvas
   var signatureShapes = []; //store all shapes in a signature
-  var curSignatureShapeIndex = 0; //keeps track of which shape is being drawn
   var signatureImg; //will hold the image created of a user's signature
 
   //refs
-  var $activeButton; //keeps track of button clicked when inactive in order to deactivate it
   var $canvasControls;
-
-  //control vars
-  var disabledTimer; //holds the timer to hide the tooltip for disabled buttons
-
-  //unused?
-  var imageryPath = 'assets/images/temp/';
 
   //submission
   var saveID; //will store ID of scenario we are saving the image for
@@ -71,9 +55,8 @@ canvasModule.main = function () {
   var collageImg; //will hold the image created from the collage for use in both submitting to the smart museum and to the database
 
   //hammer
-  var isTouch; //will determine how to handle button press / hold
   var touchInstance; //holds hammer.js touch events
-  var pinch, rotate; //hammer pinch and rotate instances
+  var pinch; //hammer pinch instance
 
 
   self.init = function (initialOrganismData) {
@@ -617,12 +600,9 @@ canvasModule.main = function () {
     var touchEl = document.getElementById('collageCanvas');
     touchInstance = new Hammer.Manager(touchEl);
     pinch = new Hammer.Pinch();
-    //rotate = new Hammer.Rotate();
-    //pinch.recognizeWith(rotate);
-    //touchInstance.add([pinch, rotate]);
     touchInstance.add([pinch]);
     touchInstance.on("pinchstart",onPinchStart)
-    touchInstance.on("pinchmove", onCanvasTouch); //add the ability to recognize pinch and rotate...
+    touchInstance.on("pinchmove", onPinchMove); //add the ability to recognize pinch...
     disableCanvasTouch(); //...but disable it for now
   }
 
@@ -630,26 +610,15 @@ canvasModule.main = function () {
     pinchScaleStart = editItem.scaleX;
   }
 
-  var onCanvasTouch = function (e) {
-    // prevScaleVal = scaleVal;
-    // scaleVal = e.scale;
-    // var scaleDiff = 1 + (scaleVal - prevScaleVal);
-    //editItem.scaleX = editItem.scaleY = scaleVal;
+  var onPinchMove = function (e) {
     editItem.scaleX = editItem.scaleY = pinchScaleStart*e.scale;
-
-    //var rotationVal = e.rotation;
-    //editItem.rotation = rotationVal; //MH TODO: Think this might need to be editItem.rotation + rotationVal. Same with scale
-    //var scaleVal = e.scale;
-    
     stageUpdate = true;
   }
 
   var enableCanvasTouch = function () {
-    //touchInstance.get('rotate').set({ enable: true });
     touchInstance.get('pinch').set({ enable: true });
   }
   var disableCanvasTouch = function () {
-    //touchInstance.get('rotate').set({ enable: false });
     touchInstance.get('pinch').set({ enable: false });
   }
 
