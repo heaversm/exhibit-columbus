@@ -33,6 +33,8 @@ canvasModule.main = function () {
   var editItem; //reference to the bitmap being manipulated
   var editMode; //scale, move, etc
   var blurFilter = null;
+  var prevScaleVal, curScaleVal;
+  var pinchScaleStart;
   var rotateInterval; //holds the timer to do repeat rotate calls on hold
   var scaleInterval; //holds timer to do repeat scale calls on hold
   var scaleMore = false; //make image larger when true, smaller when false
@@ -157,7 +159,7 @@ canvasModule.main = function () {
     $('.help').on('click', onHelpClick);
     $('.visualize__help_modal_container').on('click', onHelpCloseClick);
 
-    //initCanvasTouch();
+    initCanvasTouch();
   }
 
   var onHelpClick = function () {
@@ -361,7 +363,7 @@ canvasModule.main = function () {
     showCanvasControls(); //activate the buttons since we have an active item
     item.shadow = new createjs.Shadow(configObj.borderColor, configObj.borderOffsetX, configObj.borderOffsetY, configObj.borderBlur); //add a highlight to the selected item
     stageUpdate = true;
-    //enableCanvasTouch(); //enable touch events for the highlighted item
+    enableCanvasTouch(); //enable touch events for the highlighted item
   }
 
   var removeHighlight = function (item) {
@@ -372,7 +374,7 @@ canvasModule.main = function () {
     }
 
     stageUpdate = true;
-    //disableCanvasTouch(); //remove touch functionality for the item
+    disableCanvasTouch(); //remove touch functionality for the item
   }
 
   var showCanvasControls = function () {
@@ -615,27 +617,39 @@ canvasModule.main = function () {
     var touchEl = document.getElementById('collageCanvas');
     touchInstance = new Hammer.Manager(touchEl);
     pinch = new Hammer.Pinch();
-    rotate = new Hammer.Rotate();
-    pinch.recognizeWith(rotate);
-    touchInstance.add([pinch, rotate]);
-    touchInstance.on("pinch rotate", onCanvasTouch); //add the ability to recognize pinch and rotate...
+    //rotate = new Hammer.Rotate();
+    //pinch.recognizeWith(rotate);
+    //touchInstance.add([pinch, rotate]);
+    touchInstance.add([pinch]);
+    touchInstance.on("pinchstart",onPinchStart)
+    touchInstance.on("pinchmove", onCanvasTouch); //add the ability to recognize pinch and rotate...
     disableCanvasTouch(); //...but disable it for now
   }
 
+  var onPinchStart = function(e){
+    pinchScaleStart = editItem.scaleX;
+  }
+
   var onCanvasTouch = function (e) {
-    var rotationVal = e.rotation;
-    var scaleVal = e.scale;
-    editItem.rotation = rotationVal; //MH TODO: Think this might need to be editItem.rotation + rotationVal. Same with scale
-    editItem.scaleX = editItem.scaleY = scaleVal;
+    // prevScaleVal = scaleVal;
+    // scaleVal = e.scale;
+    // var scaleDiff = 1 + (scaleVal - prevScaleVal);
+    //editItem.scaleX = editItem.scaleY = scaleVal;
+    editItem.scaleX = editItem.scaleY = pinchScaleStart*e.scale;
+
+    //var rotationVal = e.rotation;
+    //editItem.rotation = rotationVal; //MH TODO: Think this might need to be editItem.rotation + rotationVal. Same with scale
+    //var scaleVal = e.scale;
+    
     stageUpdate = true;
   }
 
   var enableCanvasTouch = function () {
-    touchInstance.get('rotate').set({ enable: true });
+    //touchInstance.get('rotate').set({ enable: true });
     touchInstance.get('pinch').set({ enable: true });
   }
   var disableCanvasTouch = function () {
-    touchInstance.get('rotate').set({ enable: false });
+    //touchInstance.get('rotate').set({ enable: false });
     touchInstance.get('pinch').set({ enable: false });
   }
 
