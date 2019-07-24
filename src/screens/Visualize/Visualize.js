@@ -26,7 +26,7 @@ class Visualize extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (!prevState.isProcessing && this.state.isProcessing) {
-      window.canvasInstance.onSaveClick(this.state.isSigned);
+      this.handleCanvasSave();
     }
   }
 
@@ -54,7 +54,21 @@ class Visualize extends React.Component {
     });
   }
 
-  handleCollageImageCreated = ()=>{
+  handleCanvasSave = () => {
+    let visualizeSentence;
+    if (userState.objectData && userState.objectiveData){
+      visualizeSentence = `${siteData.visualizeLead}${userState.objectData.title}${siteData.visualizeSublead}${userState.objectiveData.title}`;
+    } else {
+      visualizeSentence = 'blank'
+    }
+    let userMetadata = {
+      "goal": visualizeSentence,
+      "signature": this.state.signature ? this.state.signature : 'anonymous',
+    }
+    window.canvasInstance.onSaveClick(this.state.isSigned, userMetadata);
+  }
+
+  handleCollageImageCreated = () => {
     this.setState({
       isProcessing: false,
       signModalActive: false,

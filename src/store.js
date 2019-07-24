@@ -4,6 +4,7 @@ const userState = store({
   inspirationData: null,
   objectData: null,
   objectiveData: null,
+  visualizeData: null,
 })
 
 export { userState };

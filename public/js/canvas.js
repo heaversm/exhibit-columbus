@@ -53,6 +53,8 @@ canvasModule.main = function () {
   var saveID; //will store ID of scenario we are saving the image for
   var savedImage; //will store the path to the image on the server that we create from canvas
   var collageImg; //will hold the image created from the collage for use in both submitting to the smart museum and to the database
+  var collageBlob; //will hold the canvas image as a blob
+  var fileName; //the name we give to our file when uploaded
 
   //hammer
   var touchInstance; //holds hammer.js touch events
@@ -97,7 +99,6 @@ canvasModule.main = function () {
     signCanvasStage.on("stagemouseup", function (event) {
       isSigning = false;
       signatureShapes.push(signatureShape);
-      curSignatureShapeIndex++;
     });
 
   }
@@ -523,6 +524,18 @@ canvasModule.main = function () {
     editItemImg.updateCache();
   }
 
+  var generateFilename = function() { 
+    var d = new Date().getTime();
+    if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+      d += performance.now(); //use high-precision timer if available
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+  }
+
   self.setRandomPosition = function (el) { //occurs when we have just added the same item to the stage so they don't cover each other
     var elBounds = el.children[0].bitmapCache;
     el.regX = elBounds.width >> 1;
@@ -543,7 +556,8 @@ canvasModule.main = function () {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  self.onSaveClick = function (doSign) { //user is done editing their image, have them give it a name
+  self.onSaveClick = function (doSign, userMetadata) {
+    fileName = `${generateFilename()}.png`;
     if (editItem) { //if there's a highlighted item, remove its highlight
       editItem.editable = false;
       removeHighlight(editItem);
@@ -554,13 +568,16 @@ canvasModule.main = function () {
     collageImg = convertCanvasToImage($collageCanvas);
     collageImg.classList.add('visualize__collage_image');
 
-    if (doSign){
+    if (doSign) {
       var $signCanvas = document.getElementById("signCanvas");
       signatureImg = convertCanvasToImage($signCanvas);
       signatureImg.classList.add('visualize__signature_image')
     }
 
-    saveImageToDrive();
+    //saveImageToDrive();
+    $collageCanvas.toBlob((blob) => {
+      saveImageToDrive(blob, userMetadata);
+    });
 
   }
 
@@ -570,30 +587,38 @@ canvasModule.main = function () {
     return image;
   }
 
-  var saveImageToDrive = function () {
+  var saveImageToDrive = function (blob,userMetadata) {
     $('.visualize__canvas_image_container').html(collageImg);
     $('.visualize__canvas').addClass('active');
-    // var imgSrc = $('.image-container').find('img').attr('src');
-    // savedImage = imgSrc;
 
-    // $.ajax({
-    //   type: "POST",
-    //   url: url,
-    //   dataType: 'json',
-    //   data: {
-    //     base64data: imgSrc,
-    //     imageID: saveID,
-    //     imageName: scenarioName,
-    //     imgTag: commonTag,
-    //     lat: finalPoint[1],
-    //     lng: finalPoint[0],
-    //     location: mapLoc
-    //   },
-    //   failure: function (errMsg) {
-    //     console.error("error:", errMsg);
-    //   },
-    //   success: onImageSavedToDrive
-    // });
+    // var imgSrc = $('.image-container').find('img').attr('src');
+    savedImage = collageImg;
+    imgSrc = collageImg;
+
+
+    //FIREBASE 
+
+    const metadata = {
+      contentType: 'image/png',
+      customMetadata: userMetadata,
+    };
+
+    const uploadTask = storageRef.child(`images/${fileName}`).put(blob, metadata); //create a child directory called images, and place the file inside this directory
+    uploadTask.on('state_changed', (snapshot) => {
+      console.log(snapshot);
+      // Observe state change events such as progress, pause, and resume
+    }, (error) => {
+      // Handle unsuccessful uploads
+      console.log(error);
+    }, (e) => {
+      // Do something once upload is complete
+      console.log('success');
+    });
+
+  }
+
+  var onImageSavedToDrive = function (data) {
+    console.log('uploaded', data);
   }
 
   var initCanvasTouch = function () { //add the listeners that allow a user to use touch gestures to rotate and scale their imagery
@@ -601,17 +626,17 @@ canvasModule.main = function () {
     touchInstance = new Hammer.Manager(touchEl);
     pinch = new Hammer.Pinch();
     touchInstance.add([pinch]);
-    touchInstance.on("pinchstart",onPinchStart)
+    touchInstance.on("pinchstart", onPinchStart)
     touchInstance.on("pinchmove", onPinchMove); //add the ability to recognize pinch...
     disableCanvasTouch(); //...but disable it for now
   }
 
-  var onPinchStart = function(e){
+  var onPinchStart = function (e) {
     pinchScaleStart = editItem.scaleX;
   }
 
   var onPinchMove = function (e) {
-    editItem.scaleX = editItem.scaleY = pinchScaleStart*e.scale;
+    editItem.scaleX = editItem.scaleY = pinchScaleStart * e.scale;
     stageUpdate = true;
   }
 
