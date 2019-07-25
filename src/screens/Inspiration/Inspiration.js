@@ -2,13 +2,13 @@
 
 import './Inspiration.scss';
 
+import { dataStore, userState } from '../../store';
 import { inspirationsData, siteData } from '../../data/site_data';
 
 import { InspirationItem } from '../../components';
 import { Link } from 'react-router-dom';
 import React from 'react';
 import { inspirationSettingsData } from '../../data/dev_data';
-import { userState } from '../../store';
 import { view } from 'react-easy-state';
 
 class Inspiration extends React.Component {
@@ -23,6 +23,7 @@ class Inspiration extends React.Component {
   }
 
   componentDidMount(){
+    console.log(dataStore.siteData);
     this.state.activeInspirations = _.sampleSize(inspirationsData,inspirationSettingsData.DIVISIONS);
     this.forceUpdate();
   }

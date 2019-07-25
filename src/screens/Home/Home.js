@@ -2,11 +2,14 @@
 
 import './Home.scss';
 
+import * as contentful from 'contentful'
+
 import { siteData, visionsData } from '../../data/site_data';
 
 import { Link } from 'react-router-dom';
 import React from 'react';
 import { Vision } from '../../components';
+import { dataStore } from '../../store';
 import { homeData } from '../../data/dev_data';
 import { view } from 'react-easy-state';
 
@@ -25,16 +28,52 @@ class Home extends React.Component {
     activeVisionIndex: 0,
   }
   
+  contentfulClient = contentful.createClient({
+    space: 'xbl068csq86a',
+    accessToken: 'ok3nAinl4Tz6xrzqpM_V49TX064YXj3LQxKsU7giAeA'
+  });
 
   componentDidMount(){
-
-    visionSelectorInterval = setInterval(()=>{
-      this.selectNewVision();
-    },homeData.SELECTION_INTERVAL);
+    this.fetchData();
   }
 
   componentWillUnmount(){
     clearInterval(visionSelectorInterval);
+  }
+
+  fetchData = ()=>{
+
+    this.contentfulClient.getEntry('4KGFPDFY2MZrRWCi4hZj2g')
+    .then((entry) => {
+      //console.log(entry);
+      dataStore.siteData = entry.fields;
+      
+    })
+    .catch(console.error);
+
+
+    this.contentfulClient.getEntries({
+      content_type: 'visionsData'
+    })
+    .then((response) => {
+      //console.log(response.items);
+
+      let visionsArr = [];
+      response.items.map((vision)=>{
+        visionsArr.push(vision.fields);
+      });
+    })
+    .catch(console.error);
+
+    this.setVisionSelectionInterval();
+
+    
+  }
+
+  setVisionSelectionInterval = ()=>{
+    visionSelectorInterval = setInterval(()=>{
+      this.selectNewVision();
+    },homeData.SELECTION_INTERVAL);
   }
 
   selectNewVision = ()=>{
@@ -48,13 +87,17 @@ class Home extends React.Component {
 
   render() {
 
+    if (!dataStore.siteData){
+      return (<div>LOADING</div>)
+    }
+
     return (
       <main className="Home app_screen">
         <section className="home__title_container ctnr">
           <div className="row center-xs">
             <div className="col-xs-6">
-              <h1 className="home__title">{siteData.introTitle}</h1>
-              <Link className="home__continue_button button button--rounded" to="/inspiration">{siteData.introContinueButtonText}</Link>
+              <h1 className="home__title">{dataStore.siteData.introTitle}</h1>
+              <Link className="home__continue_button button button--rounded" to="/inspiration">{dataStore.siteData.introContinueButtonText}</Link>
             </div>
           </div>
         </section>

@@ -1,10 +1,15 @@
 import { store } from 'react-easy-state';
 
-const userState = store({
+const userState = store({ //will fill with user selections
   inspirationData: null,
   objectData: null,
   objectiveData: null,
   visualizeData: null,
-})
+});
 
-export { userState };
+const dataStore = store({ //will fill with data from contentful
+  siteData: null,
+  visionsData: null,
+});
+
+export { userState, dataStore };
