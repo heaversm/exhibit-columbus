@@ -16,10 +16,6 @@ canvasModule.main = function () {
     scaleStep: 0.1, //percent of size each
     rotateStep: 5, //degrees each rotate
     blurLimit: 10,
-    signCanvasWidth: 720,
-    signCanvasHeight: 100,
-    signCanvasStroke: 5, //stroke width for signing your name,
-    signColor: '#000000', //hex for the signature color
   };
 
   //canvas vars
@@ -38,22 +34,11 @@ canvasModule.main = function () {
   var lastID; //will be used to help detect repeat additions of images
   var initialOrganism = null; //will hold the data of the user's selection from the previous screen
 
-  //sign canvas vars
-  var signCanvasStage = null; //will hold all sign canvas references
-  var signatureShape = null; //will hold shape used to draw signature
-  var lastSignX, lastSignY = null;
-  var isSigning = false; //true when touching down on signature canvas
-  var signatureShapes = []; //store all shapes in a signature
-  var signatureImg; //will hold the image created of a user's signature
-
   //refs
   var $canvasControls;
 
   //submission
-  var saveID; //will store ID of scenario we are saving the image for
-  var savedImage; //will store the path to the image on the server that we create from canvas
   var collageImg; //will hold the image created from the collage for use in both submitting to the smart museum and to the database
-  var collageBlob; //will hold the canvas image as a blob
   var fileName; //the name we give to our file when uploaded
 
   //hammer
@@ -65,42 +50,6 @@ canvasModule.main = function () {
     initialOrganism = initialOrganismData;
     addRefs();
     initStage();
-    initSignCanvas();
-  }
-
-  const initSignCanvas = function () {
-    signCanvasStage = new createjs.Stage("signCanvas");
-    signCanvasStage.enableDOMEvents(true);
-    createjs.Touch.enable(signCanvasStage);
-
-    // var signTouchEl = document.getElementById('signCanvas');
-    // var signTouchInstance = new Hammer.Manager(signTouchEl);
-
-    signCanvasStage.on("stagemousedown", function (event) {
-      isSigning = true;
-      signatureShape = new createjs.Shape();
-      signCanvasStage.addChild(signatureShape);
-    });
-
-    signCanvasStage.on("stagemousemove", function (e) {
-      if (isSigning) {
-        if (lastSignX) {
-          signatureShape.graphics.beginStroke(configObj.signColor)
-            .setStrokeStyle(configObj.signCanvasStroke, "round")
-            .moveTo(lastSignX, lastSignY)
-            .lineTo(e.stageX, e.stageY);
-          signCanvasStage.update();
-        }
-        lastSignX = e.stageX;
-        lastSignY = e.stageY;
-      }
-    });
-
-    signCanvasStage.on("stagemouseup", function (event) {
-      isSigning = false;
-      signatureShapes.push(signatureShape);
-    });
-
   }
 
   var addRefs = function () {
@@ -556,7 +505,7 @@ canvasModule.main = function () {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  self.onSaveClick = function (doSign, userMetadata) {
+  self.onSaveClick = function (userMetadata) {
     fileName = `${generateFilename()}.png`;
     if (editItem) { //if there's a highlighted item, remove its highlight
       editItem.editable = false;
@@ -567,13 +516,7 @@ canvasModule.main = function () {
     var $collageCanvas = document.getElementById("collageCanvas");
     collageImg = convertCanvasToImage($collageCanvas);
     collageImg.classList.add('visualize__collage_image');
-
-    if (doSign) {
-      var $signCanvas = document.getElementById("signCanvas");
-      signatureImg = convertCanvasToImage($signCanvas);
-      signatureImg.classList.add('visualize__signature_image')
-    }
-
+    
     //saveImageToDrive();
     $collageCanvas.toBlob((blob) => {
       saveImageToDrive(blob, userMetadata);
@@ -588,12 +531,9 @@ canvasModule.main = function () {
   }
 
   var saveImageToDrive = function (blob,userMetadata) {
-    $('.visualize__canvas_image_container').html(collageImg);
-    $('.visualize__canvas').addClass('active');
-
-    // var imgSrc = $('.image-container').find('img').attr('src');
     savedImage = collageImg;
     imgSrc = collageImg;
+    $('.visualize__canvas_image_container').html(collageImg);
 
 
     //FIREBASE 
@@ -610,15 +550,17 @@ canvasModule.main = function () {
     }, (error) => {
       // Handle unsuccessful uploads
       console.log(error);
-    }, (e) => {
+    }, () => {
       // Do something once upload is complete
-      console.log('success');
+      onImageSavedToDrive();
     });
 
   }
 
-  var onImageSavedToDrive = function (data) {
-    console.log('uploaded', data);
+  var onImageSavedToDrive = function () {
+    console.log('image saved');
+    $('.visualize__canvas').addClass('active'); //hide the signature modal
+    //MH - adding the image to the DOM will trigger the mutation observer in react, which will trigger a success state in visualize.js componentDidUpdate method
   }
 
   var initCanvasTouch = function () { //add the listeners that allow a user to use touch gestures to rotate and scale their imagery

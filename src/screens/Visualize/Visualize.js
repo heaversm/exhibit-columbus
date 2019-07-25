@@ -10,13 +10,18 @@ import { visualizeSettingsData } from '../../data/dev_data';
 
 class Visualize extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.handleSignatureChange = this.handleSignatureChange.bind(this);
+  }
+
   state = {
     signModalActive: false, //when true, show sign modal
     activeImageCategory: visualizeSettingsData.CATEGORIES[0], //fills with the name of the selected images category
     activeImage: null, //fills with the data of the selected image item from the activeImageCategory
     helpActive: false, //true when we are showing the help modal
     isProcessing: false, //true when we have click sign and send or skip buttons
-    isSigned: false, //true when user has selected sign and send (vs skip) from modal
+    signature: '', //fills with the value of the signature input field
   }
 
   componentDidMount() {
@@ -54,18 +59,23 @@ class Visualize extends React.Component {
     });
   }
 
+  handleSignatureChange(event) {
+    this.setState({ signature: event.target.value });
+  }
+
   handleCanvasSave = () => {
+    const {signature,} = this.state;
     let visualizeSentence;
-    if (userState.objectData && userState.objectiveData){
+    if (userState.objectData && userState.objectiveData) {
       visualizeSentence = `${siteData.visualizeLead}${userState.objectData.title}${siteData.visualizeSublead}${userState.objectiveData.title}`;
     } else {
       visualizeSentence = 'blank'
     }
     let userMetadata = {
       "goal": visualizeSentence,
-      "signature": this.state.signature ? this.state.signature : 'anonymous',
+      "signature": signature && signature !== '' ? signature : 'anonymous',
     }
-    window.canvasInstance.onSaveClick(this.state.isSigned, userMetadata);
+    window.canvasInstance.onSaveClick(userMetadata);
   }
 
   handleCollageImageCreated = () => {
@@ -79,10 +89,20 @@ class Visualize extends React.Component {
     this.toggleSignModal(true)
   }
 
-  handleVisualizeSignClick = (doSign) => {
+  handleSignatureCancel = ()=>{
+    this.toggleSignModal(false);
+  }
+
+  handleVisualizeSignClick = () => {
     this.setState({
       isProcessing: true,
-      isSigned: doSign,
+    });
+  }
+
+  handleVisualizeSkipClick = () => {
+    this.setState({
+      isProcessing: true,
+      signature: '',
     });
   }
 
@@ -104,7 +124,7 @@ class Visualize extends React.Component {
 
   render() {
 
-    const { signModalActive, activeImageCategory, activeImage, isProcessing } = this.state;
+    const { signModalActive, activeImageCategory, activeImage, isProcessing, signature } = this.state;
 
     return (
       <div className="Visualize app_screen">
@@ -269,28 +289,32 @@ class Visualize extends React.Component {
             </div>
           </div>
           <div className={`visualize__sign_modal_container modal__container ${signModalActive ? 'active' : ''} ${isProcessing ? 'processing' : ''}`}>
-            <div className="modal__bg"></div>
+            <div 
+              className="modal__bg"
+              onClick={this.handleSignatureCancel}
+            />
             <div className="modal__content_container">
               <h2 className="visualize__sign_title">{siteData.visualizeSignTitle}</h2>
 
               <div className={`visualize__signature_container`}>
-                <canvas
-                  id="signCanvas"
-                  className="visualize__signature_canvas"
-                  width="720"
-                  height="100"
+                <input
+                  type="text"
+                  className="visualize__signature_input"
+                  value={signature}
+                  placeholder={visualizeInstructionsData.signaturePlaceholder}
+                  onChange={this.handleSignatureChange}
                 />
-                <p
-                  className="visualize__processing_message"
-                >
-                  {visualizeInstructionsData.processingMessage}
-                </p>
               </div>
+              <p
+                className="visualize__processing_message"
+              >
+                {visualizeInstructionsData.processingMessage}
+              </p>
               <div className="visualize__sign_buttons row between-md">
                 <button
                   className="visualize__sign_button visualize__sign_button--send col-md-5 center-xs button"
                   onClick={() => {
-                    this.handleVisualizeSignClick(true);
+                    this.handleVisualizeSignClick();
                   }}
                 >
                   {siteData.visualizeContinueButtonLabel}
@@ -298,7 +322,7 @@ class Visualize extends React.Component {
                 <button
                   className="visualize__sign_button visualize__sign_button--skip col-md-5 center-xs button"
                   onClick={() => {
-                    this.handleVisualizeSignClick(false);
+                    this.handleVisualizeSkipClick();
                   }}
                 >
                   {siteData.visualizeSkipButtonLabel}

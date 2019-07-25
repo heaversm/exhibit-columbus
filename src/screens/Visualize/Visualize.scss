@@ -38,8 +38,11 @@
     visibility: hidden;
   }
   &__signature_container {
-    height: 100px;
     border-bottom: 1px solid black;
+    margin-top: 25px;
+  }
+  &__signature_input {
+    font-size: $fs__h1;
   }
   &__sign_buttons {
     display: flex;
