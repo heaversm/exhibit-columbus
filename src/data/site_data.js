@@ -688,11 +688,11 @@ const visualizeInstructionsData = {
 
 
 export {
+  inspirationsData,
+  objectivesData,
+  objectsData,
   siteData,
   visionsData,
-  inspirationsData,
-  objectsData,
-  objectivesData,
   visualizeData,
-  visualizeInstructionsData
+  visualizeInstructionsData,
 };
