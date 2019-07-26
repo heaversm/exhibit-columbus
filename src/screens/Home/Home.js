@@ -41,10 +41,6 @@ class Home extends React.Component {
     clearInterval(visionSelectorInterval);
   }
 
-  componentDidUpdate(){
-    console.log(dataStore);
-  }
-
   fetchData = ()=>{
 
     this.contentfulClient.getEntry('4KGFPDFY2MZrRWCi4hZj2g')
@@ -53,103 +49,118 @@ class Home extends React.Component {
       dataStore.siteData = entry.fields;
       
     })
-    .catch(console.error);
-
-
-    this.contentfulClient.getEntries({
-      content_type: 'visionsData'
+    .catch(console.error)
+    .then(()=>{
+      this.contentfulClient.getEntries({
+        content_type: 'visionsData'
+      })
+      .then((response) => {
+        //console.log(response.items);
+  
+        let visionsArr = [];
+        response.items.map((vision)=>{
+          visionsArr.push(vision.fields);
+        });
+        dataStore.visionsData = visionsArr;
+      })
+      .catch(console.error);
     })
-    .then((response) => {
-      //console.log(response.items);
-
-      let visionsArr = [];
-      response.items.map((vision)=>{
-        visionsArr.push(vision.fields);
-      });
-      dataStore.visionsData = visionsArr;
+    .then(()=>{
+      this.contentfulClient.getEntries({
+        content_type: 'inspirationsData'
+      })
+      .then((response) => {
+        //console.log(response.items);
+  
+        let inspirationsArr = [];
+        response.items.map((inspiration)=>{
+          inspirationsArr.push(inspiration.fields);
+        });
+        dataStore.inspirationsData = inspirationsArr;
+      })
+      .catch(console.error);
     })
-    .catch(console.error);
-
-    this.contentfulClient.getEntries({
-      content_type: 'inspirationsData'
+    .then(()=>{
+      this.contentfulClient.getEntries({
+        content_type: 'objectsData'
+      })
+      .then((response) => {
+        //console.log(response.items);
+  
+        let objectsArr = [];
+        response.items.map((object)=>{
+          objectsArr.push(object.fields);
+        });
+        dataStore.objectsData = objectsArr;
+      })
+      .catch(console.error);
     })
-    .then((response) => {
-      //console.log(response.items);
-
-      let inspirationsArr = [];
-      response.items.map((inspiration)=>{
-        inspirationsArr.push(inspiration.fields);
-      });
-      dataStore.inspirationsData = inspirationsArr;
+    .then(()=>{
+      this.contentfulClient.getEntries({
+        content_type: 'objectivesData'
+      })
+      .then((response) => {
+        //console.log(response.items);
+  
+        let objectivesArr = [];
+        response.items.map((objective)=>{
+          objectivesArr.push(objective.fields);
+        });
+        dataStore.objectivesData = objectivesArr;
+      })
+      .catch(console.error);
     })
-    .catch(console.error);
-
-    this.contentfulClient.getEntries({
-      content_type: 'objectsData'
+    .then(()=>{
+      this.contentfulClient.getEntries({
+        content_type: 'objectivesData'
+      })
+      .then((response) => {
+        //console.log(response.items);
+  
+        let objectivesArr = [];
+        response.items.map((objective)=>{
+          objectivesArr.push(objective.fields);
+        });
+        dataStore.objectivesData = objectivesArr;
+      })
+      .catch(console.error);
     })
-    .then((response) => {
-      //console.log(response.items);
-
-      let objectsArr = [];
-      response.items.map((object)=>{
-        objectsArr.push(object.fields);
-      });
-      dataStore.objectsData = objectsArr;
+    .then(()=>{
+      this.contentfulClient.getEntries({
+        content_type: 'visualizeData'
+      })
+      .then((response) => {
+        //console.log(response.items);
+        let visualizeData = {
+          "objects": [],
+          "background": [],
+          "foreground": [],
+          "effects": [],
+          "people": [],
+        }
+        response.items.map((visualizeItem)=>{
+          
+          visualizeData[visualizeItem.fields.category].push(visualizeItem.fields);
+        });
+        dataStore.visualizeData = visualizeData;
+      })
+      .catch(console.error);
     })
-    .catch(console.error);
-
-    this.contentfulClient.getEntries({
-      content_type: 'objectivesData'
+    .then(()=>{
+      console.log(dataStore);
+      this.setVisionSelectionInterval();
     })
-    .then((response) => {
-      //console.log(response.items);
-
-      let objectivesArr = [];
-      response.items.map((objective)=>{
-        objectivesArr.push(objective.fields);
-      });
-      dataStore.objectivesData = objectivesArr;
-    })
-    .catch(console.error);
 
 
-    this.contentfulClient.getEntries({
-      content_type: 'objectivesData'
-    })
-    .then((response) => {
-      //console.log(response.items);
-
-      let objectivesArr = [];
-      response.items.map((objective)=>{
-        objectivesArr.push(objective.fields);
-      });
-      dataStore.objectivesData = objectivesArr;
-    })
-    .catch(console.error);
 
 
-    this.contentfulClient.getEntries({
-      content_type: 'visualizeData'
-    })
-    .then((response) => {
-      //console.log(response.items);
-      let visualizeData = {
-        "objects": [],
-        "background": [],
-        "foreground": [],
-        "effects": [],
-        "people": [],
-      }
-      response.items.map((visualizeItem)=>{
-        
-        visualizeData[visualizeItem.fields.category].push(visualizeItem.fields);
-      });
-      dataStore.visualizeData = visualizeData;
-    })
-    .catch(console.error);
 
-    console.log(dataStore);
-    //this.setVisionSelectionInterval();
+    
+
+
+
+    
+    
 
     
   }

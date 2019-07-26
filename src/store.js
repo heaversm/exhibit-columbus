@@ -8,7 +8,7 @@ const userState = store({ //will fill with user selections
 });
 
 const dataStore = store({ //will fill with data from contentful
-  inspirationData: null,
+  inspirationsData: null,
   objectivesData: null,
   objectsData: null,
   siteData: null,
