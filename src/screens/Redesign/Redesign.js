@@ -47,9 +47,9 @@ class Redesign extends React.Component {
   }
 
   handleObjectClick = (object) => {
-    const {activeObject} = this.state;
-    if (activeObject !== null){
-      if (object.id === this.state.activeObject.id) {
+    const { activeObject } = this.state;
+    if (activeObject !== null) {
+      if (object.slug === this.state.activeObject.slug) {
         this.setState({
           activeObject: null,
         });
@@ -63,14 +63,14 @@ class Redesign extends React.Component {
         activeObject: object,
       });
     }
-    
+
 
   }
 
   handleObjectiveClick = (objective) => {
-    const {activeObjective} = this.state;
-    if (activeObjective !== null){
-      if (objective.id === this.state.activeObjective.id) {
+    const { activeObjective } = this.state;
+    if (activeObjective !== null) {
+      if (objective.slug === this.state.activeObjective.slug) {
         this.setState({
           activeObjective: null,
         });
@@ -84,7 +84,7 @@ class Redesign extends React.Component {
         activeObjective: objective,
       });
     }
-    
+
 
   }
 
@@ -110,11 +110,8 @@ class Redesign extends React.Component {
   }
 
   handleVisualizeClick = () => {
-    const {activeObject, activeObjective} = this.state;
+    const { activeObject, activeObjective } = this.state;
     userState.objectData = _.cloneDeep(activeObject); //MH not sure if we need deep clone here or not
-    // userState.objectData = {
-    //   chosenObject: _.cloneDeep(activeObject), //MH not sure if we need deep clone here or not
-    // }
     userState.objectiveData = _.cloneDeep(activeObjective); //MH not sure if we need deep clone here or not
     this.props.history.push(`/visualize`)
   }
@@ -134,10 +131,10 @@ class Redesign extends React.Component {
                 </div>
                 <div className="redesign__choice_container col-md-6 col-md-offset-2">
                   <div className="redesign__choice center-xs">
-                    <img 
-                      src={`https:${data.image.fields.file.url}`} 
-                      alt={data.title} 
-                      className="redesign__choice_image" 
+                    <img
+                      src={`https:${data.image.fields.file.url}`}
+                      alt={data.title}
+                      className="redesign__choice_image"
                     />
                     <div className="redesign__choice_content">
                       <h2 className="redesign__choice_title">{data.title}</h2>
@@ -155,8 +152,8 @@ class Redesign extends React.Component {
                 {objects.map((object, index) => {
                   return (
                     <div
-                      className={`redesign__object_container ${activeObject !== null && activeObject.id === object.id ? 'active' : ''}`}
-                      key={`redesign__object--${index}`}
+                      className={`redesign__object_container ${activeObject !== null && activeObject.slug === object.slug ? 'active' : ''}`}
+                      key={`redesign__object--${object.slug}`}
                       onClick={() => {
                         this.handleObjectClick(object)
                       }}
@@ -183,8 +180,8 @@ class Redesign extends React.Component {
                         objectives.map((objective, index) => {
                           return (
                             <div
-                              className={`redesign__objective ${activeObjective !== null && activeObjective.id === objective.id ? 'active' : ''}`}
-                              key={`redesign__objective--${index}`}
+                              className={`redesign__objective ${activeObjective !== null && activeObjective.slug === objective.slug ? 'active' : ''}`}
+                              key={`redesign__objective--${objective.slug}`}
                               onClick={() => { this.handleObjectiveClick(objective) }}
                             >
                               {objective.title}

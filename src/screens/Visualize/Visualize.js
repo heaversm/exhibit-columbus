@@ -24,6 +24,7 @@ class Visualize extends React.Component {
   }
 
   componentDidMount() {
+
     window.canvasInstance.init(userState.objectData);
     this.addMutationObserver();
   }
@@ -147,7 +148,7 @@ class Visualize extends React.Component {
                     return (
                       <button
                         className={`visualize__canvas_control ${control.name} ${control.initalState ? control.initalState : ''}`}
-                        key={`visualize__canvas_control--${index}`}
+                        key={`visualize__canvas_control--${control.name}`}
                       >
                         <SVG
                           src={`./assets/images/icons/${control.icon}`}
@@ -178,7 +179,7 @@ class Visualize extends React.Component {
                       <div
                         className={`visualize__image_category ${activeImageCategory === category ? 'active' : ''}`}
                         onClick={() => { this.handleVisualizeCategoryClick(category) }}
-                        key={`visualize__image_category--${index}`}
+                        key={`visualize__image_category--${category}`}
                       >
                         {category}
                       </div>
@@ -209,7 +210,7 @@ class Visualize extends React.Component {
                                   alt={imageItem.title}
                                   className="visualize__image image-button"
                                   data-type={activeImageCategory}
-                                  data-id={`${activeImageCategory}-${imageItem.id}`}
+                                  data-id={`${activeImageCategory}-${imageItem.slug}`}
                                 />
                               </div>
                             )
@@ -244,7 +245,7 @@ class Visualize extends React.Component {
                     return (
                       <li
                         className="visualize__instructions_item"
-                        key={`visualize__instructions_item--${index}`}
+                        key={`visualize__instructions_item--${control.name}`}
                       >
                         {visualizeInstructionsData.controls[control.name]}
                       </li>

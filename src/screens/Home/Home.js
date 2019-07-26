@@ -19,19 +19,28 @@ class Home extends React.Component {
   }
 
   static defaultProps = {
-    numVisions: 2
+    numVisions: homeData.NUM_VISIONS,
   }
 
   state = {
     activeVisionIndex: 0,
+    visions: null, //will hold the array of visions sampled from the dataStore
   }
 
   componentDidMount(){
-    this.setVisionSelectionInterval();
+    this.setState({
+      visions: _.sampleSize(dataStore.visionsData,homeData.NUM_VISIONS)
+    });
   }
 
   componentWillUnmount(){
     clearInterval(visionSelectorInterval);
+  }
+
+  componentDidUpdate(prevProps,prevState){
+    if (!prevState.visions && this.state.visions){
+      this.setVisionSelectionInterval();
+    }
   }
 
   setVisionSelectionInterval = ()=>{

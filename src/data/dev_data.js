@@ -1,5 +1,6 @@
 const homeData = {
   "SELECTION_INTERVAL": 10000, //ms between highlighting each new vision
+  "NUM_VISIONS": 15, //number of visions to show onscreen
 }
 
 const visionData = {

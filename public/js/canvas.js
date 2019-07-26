@@ -122,7 +122,7 @@ canvasModule.main = function () {
 
   var addInitialOrganism = function () { //add the organism image selected in the previous step (create)
     if (initialOrganism) {
-      loadItem(initialOrganism.image);
+      loadItem(initialOrganism.image.fields.file.url);
     }
   }
 

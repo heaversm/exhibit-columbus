@@ -62,7 +62,7 @@ class Inspiration extends React.Component {
                 return (
                   <InspirationItem
                     index={index}
-                    key={`inspiration--${index}`}
+                    key={`inspiration--${inspiration.slug}`}
                     data={inspiration}
                     isActive={isActive}
                     onInspirationItemClick={this.handleInspirationItemClick}
