@@ -1,11 +1,10 @@
 import './Visualize.scss';
 
-import { siteData, visualizeData } from '../../data/site_data';
+import { dataStore, userState } from '../../store';
 import { visualizeInstructionsData, visualizeSettingsData } from '../../data/dev_data';
 
 import React from 'react';
 import SVG from 'react-inlinesvg';
-import { userState } from '../../store';
 import { view } from 'react-easy-state';
 
 class Visualize extends React.Component {
@@ -67,7 +66,7 @@ class Visualize extends React.Component {
     const {signature,} = this.state;
     let visualizeSentence;
     if (userState.objectData && userState.objectiveData) {
-      visualizeSentence = `${siteData.visualizeLead}${userState.objectData.title}${siteData.visualizeSublead}${userState.objectiveData.title}`;
+      visualizeSentence = `${dataStore.siteData.visualizeLead}${userState.objectData.title}${dataStore.siteData.visualizeSublead}${userState.objectiveData.title}`;
     } else {
       visualizeSentence = 'blank'
     }
@@ -130,12 +129,12 @@ class Visualize extends React.Component {
       <div className="Visualize app_screen">
         <main>
           <section className="visualize__sentence_section ctnr center-xs">
-            <h1 className="visualize__title">{siteData.visualizeTitle}</h1>
+            <h1 className="visualize__title">{dataStore.siteData.visualizeTitle}</h1>
             <div className="visualize__sentence_container">
               <p className="visualize__sentence">
-                <span className="visualize__sentence_component visualize__sentence_component--lead">{siteData.visualizeLead}</span>
+                <span className="visualize__sentence_component visualize__sentence_component--lead">{dataStore.siteData.visualizeLead}</span>
                 <span className="visualize__sentence_entry">{userState.objectData !== null && userState.objectData.title}</span>
-                <span className="visualize__sentence_component visualize__sentence_component--sublead">{siteData.visualizeSublead}</span>
+                <span className="visualize__sentence_component visualize__sentence_component--sublead">{dataStore.siteData.visualizeSublead}</span>
                 <span className="visualize__sentence_entry">{userState.objectiveData !== null && userState.objectiveData.title}</span>
               </p>
             </div>
@@ -196,7 +195,7 @@ class Visualize extends React.Component {
                         key={`visualize__images--${category}`}
                       >
                         {
-                          visualizeData[category].map((imageItem, index) => {
+                          dataStore.visualizeData[category].map((imageItem, index) => {
                             return (
                               <div
                                 className={`visualize__image_container ${activeImage && activeImage.title === imageItem.title ? 'active' : ''}`}
@@ -206,7 +205,7 @@ class Visualize extends React.Component {
                               // }}
                               >
                                 <img
-                                  src={`${imageItem.image}`}
+                                  src={`https:${imageItem.image.fields.file.url}`}
                                   alt={imageItem.title}
                                   className="visualize__image image-button"
                                   data-type={activeImageCategory}
@@ -229,7 +228,7 @@ class Visualize extends React.Component {
               className="visualize__continue_button button button--rounded button--md"
               onClick={this.handleVisualizeContinueClick}
             >
-              {siteData.visualizeContinueButtonLabel}
+              {dataStore.siteData.visualizeContinueButtonLabel}
             </button>
           </div>
           <div className="visualize__help_modal_container modal__container">
@@ -294,7 +293,7 @@ class Visualize extends React.Component {
               onClick={this.handleSignatureCancel}
             />
             <div className="modal__content_container">
-              <h2 className="visualize__sign_title">{siteData.visualizeSignTitle}</h2>
+              <h2 className="visualize__sign_title">{dataStore.siteData.visualizeSignTitle}</h2>
 
               <div className={`visualize__signature_container`}>
                 <input
@@ -317,7 +316,7 @@ class Visualize extends React.Component {
                     this.handleVisualizeSignClick();
                   }}
                 >
-                  {siteData.visualizeContinueButtonLabel}
+                  {dataStore.siteData.visualizeContinueButtonLabel}
                 </button>
                 <button
                   className="visualize__sign_button visualize__sign_button--skip col-md-5 center-xs button"
@@ -325,7 +324,7 @@ class Visualize extends React.Component {
                     this.handleVisualizeSkipClick();
                   }}
                 >
-                  {siteData.visualizeSkipButtonLabel}
+                  {dataStore.siteData.visualizeSkipButtonLabel}
                 </button>
               </div>
             </div>

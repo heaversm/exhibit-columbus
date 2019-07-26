@@ -1,12 +1,10 @@
 import './Redesign.scss';
 
-//import { Template } from '../../components';
-import { objectivesData, objectsData, siteData } from '../../data/site_data';
+import { dataStore, userState } from '../../store';
 
 import React from 'react';
 import _ from 'lodash';
 import { redesignSettingsData } from '../../data/dev_data';
-import { userState } from '../../store';
 import { view } from 'react-easy-state';
 
 class Redesign extends React.Component {
@@ -32,8 +30,8 @@ class Redesign extends React.Component {
     const { inspirationData } = userState;
     this.setState({
       data: inspirationData,
-      objectives: _.sampleSize(objectivesData, redesignSettingsData.SAMPLE_SIZE),
-      objects: _.sampleSize(objectsData, redesignSettingsData.SAMPLE_SIZE),
+      objectives: _.sampleSize(dataStore.objectivesData, redesignSettingsData.SAMPLE_SIZE),
+      objects: _.sampleSize(dataStore.objectsData, redesignSettingsData.SAMPLE_SIZE),
     });
 
   }
@@ -92,7 +90,7 @@ class Redesign extends React.Component {
 
   handleLoadMoreObjectivesClick = () => {
     this.setState({
-      objectives: _.sampleSize(objectivesData, redesignSettingsData.SAMPLE_SIZE),
+      objectives: _.sampleSize(dataStore.objectivesData, redesignSettingsData.SAMPLE_SIZE),
       activeObjective: null,
     });
   }
@@ -132,15 +130,19 @@ class Redesign extends React.Component {
             <section className="redesign__inspiration_section ctnr">
               <div className="row">
                 <div className="redesign__inspiration_title_container middle-md col-md-4">
-                  <h1 className="redesign__inspiration_title">{siteData.redesignInspirationText}</h1>
+                  <h1 className="redesign__inspiration_title">{dataStore.siteData.redesignInspirationText}</h1>
                 </div>
                 <div className="redesign__choice_container col-md-6 col-md-offset-2">
                   <div className="redesign__choice center-xs">
-                    <img src={`/assets/images/temp/inspirations/${data.image}`} alt={data.title} className="redesign__choice_image" />
+                    <img 
+                      src={`https:${data.image.fields.file.url}`} 
+                      alt={data.title} 
+                      className="redesign__choice_image" 
+                    />
                     <div className="redesign__choice_content">
                       <h2 className="redesign__choice_title">{data.title}</h2>
                       <span className="redesign__choice_text">
-                        {`${siteData.visualizeLead} ${data.object} ${siteData.visualizeSublead}${data.objective}`}
+                        {`${dataStore.siteData.visualizeLead} ${data.object} ${dataStore.siteData.visualizeSublead}${data.objective}`}
                       </span>
                     </div>
                   </div>
@@ -148,7 +150,7 @@ class Redesign extends React.Component {
               </div>
             </section>
             <section className="redesign__objects_section ctnr">
-              <h3 className="redesign__objects_title">{`${siteData.redesignObjectsTitle} ${activeObject !== null ? activeObject.title : ''}`}</h3>
+              <h3 className="redesign__objects_title">{`${dataStore.siteData.redesignObjectsTitle} ${activeObject !== null ? activeObject.title : ''}`}</h3>
               <div className="redesign__objects_container">
                 {objects.map((object, index) => {
                   return (
@@ -160,7 +162,7 @@ class Redesign extends React.Component {
                       }}
                     >
                       <img
-                        src={`${object.image}`}
+                        src={`https:${object.image.fields.file.url}`}
                         alt={object.title}
                         className="redesign__object_image"
                       />
@@ -172,7 +174,7 @@ class Redesign extends React.Component {
               </div>
             </section>
             <section className="redesign__objectives_section ctnr">
-              <h3 className="redesign__objectives_title">{siteData.redesignObjectivesTitle}</h3>
+              <h3 className="redesign__objectives_title">{dataStore.siteData.redesignObjectivesTitle}</h3>
               <div className="redesign__objectives_container row">
                 {
                   !isInWriteMode ? (
@@ -196,7 +198,7 @@ class Redesign extends React.Component {
                         <input
                           type="text"
                           className="redesign__objective_input"
-                          placeholder={siteData.redesignObjectiveInputPlaceholder}
+                          placeholder={dataStore.siteData.redesignObjectiveInputPlaceholder}
                           onChange={this.handleWriteObjectiveType}
                         />
                       </div>
@@ -214,7 +216,7 @@ class Redesign extends React.Component {
                       className="button button--rounded button--md redesign__objectives_more_button"
                       onClick={this.handleLoadMoreObjectivesClick}
                     >
-                      {siteData.redesignMoreButtonLabel}
+                      {dataStore.siteData.redesignMoreButtonLabel}
                     </button>
                   }
                   {
@@ -223,14 +225,14 @@ class Redesign extends React.Component {
                         className="button button--rounded button--md redesign__objectives_help_button"
                         onClick={this.handleHelpChooseClick}
                       >
-                        {siteData.redesignObjectiveHelpChooseText}
+                        {dataStore.siteData.redesignObjectiveHelpChooseText}
                       </button>
                     ) : (
                         <button
                           className="button button--rounded button--md redesign__objectives_write_button"
                           onClick={this.handleWriteObjectiveClick}
                         >
-                          {siteData.redesignObjectiveUserSubmitText}
+                          {dataStore.siteData.redesignObjectiveUserSubmitText}
                         </button>
                       )
                   }
@@ -243,7 +245,7 @@ class Redesign extends React.Component {
                 className={`redesign__visualize_button button button--rounded button--lg ${activeObjective !== null && activeObject !== null ? 'active' : ''}`}
                 onClick={this.handleVisualizeClick}
               >
-                {siteData.redesignContinueButtonLabel}
+                {dataStore.siteData.redesignContinueButtonLabel}
               </button>
             </div>
           </main>

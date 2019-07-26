@@ -135,6 +135,7 @@ canvasModule.main = function () {
 
   var loadEnvironment = function (src, type) { //backgrounds and foregrounds loaded with this functionality as they need to be sized and manipulated differently
     var envImg = new Image();
+    envImg.crossOrigin = "anonymous";
     envImg.src = src;
 
     $(envImg).load(function () {
@@ -174,6 +175,7 @@ canvasModule.main = function () {
 
   var loadItem = function (src) { //anything that is not a bg or foreground element is loaded with this functionality
     var itemImg = new Image();
+    itemImg.crossOrigin = "anonymous";
     itemImg.src = src;
 
     $(itemImg).load(function () {
@@ -526,6 +528,7 @@ canvasModule.main = function () {
 
   var convertCanvasToImage = function (canvas) { //turn the canvas into an html image
     var image = new Image();
+    image.crossOrigin = 'anonymous';
     image.src = canvas.toDataURL("image/png");
     return image;
   }

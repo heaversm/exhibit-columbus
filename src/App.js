@@ -15,7 +15,6 @@ import Inspiration from './screens/Inspiration/Inspiration';
 import React from 'react';
 import Redesign from './screens/Redesign/Redesign';
 import Visualize from './screens/Visualize/Visualize';
-import config from './config'
 import { dataStore } from './store';
 
 class App extends React.Component {
@@ -47,7 +46,7 @@ class App extends React.Component {
       .then((response) => {
         let visionsArr = [];
         response.items.map((vision)=>{
-          visionsArr.push(vision.fields);
+          return visionsArr.push(vision.fields);
         });
         dataStore.visionsData = visionsArr;
       })
@@ -61,7 +60,7 @@ class App extends React.Component {
   
         let inspirationsArr = [];
         response.items.map((inspiration)=>{
-          inspirationsArr.push(inspiration.fields);
+          return inspirationsArr.push(inspiration.fields);
         });
         dataStore.inspirationsData = inspirationsArr;
       })
@@ -75,7 +74,7 @@ class App extends React.Component {
   
         let objectsArr = [];
         response.items.map((object)=>{
-          objectsArr.push(object.fields);
+          return objectsArr.push(object.fields);
         });
         dataStore.objectsData = objectsArr;
       })
@@ -89,7 +88,7 @@ class App extends React.Component {
   
         let objectivesArr = [];
         response.items.map((objective)=>{
-          objectivesArr.push(objective.fields);
+          return objectivesArr.push(objective.fields);
         });
         dataStore.objectivesData = objectivesArr;
       })
@@ -103,7 +102,7 @@ class App extends React.Component {
   
         let objectivesArr = [];
         response.items.map((objective)=>{
-          objectivesArr.push(objective.fields);
+          return objectivesArr.push(objective.fields);
         });
         dataStore.objectivesData = objectivesArr;
       })
@@ -122,7 +121,7 @@ class App extends React.Component {
           "people": [],
         }
         response.items.map((visualizeItem)=>{
-          visualizeData[visualizeItem.fields.category].push(visualizeItem.fields);
+          return visualizeData[visualizeItem.fields.category].push(visualizeItem.fields);
         });
         dataStore.visualizeData = visualizeData;
         
