@@ -5,17 +5,21 @@ canvasModule.main = function () {
 
   //config
   var configObj = {
-    stageWidth: 640,
-    stageHeight: 640,
-    borderColor: "#fe5000", //border refers to the active item shadow highlight
-    borderOffsetX: 5,
-    borderOffsetY: 5,
-    borderBlur: 0,
-    minScale: 0.5,
-    maxScale: 1.5,
+    stageWidth: 640, //px - size of canvas
+    stageHeight: 640, //px - size of canvas
+    borderColor: "#fe5000", //border refers to the active item shadow highlight (hex)
+    borderOffsetX: 5, //px
+    borderOffsetY: 5, //px
+    borderBlur: 0, //px
+    minScale: 0.5, //percent as decimal of original size
+    maxScale: 1.5, //percent as decimal of original size
     scaleStep: 0.1, //percent of size each
     rotateStep: 5, //degrees each rotate
-    blurLimit: 10,
+    blurLimit: 10, //px, max blur
+    backgroundHeight: 200, //(in px) for using in generating contentful canvas images
+    foregroundHeight: 440, //(in px) for using in generating contentful canvas images
+    objectWidth: 500, //(in px) for using in generating contentful canvas images
+    imageQuality: 70, // (0-100), for using in generating contentful canvas images
   };
 
   //canvas vars
@@ -128,7 +132,8 @@ canvasModule.main = function () {
 
   var onEnvironmentClick = function ($thisItem, thisType) {
     //MH TODO: Handle foreground and background removal through control buttons
-    var thisImageURL = $thisItem.attr('src');
+    //var thisImageURL = $thisItem.attr('src');
+    var thisImageURL = $thisItem.attr('data-url');
     var thisType = $thisItem.attr('data-type');
     loadEnvironment(thisImageURL, thisType);
   }
@@ -136,7 +141,13 @@ canvasModule.main = function () {
   var loadEnvironment = function (src, type) { //backgrounds and foregrounds loaded with this functionality as they need to be sized and manipulated differently
     var envImg = new Image();
     envImg.crossOrigin = "anonymous";
-    envImg.src = src;
+    let imgParams = '';
+    if (type === "foreground"){
+      imgParams = `?w=${configObj.stageWidth}&h=${configObj.foregroundHeight}&q=${configObj.imageQuality}`
+    } else if (type === "background"){
+      imgParams = `?w=${configObj.stageWidth}&h=${configObj.backgroundHeight}&q=${configObj.imageQuality}`
+    }
+    envImg.src = src + imgParams;
 
     $(envImg).load(function () {
       drawEnvironment(envImg, type);
@@ -169,14 +180,14 @@ canvasModule.main = function () {
   }
 
   var onItemClick = function ($thisItem) {
-    var thisImageURL = $thisItem.attr('src');
+    var thisImageURL = $thisItem.attr('data-url');
     loadItem(thisImageURL);
   }
 
   var loadItem = function (src) { //anything that is not a bg or foreground element is loaded with this functionality
     var itemImg = new Image();
     itemImg.crossOrigin = "anonymous";
-    itemImg.src = src;
+    itemImg.src = `${src}?w=${configObj.objectWidth}&q=${configObj.imageQuality}`;
 
     $(itemImg).load(function () {
       drawItem(itemImg);
