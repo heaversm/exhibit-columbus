@@ -75,3 +75,12 @@ body {
     position: relative; //to overlay mobile nav container
   }
 }
+
+.app {
+  &__reset {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    z-index: 999;
+  }
+}

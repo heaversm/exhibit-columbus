@@ -1,3 +1,7 @@
+const appSettingsData = {
+  "RESET_CLICKS": 3, //number of clicks to trigger an app reset
+}
+
 const homeData = {
   "SELECTION_INTERVAL": 10000, //ms between highlighting each new vision
   "NUM_VISIONS": 15, //number of visions to show onscreen
@@ -105,6 +109,7 @@ const confirmationSettingsData = {
 }
 
 export {
+  appSettingsData,
   homeData,
   visionData,
   inspirationSettingsData,
