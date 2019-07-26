@@ -18,6 +18,7 @@ const siteData = {
   "visualizeSignTitle": "Sign your vision of the future",
   "visualizeSkipButtonLabel": "Skip",
   "confirmationTitle": "Success",
+  "confirmationDescription": "Your vision of the future has been saved. The app will now reset.",
   "confirmationContinueButtonText": "Continue",
   "inspirationSelectButtonText": "Select",
 };

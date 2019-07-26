@@ -7,6 +7,8 @@ import React from 'react';
 import SVG from 'react-inlinesvg';
 import { view } from 'react-easy-state';
 
+let visualizeSuccessTimeout = null; //will hold the timeout to move to the success screen
+
 class Visualize extends React.Component {
 
   constructor(props) {
@@ -29,6 +31,10 @@ class Visualize extends React.Component {
     this.addMutationObserver();
   }
 
+  componentWillUnmount(){
+    clearTimeout(visualizeSuccessTimeout);
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (!prevState.isProcessing && this.state.isProcessing) {
       this.handleCanvasSave();
@@ -41,7 +47,8 @@ class Visualize extends React.Component {
       mutations.forEach(mutation => {
         const newNodes = mutation.addedNodes;
         newNodes.forEach(node => {
-          console.log(node);
+          userState.visualizeData.imageURL = node.attributes.src.nodeValue;
+
           if (node.classList && node.classList.contains('visualize__collage_image')) {
             //collage has been created, hide the modal
             this.handleCollageImageCreated();
@@ -74,7 +81,9 @@ class Visualize extends React.Component {
     let userMetadata = {
       "goal": visualizeSentence,
       "signature": signature && signature !== '' ? signature : 'anonymous',
+      "image": null, //will contain a url when object is created
     }
+    userState.visualizeData = userMetadata;
     window.canvasInstance.onSaveClick(userMetadata);
   }
 
@@ -83,6 +92,10 @@ class Visualize extends React.Component {
       isProcessing: false,
       signModalActive: false,
     });
+
+    visualizeSuccessTimeout = setTimeout(()=>{ //MH - temp - should do some sort of outro, and save timeout reference somewhere to clear it
+      this.props.history.push(`/confirmation`);
+    },visualizeSettingsData.SUCCESS_TIME);
   }
 
   handleVisualizeContinueClick = () => {
@@ -170,7 +183,6 @@ class Visualize extends React.Component {
               </div>
 
             </div>
-            <div className="visualize__debugger"></div>
             <div className="visualize__images_container">
               <div className="visualize__image_categories">
                 {

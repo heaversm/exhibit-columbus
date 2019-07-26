@@ -41,6 +41,7 @@ const visualizeSettingsData = {
   "SCALE_MAX": 2.0, //the largest we can scale an image
   "SCALE_MIN": 0.5, //the smallest we can scale an image
   "ROTATION_INCREMENT": 10, //the amount by which we change the rotation each click
+  "SUCCESS_TIME": 1000, //time in ms to pause before moving to the success / confirmation screen
   "CONTROLS": [
     {
       "name": "front",
@@ -99,6 +100,10 @@ const visualizeInstructionsData = {
   "signaturePlaceholder": "Type your name here",
 }
 
+const confirmationSettingsData = {
+  "CONFIRMATION_TIMEOUT": 5000, //ms to wait before rebooting to app home screen
+}
+
 export {
   homeData,
   visionData,
@@ -106,4 +111,5 @@ export {
   redesignSettingsData,
   visualizeSettingsData,
   visualizeInstructionsData,
+  confirmationSettingsData,
 };

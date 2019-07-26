@@ -547,7 +547,7 @@ canvasModule.main = function () {
   var saveImageToDrive = function (blob,userMetadata) {
     savedImage = collageImg;
     imgSrc = collageImg;
-    $('.visualize__canvas_image_container').html(collageImg);
+    // $('.visualize__canvas_image_container').html(collageImg);
 
 
     //FIREBASE 
@@ -574,6 +574,7 @@ canvasModule.main = function () {
   var onImageSavedToDrive = function () {
     console.log('image saved');
     $('.visualize__canvas').addClass('active'); //hide the signature modal
+    $('.visualize__canvas_image_container').html(collageImg);
     //MH - adding the image to the DOM will trigger the mutation observer in react, which will trigger a success state in visualize.js componentDidUpdate method
   }
 

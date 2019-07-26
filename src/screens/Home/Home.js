@@ -9,8 +9,6 @@ import { dataStore } from '../../store';
 import { homeData } from '../../data/dev_data';
 import { view } from 'react-easy-state';
 
-//import { visionsData } from '../../data/site_data';
-
 let visionSelectorInterval = null;
 
 class Home extends React.Component {
