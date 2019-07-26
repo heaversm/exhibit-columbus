@@ -1,12 +1,12 @@
 import './Visualize.scss';
 
-import { siteData, visualizeData, visualizeInstructionsData } from '../../data/site_data';
+import { siteData, visualizeData } from '../../data/site_data';
+import { visualizeInstructionsData, visualizeSettingsData } from '../../data/dev_data';
 
 import React from 'react';
 import SVG from 'react-inlinesvg';
 import { userState } from '../../store';
 import { view } from 'react-easy-state';
-import { visualizeSettingsData } from '../../data/dev_data';
 
 class Visualize extends React.Component {
 

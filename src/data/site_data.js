@@ -663,28 +663,6 @@ const visualizeData = {
 
 }
 
-const visualizeInstructionsData = {
-  "controls": {
-    "front": "Move selected item one layer up",
-    "back": "Move selected item one layer down",
-    "scale": "Scale selected item",
-    "rotate": "Rotate selected item",
-    "blur": "Blur selected item",
-    "remove": "Delete selected item",
-  },
-  "canvas": [
-    "Tap an item to select or deselect it.",
-    "Use two fingers to rotate the selected item.",
-    "Use pinch and expand gestures to scale your item.",
-    "FG & BG Elements cannot be selected, only replaced.",
-  ],
-  "items": [
-    "Choose images from the tabs here to place them on the canvas above.",
-    "When you are finished, click the sign and send button to submit."
-  ],
-  "processingMessage": "Your future is processing. Please wait.",
-  "signaturePlaceholder": "Type your name here",
-}
 
 
 export {
@@ -694,5 +672,4 @@ export {
   siteData,
   visionsData,
   visualizeData,
-  visualizeInstructionsData,
 };
