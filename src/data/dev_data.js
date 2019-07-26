@@ -10,6 +10,8 @@ const visionData = {
   "GROUP_TRANSLATIONS_VARIANCE": 10, //max number of pixels a vision can stray from its center (+ or -)
   "SCALE_BASE": 0.5, //the largest scale each unselected item can be as a %
   "SCALE_BASE_VARIANCE": 0.2, //how much the scale of each item varies as a % (+ or -)
+  "VISION_QUALITY": 70, //percent, for generating image from contentful
+  "VISION_WIDTH": 400, //px, for generating image from contentful
 }
 
 const inspirationSettingsData = {
@@ -19,10 +21,15 @@ const inspirationSettingsData = {
   "GROUP_TRANSLATIONS_VARIANCE": 0, //max number of pixels a vision can stray from its center (+ or -)
   "SCALE_BASE": 0.5, //the largest scale each unselected item can be as a %
   "SCALE_BASE_VARIANCE": 0.0, //how much the scale of each item varies as a % (+ or -)
+  "IMAGE_QUALITY": 70, //percent, for generating image from contentful
+  "IMAGE_WIDTH": 400, //px, for generating image from contentful
 }
 
 const redesignSettingsData = {
   "SAMPLE_SIZE": 10, //how many random objectives to select for menu
+  "IMAGE_QUALITY": 70, //percent, for generating image from contentful
+  "OBJECT_WIDTH": 250, //px, for generating image from contentful
+  "INSPIRATION_WIDTH": 300, //px of inspiration, for generating image from contentful
 }
 
 const visualizeSettingsData = {

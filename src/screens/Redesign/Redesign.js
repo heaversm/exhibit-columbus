@@ -132,7 +132,7 @@ class Redesign extends React.Component {
                 <div className="redesign__choice_container col-md-6 col-md-offset-2">
                   <div className="redesign__choice center-xs">
                     <img
-                      src={`https:${data.image.fields.file.url}`}
+                      src={`https:${data.image.fields.file.url}?w=${redesignSettingsData.INSPIRATION_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}`}
                       alt={data.title}
                       className="redesign__choice_image"
                     />
@@ -159,7 +159,7 @@ class Redesign extends React.Component {
                       }}
                     >
                       <img
-                        src={`https:${object.image.fields.file.url}`}
+                        src={`https:${object.image.fields.file.url}?w=${redesignSettingsData.OBJECT_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}`}
                         alt={object.title}
                         className="redesign__object_image"
                       />

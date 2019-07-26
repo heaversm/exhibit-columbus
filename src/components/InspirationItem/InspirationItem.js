@@ -49,7 +49,7 @@ class InspirationItem extends React.Component {
             >
               <img
                 className="inspiration_item__image"
-                src={`https:${data.image.fields.file.url}`}
+                src={`https:${data.image.fields.file.url}?w=${inspirationSettingsData.IMAGE_WIDTH}&q=${inspirationSettingsData.IMAGE_QUALITY}`}
                 alt="Inspiration"
               />
               <div className="inspiration_item__title_container">
