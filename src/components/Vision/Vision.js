@@ -2,7 +2,7 @@ import './Vision.scss';
 
 import React from 'react';
 import _ from 'lodash';
-import { siteData } from '../../data/site_data';
+import { dataStore } from '../../store';
 import { view } from 'react-easy-state';
 import { visionData } from '../../data/dev_data';
 
@@ -48,13 +48,13 @@ class Vision extends React.Component {
             >
               <img
                 className="vision__image"
-                src={`./assets/images/temp/${data.image}`}
+                src={`https:${data.image.fields.file.url}`}
                 alt="Vision"
               />
               <div className="vision__content_container">
                 <div className="vision__content">
                   <p className="vision">
-                    {siteData.visualizeLead} {data.object} {siteData.visualizeSublead}  {data.objective}
+                    {dataStore.siteData.visualizeLead} {data.object} {dataStore.siteData.visualizeSublead}  {data.objective}
                     <span className="vision__author">{data.author}</span>
                   </p>
                 </div>

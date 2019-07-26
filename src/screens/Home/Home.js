@@ -4,14 +4,14 @@ import './Home.scss';
 
 import * as contentful from 'contentful'
 
-import { siteData, visionsData } from '../../data/site_data';
-
 import { Link } from 'react-router-dom';
 import React from 'react';
 import { Vision } from '../../components';
 import { dataStore } from '../../store';
 import { homeData } from '../../data/dev_data';
 import { view } from 'react-easy-state';
+
+//import { visionsData } from '../../data/site_data';
 
 let visionSelectorInterval = null;
 
@@ -21,11 +21,12 @@ class Home extends React.Component {
   }
 
   static defaultProps = {
-    numVisions: visionsData.length
+    numVisions: 2
   }
 
   state = {
     activeVisionIndex: 0,
+    dataLoaded: false,
   }
   
   contentfulClient = contentful.createClient({
@@ -41,29 +42,30 @@ class Home extends React.Component {
     clearInterval(visionSelectorInterval);
   }
 
+  componentDidUpdate(prevProps,prevState){
+    if (!prevState.dataLoaded && this.state.dataLoaded){
+      this.setVisionSelectionInterval();
+    }
+  }
+
   fetchData = ()=>{
 
     this.contentfulClient.getEntry('4KGFPDFY2MZrRWCi4hZj2g')
     .then((entry) => {
       //console.log(entry);
       dataStore.siteData = entry.fields;
-      
     })
-    .catch(console.error)
     .then(()=>{
       this.contentfulClient.getEntries({
         content_type: 'visionsData'
       })
       .then((response) => {
-        //console.log(response.items);
-  
         let visionsArr = [];
         response.items.map((vision)=>{
           visionsArr.push(vision.fields);
         });
         dataStore.visionsData = visionsArr;
       })
-      .catch(console.error);
     })
     .then(()=>{
       this.contentfulClient.getEntries({
@@ -78,7 +80,6 @@ class Home extends React.Component {
         });
         dataStore.inspirationsData = inspirationsArr;
       })
-      .catch(console.error);
     })
     .then(()=>{
       this.contentfulClient.getEntries({
@@ -93,7 +94,6 @@ class Home extends React.Component {
         });
         dataStore.objectsData = objectsArr;
       })
-      .catch(console.error);
     })
     .then(()=>{
       this.contentfulClient.getEntries({
@@ -108,7 +108,6 @@ class Home extends React.Component {
         });
         dataStore.objectivesData = objectivesArr;
       })
-      .catch(console.error);
     })
     .then(()=>{
       this.contentfulClient.getEntries({
@@ -123,7 +122,6 @@ class Home extends React.Component {
         });
         dataStore.objectivesData = objectivesArr;
       })
-      .catch(console.error);
     })
     .then(()=>{
       this.contentfulClient.getEntries({
@@ -139,30 +137,18 @@ class Home extends React.Component {
           "people": [],
         }
         response.items.map((visualizeItem)=>{
-          
           visualizeData[visualizeItem.fields.category].push(visualizeItem.fields);
         });
         dataStore.visualizeData = visualizeData;
+        
       })
-      .catch(console.error);
+      .then(()=>{
+        this.setState({
+          dataLoaded: true,
+        })
+      });
     })
-    .then(()=>{
-      console.log(dataStore);
-      this.setVisionSelectionInterval();
-    })
-
-
-
-
-
-    
-
-
-
-    
-    
-
-    
+    .catch(console.error)
   }
 
   setVisionSelectionInterval = ()=>{
@@ -182,9 +168,13 @@ class Home extends React.Component {
 
   render() {
 
-    if (!dataStore.siteData){
+    const {dataLoaded} = this.state;
+
+    if (!dataLoaded){ //MH TODO - design loader
       return (<div>LOADING</div>)
     }
+
+    console.log(dataStore.visionsData);
 
     return (
       <main className="Home app_screen">
@@ -200,13 +190,13 @@ class Home extends React.Component {
           <div className="home__visions_positioner">
             {
               
-              visionsData.map((vision, index) => {
+              dataStore.visionsData.map((vision, index) => {
                 const isActive = this.state.activeVisionIndex === index;
 
                 return (
                   <Vision
                     index={index}
-                    key={`vision--${index}`}
+                    key={`vision--${vision.slug}`}
                     data={vision}
                     isActive={isActive}
                   />
