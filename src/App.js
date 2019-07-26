@@ -4,6 +4,8 @@ import './fonts/Gravur-CondensedBlack.ttf';
 import './fonts/Gravur-CondensedThin.ttf';
 import './scss/App.scss';
 
+import * as contentful from 'contentful'
+
 //dependencies
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 
@@ -14,52 +16,132 @@ import React from 'react';
 import Redesign from './screens/Redesign/Redesign';
 import Visualize from './screens/Visualize/Visualize';
 import config from './config'
+import { dataStore } from './store';
 
 class App extends React.Component {
 
   componentDidMount(){
-    //window.gapi.load("client", this.initClient);
+    this.fetchData();
   }
 
-  initClient = () => {
-    // 2. Initialize the JavaScript client library.
-    window.gapi.client
-      .init({
-        apiKey: config.apiKey,
-        clientId: config.clientId,
-        // Your API key will be automatically added to the Discovery Document URLs.
-        discoveryDocs: config.discoveryDocs,
-        scope: config.scope
+  state = {
+    dataLoaded: false,
+  }
+
+  contentfulClient = contentful.createClient({
+    space: 'xbl068csq86a',
+    accessToken: 'ok3nAinl4Tz6xrzqpM_V49TX064YXj3LQxKsU7giAeA'
+  });
+
+  fetchData = ()=>{
+
+    this.contentfulClient.getEntry('4KGFPDFY2MZrRWCi4hZj2g')
+    .then((entry) => {
+      //console.log(entry);
+      dataStore.siteData = entry.fields;
+    })
+    .then(()=>{
+      this.contentfulClient.getEntries({
+        content_type: 'visionsData'
       })
-      .then((a) => {
-        console.log(a);
-        this.handleClientLoad();
-      // 3. Initialize and make the API request.
-      //load(this.handleClientLoad);
-    });
-  }
-
-  handleClientLoad = ()=>{
-    window.gapi.client.load("sheets", "v4", () => {
-      window.gapi.client.sheets.spreadsheets.values
-        .get({
-          spreadsheetId: config.spreadsheetId,
-          range: 'Sheet1',
+      .then((response) => {
+        let visionsArr = [];
+        response.items.map((vision)=>{
+          visionsArr.push(vision.fields);
+        });
+        dataStore.visionsData = visionsArr;
+      })
+    })
+    .then(()=>{
+      this.contentfulClient.getEntries({
+        content_type: 'inspirationsData'
+      })
+      .then((response) => {
+        //console.log(response.items);
+  
+        let inspirationsArr = [];
+        response.items.map((inspiration)=>{
+          inspirationsArr.push(inspiration.fields);
+        });
+        dataStore.inspirationsData = inspirationsArr;
+      })
+    })
+    .then(()=>{
+      this.contentfulClient.getEntries({
+        content_type: 'objectsData'
+      })
+      .then((response) => {
+        //console.log(response.items);
+  
+        let objectsArr = [];
+        response.items.map((object)=>{
+          objectsArr.push(object.fields);
+        });
+        dataStore.objectsData = objectsArr;
+      })
+    })
+    .then(()=>{
+      this.contentfulClient.getEntries({
+        content_type: 'objectivesData'
+      })
+      .then((response) => {
+        //console.log(response.items);
+  
+        let objectivesArr = [];
+        response.items.map((objective)=>{
+          objectivesArr.push(objective.fields);
+        });
+        dataStore.objectivesData = objectivesArr;
+      })
+    })
+    .then(()=>{
+      this.contentfulClient.getEntries({
+        content_type: 'objectivesData'
+      })
+      .then((response) => {
+        //console.log(response.items);
+  
+        let objectivesArr = [];
+        response.items.map((objective)=>{
+          objectivesArr.push(objective.fields);
+        });
+        dataStore.objectivesData = objectivesArr;
+      })
+    })
+    .then(()=>{
+      this.contentfulClient.getEntries({
+        content_type: 'visualizeData'
+      })
+      .then((response) => {
+        //console.log(response.items);
+        let visualizeData = {
+          "objects": [],
+          "background": [],
+          "foreground": [],
+          "effects": [],
+          "people": [],
+        }
+        response.items.map((visualizeItem)=>{
+          visualizeData[visualizeItem.fields.category].push(visualizeItem.fields);
+        });
+        dataStore.visualizeData = visualizeData;
+        
+      })
+      .then(()=>{
+        this.setState({
+          dataLoaded: true,
         })
-        .then(
-          response => {
-            const data = response.result.values;
-            console.log(data);
-          },
-          response => {
-            //callback(false, response.result.error);
-            console.log(response);
-          }
-        );
-    });
+      });
+    })
+    .catch(console.error)
   }
 
   render(){
+    const {dataLoaded} = this.state;
+
+    if (!dataLoaded){
+      return (<div>LOADING</div>)
+    }
     return (
       <Router>
         <div className="App">

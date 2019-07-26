@@ -2,8 +2,8 @@ import './InspirationItem.scss';
 
 import React from 'react';
 import _ from 'lodash';
+import { dataStore } from '../../store';
 import { inspirationSettingsData } from '../../data/dev_data';
-import { siteData } from '../../data/site_data';
 import { view } from 'react-easy-state';
 
 class InspirationItem extends React.Component {
@@ -49,7 +49,7 @@ class InspirationItem extends React.Component {
             >
               <img
                 className="inspiration_item__image"
-                src={`./assets/images/temp/inspirations/${data.image}`}
+                src={`https:${data.image.fields.file.url}`}
                 alt="Inspiration"
               />
               <div className="inspiration_item__title_container">
@@ -65,7 +65,7 @@ class InspirationItem extends React.Component {
                     onClick={()=>{
                       this.props.onInspirationSelectClick(data);
                     }}
-                  >{siteData.inspirationSelectButtonText}</button>
+                  >{dataStore.siteData.inspirationSelectButtonText}</button>
                 </div>
               </div>
             </div>

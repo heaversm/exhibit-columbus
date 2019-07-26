@@ -3,7 +3,6 @@
 import './Inspiration.scss';
 
 import { dataStore, userState } from '../../store';
-import { inspirationsData, siteData } from '../../data/site_data';
 
 import { InspirationItem } from '../../components';
 import { Link } from 'react-router-dom';
@@ -13,18 +12,13 @@ import { view } from 'react-easy-state';
 
 class Inspiration extends React.Component {
 
-  static defaultProps = {
-    numInspirations: inspirationsData.length
-  }
-
   state = {
     activeInspirationIndex: -1,
     activeInspirations: null,
   }
 
   componentDidMount(){
-    console.log(dataStore.siteData);
-    this.state.activeInspirations = _.sampleSize(inspirationsData,inspirationSettingsData.DIVISIONS);
+    this.state.activeInspirations = _.sampleSize(dataStore.inspirationsData,inspirationSettingsData.DIVISIONS);
     this.forceUpdate();
   }
   
@@ -54,7 +48,7 @@ class Inspiration extends React.Component {
         <section className="inspiration__title_container ctnr">
           <div className="row center-xs">
             <div className="col-xs-6">
-              <h1 className="inspiration__title">{siteData.inspirationTitle}</h1>
+              <h1 className="inspiration__title">{dataStore.siteData.inspirationTitle}</h1>
             </div>
           </div>
         </section>
