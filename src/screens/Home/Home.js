@@ -23,6 +23,8 @@ class Home extends React.Component {
   state = {
     activeVisionIndex: 0,
     visions: null, //will hold the array of visions sampled from the dataStore
+    visionsAreLoaded: false,
+    numVisionsLoaded: 0,
   }
 
   componentDidMount(){
@@ -37,8 +39,25 @@ class Home extends React.Component {
 
   componentDidUpdate(prevProps,prevState){
     if (!prevState.visions && this.state.visions){
+      this.loadVisionImages();
       this.setVisionSelectionInterval();
     }
+  }
+
+  loadVisionImages = ()=>{
+    console.log('load vision images');
+    this.state.visions.map((vision, index) => {
+        const visionImage = new Image();
+        visionImage.src = vision.image.fields.file.url;
+        visionImage.addEventListener('load', ()=> {
+          const newNumVisions = this.state.numVisionsLoaded+1;
+          const visionsAreLoaded = newNumVisions >= homeData.NUM_VISIONS;
+          this.setState({
+            numVisionsLoaded: newNumVisions,
+            visionsAreLoaded: visionsAreLoaded,
+          });
+      });
+    });
   }
 
   setVisionSelectionInterval = ()=>{
@@ -54,9 +73,10 @@ class Home extends React.Component {
       activeVisionIndex: newVisionIndex
     })
   }
-  
 
   render() {
+
+    const {visionsAreLoaded} = this.state;
 
     return (
       <main className="Home app_screen">
@@ -68,7 +88,7 @@ class Home extends React.Component {
             </div>
           </div>
         </section>
-        <section className="home__visions_container">
+        <section className={`home__visions_container ${visionsAreLoaded ? 'active' : ''}`}>
           <div className="home__visions_positioner">
             {
               
