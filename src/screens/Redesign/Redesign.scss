@@ -47,6 +47,11 @@
     overflow-x: auto;
     white-space: nowrap;
     padding: 20px 0;
+    &.active {
+      .redesign__object_container {
+        opacity: 1;
+      }
+    }
   }
   &__object_container {
     width: 250px;
@@ -56,6 +61,8 @@
     margin-left: 20px;
     overflow: hidden;
     border: 5px solid transparent;
+    opacity: 0;
+    transition: all $anim__time--std ease-in-out;
     &:first-child {
       margin-left: 0;
     }

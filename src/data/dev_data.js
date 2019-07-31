@@ -36,6 +36,7 @@ const redesignSettingsData = {
   "IMAGE_QUALITY": 70, //percent, for generating image from contentful
   "OBJECT_WIDTH": 250, //px, for generating image from contentful
   "INSPIRATION_WIDTH": 300, //px of inspiration, for generating image from contentful
+  "TRANSITION_DELAY_INCREMENT": 100, //amount of time in ms to stagger animate in
 }
 
 const visualizeSettingsData = {

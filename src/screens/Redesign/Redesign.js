@@ -8,6 +8,8 @@ import _ from 'lodash';
 import { redesignSettingsData } from '../../data/dev_data';
 import { view } from 'react-easy-state';
 
+let introAnimTimeout;
+
 class Redesign extends React.Component {
 
 
@@ -19,11 +21,19 @@ class Redesign extends React.Component {
     objects: null, //will hold active random subset of objects
     objectives: null, //will hold active random subset of objectives
     isInWriteMode: false, //true when user chooses to write their own objective
+    objectsAreLoaded: false, //when object images have finished loading
+    introAnimComplete: false, //true when objects have animated in (after successfully loading)
   }
 
   constructor(props) {
     super(props);
     this.handleWriteObjectiveType = this.handleWriteObjectiveType.bind(this);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevState.objects && this.state.objects) {
+      this.loadObjectImages();
+    }
   }
 
   componentDidMount() {
@@ -33,8 +43,39 @@ class Redesign extends React.Component {
       data: inspirationData,
       objectives: _.sampleSize(dataStore.objectivesData, redesignSettingsData.SAMPLE_SIZE),
       objects: _.sampleSize(dataStore.objectsData, redesignSettingsData.SAMPLE_SIZE),
+      numObjectsLoaded: 0,
     });
 
+  }
+
+  componentWillUnmount(){
+    if (introAnimTimeout){
+      clearTimeout(introAnimTimeout);
+    }
+  }
+
+  loadObjectImages = () => {
+    this.state.objects.map((object, index) => {
+      const objectImage = new Image();
+      objectImage.src = object.image.fields.file.url;
+      objectImage.addEventListener('load', () => {
+        const newNumObjects = this.state.numObjectsLoaded + 1;
+        const objectsAreLoaded = newNumObjects >= redesignSettingsData.SAMPLE_SIZE;
+        this.setState({
+          numObjectsLoaded: newNumObjects,
+          objectsAreLoaded: objectsAreLoaded,
+        });
+
+        if (objectsAreLoaded){
+          introAnimTimeout = setTimeout(()=>{
+            this.setState({
+              introAnimComplete: true,
+            });
+          },redesignSettingsData.SAMPLE_SIZE* redesignSettingsData.TRANSITION_DELAY_INCREMENT)
+        }
+
+      });
+    });
   }
 
   handleWriteObjectiveType(event) {
@@ -119,7 +160,7 @@ class Redesign extends React.Component {
 
   render() {
 
-    const { data, objects, objectives, activeObjective, activeObject, isInWriteMode } = this.state;
+    const { data, objects, objectives, activeObjective, activeObject, isInWriteMode, objectsAreLoaded, introAnimComplete } = this.state;
 
     if (!data) {
       return (
@@ -159,15 +200,21 @@ class Redesign extends React.Component {
           <section className="redesign__objects_section ctnr">
             <h3 className="redesign__objects_title">{`${dataStore.siteData.redesignObjectsTitle} ${activeObject !== null ? activeObject.title : ''}`}</h3>
             <ScrollContainer
-              className="redesign__objects_container"
+              className={`redesign__objects_container ${objectsAreLoaded ? 'active' : ''}`}
             >
               {objects.map((object, index) => {
+
+                const transitionDelay = introAnimComplete ? '0ms' : `${index*redesignSettingsData.TRANSITION_DELAY_INCREMENT}ms`
+
                 return (
                   <div
                     className={`redesign__object_container ${activeObject !== null && activeObject.slug === object.slug ? 'active' : ''}`}
                     key={`redesign__object--${object.slug}`}
                     onClick={() => {
                       this.handleObjectClick(object)
+                    }}
+                    style={{
+                      transitionDelay: transitionDelay
                     }}
                   >
                     <img
