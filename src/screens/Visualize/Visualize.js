@@ -326,7 +326,7 @@ class Visualize extends React.Component {
               </p>
               <div className="visualize__sign_buttons row between-md">
                 <button
-                  className="visualize__sign_button visualize__sign_button--send col-md-5 center-xs button"
+                  className="visualize__sign_button visualize__sign_button--send col-xs-5 center-xs button"
                   onClick={() => {
                     this.handleVisualizeSignClick();
                   }}
@@ -334,7 +334,7 @@ class Visualize extends React.Component {
                   {dataStore.siteData.visualizeContinueButtonLabel}
                 </button>
                 <button
-                  className="visualize__sign_button visualize__sign_button--skip col-md-5 center-xs button"
+                  className="visualize__sign_button visualize__sign_button--skip col-xs-5 center-xs button"
                   onClick={() => {
                     this.handleVisualizeSkipClick();
                   }}

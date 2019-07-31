@@ -127,10 +127,10 @@ class Redesign extends React.Component {
           <main>
             <section className="redesign__inspiration_section ctnr">
               <div className="row">
-                <div className="redesign__inspiration_title_container middle-md col-md-4">
+                <div className="redesign__inspiration_title_container middle-md col-xs-4">
                   <h1 className="redesign__inspiration_title">{dataStore.siteData.redesignInspirationText}</h1>
                 </div>
-                <div className="redesign__choice_container col-md-6 col-md-offset-2">
+                <div className="redesign__choice_container col-xs-6 col-xs-offset-2">
                   <div className="redesign__choice center-xs">
                     <img
                       src={`https:${data.image.fields.file.url}?w=${redesignSettingsData.INSPIRATION_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}`}
@@ -179,7 +179,7 @@ class Redesign extends React.Component {
                 {
                   !isInWriteMode ? (
                     <ScrollContainer 
-                      className="redesign__objectives col-md-8"
+                      className="redesign__objectives col-xs-8"
                       vertical={true}
                       horizontal={false}
                       hideScrollbars={true}
@@ -199,7 +199,7 @@ class Redesign extends React.Component {
                       }
                     </ScrollContainer>
                   ) : (
-                      <div className="redesign__objective_input_container col-md-8">
+                      <div className="redesign__objective_input_container col-xs-8">
                         <input
                           type="text"
                           className="redesign__objective_input"
@@ -210,10 +210,10 @@ class Redesign extends React.Component {
                     )
                 }
 
-                <div className="redesign__objectives_divider_container col-md-1">
+                <div className="redesign__objectives_divider_container col-xs-1">
                   <div className="redesign__objectives_divider"></div>
                 </div>
-                <div className="redesign__objectives_more_container col-md-3">
+                <div className="redesign__objectives_more_container col-xs-3">
                   {
                     !isInWriteMode &&
 
