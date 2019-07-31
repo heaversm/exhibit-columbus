@@ -1,4 +1,14 @@
+@import "../../scss/vars.scss";
+@import "../../scss/mixins.scss";
+
 .confirmation {
+  &__main {
+    opacity: 0;
+    transition: opacity $anim__time--long linear;
+    &.active {
+      opacity: 1;
+    }
+  }
   &__image_container {
     margin-top: 50px;
   }

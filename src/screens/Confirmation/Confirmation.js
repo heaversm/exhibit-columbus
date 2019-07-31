@@ -9,7 +9,7 @@ import React from 'react';
 import {confirmationSettingsData} from '../../data/dev_data';
 import { view } from 'react-easy-state';
 
-let confirmationTimeout = null; //will hold reference to the timeout 
+let confirmationTimeout, transitionTimeout; //will hold reference to the timeout 
 
 class Confirmation extends React.Component {
   constructor(props) {
@@ -17,25 +17,46 @@ class Confirmation extends React.Component {
     this.handleConfirmationTimeout = this.handleConfirmationTimeout.bind(this);
   }
 
-  state = {}
+  state = {
+    doTransition: false,
+  }
 
   componentDidMount(){
     confirmationTimeout = setTimeout(this.handleConfirmationTimeout,confirmationSettingsData.CONFIRMATION_TIMEOUT);
+    transitionTimeout = setTimeout(()=>{
+      this.setState({
+        doTransition: true
+      });
+    },1000);
   }
 
   componentWillUnmount(){
-    clearTimeout(confirmationTimeout);
+    if (confirmationTimeout){
+      clearTimeout(confirmationTimeout);
+    }
+    if (transitionTimeout){
+      clearTimeout(transitionTimeout);
+    }
   }
 
   handleConfirmationTimeout(){
-    this.props.history.push('/');
+    this.setState({
+      doTransition: false
+    });
+    transitionTimeout = setTimeout(()=>{
+      this.props.history.push('/');
+    },1000);
   }
 
   render() {
 
+    const {doTransition} = this.state;
+
     return (
       <div className="Confirmation app_screen">
-        <main>
+        <main
+          className={`confirmation__main ${doTransition ? 'active' : ''}`}
+        >
           <div className="confirmation__title_container ctnr center-xs">
             <h1 className="confirmation__title">{dataStore.siteData.confirmationTitle}</h1>
             <div className="confirmation__continue_container">
