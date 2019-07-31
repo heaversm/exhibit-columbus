@@ -121,148 +121,148 @@ class Redesign extends React.Component {
 
     const { data, objects, objectives, activeObjective, activeObject, isInWriteMode } = this.state;
 
-    if (data) {
+    if (!data) {
       return (
-        <div className="redesign app_screen">
-          <main>
-            <section className="redesign__inspiration_section ctnr">
-              <div className="row">
-                <div className="redesign__inspiration_title_container middle-md col-xs-4">
-                  <h1 className="redesign__inspiration_title">{dataStore.siteData.redesignInspirationText}</h1>
-                </div>
-                <div className="redesign__choice_container col-xs-6 col-xs-offset-2">
-                  <div className="redesign__choice center-xs">
-                    <img
-                      src={`https:${data.image.fields.file.url}?w=${redesignSettingsData.INSPIRATION_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}`}
-                      alt={data.title}
-                      className="redesign__choice_image"
-                    />
-                    <div className="redesign__choice_content">
-                      <h2 className="redesign__choice_title">{data.title}</h2>
-                      <span className="redesign__choice_text">
-                        {`${dataStore.siteData.visualizeLead} ${data.object} ${dataStore.siteData.visualizeSublead}${data.objective}`}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-            <section className="redesign__objects_section ctnr">
-              <h3 className="redesign__objects_title">{`${dataStore.siteData.redesignObjectsTitle} ${activeObject !== null ? activeObject.title : ''}`}</h3>
-              <ScrollContainer 
-                className="redesign__objects_container"
-              >
-                {objects.map((object, index) => {
-                  return (
-                    <div
-                      className={`redesign__object_container ${activeObject !== null && activeObject.slug === object.slug ? 'active' : ''}`}
-                      key={`redesign__object--${object.slug}`}
-                      onClick={() => {
-                        this.handleObjectClick(object)
-                      }}
-                    >
-                      <img
-                        src={`https:${object.image.fields.file.url}?w=${redesignSettingsData.OBJECT_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}`}
-                        alt={object.title}
-                        className="redesign__object_image"
-                      />
-                      <h4 className="redesign__object_text">{object.title}</h4>
-                    </div>
-                  )
-                })}
-
-              </ScrollContainer>
-            </section>
-            <section className="redesign__objectives_section ctnr">
-              <h3 className="redesign__objectives_title">{dataStore.siteData.redesignObjectivesTitle}</h3>
-              <div className="redesign__objectives_container row">
-                {
-                  !isInWriteMode ? (
-                    <ScrollContainer 
-                      className="redesign__objectives col-xs-8"
-                      vertical={true}
-                      horizontal={false}
-                      hideScrollbars={true}
-                    >
-                      {
-                        objectives.map((objective, index) => {
-                          return (
-                            <div
-                              className={`redesign__objective ${activeObjective !== null && activeObjective.slug === objective.slug ? 'active' : ''}`}
-                              key={`redesign__objective--${objective.slug}`}
-                              onClick={() => { this.handleObjectiveClick(objective) }}
-                            >
-                              {objective.title}
-                            </div>
-                          )
-                        })
-                      }
-                    </ScrollContainer>
-                  ) : (
-                      <div className="redesign__objective_input_container col-xs-8">
-                        <input
-                          type="text"
-                          className="redesign__objective_input"
-                          placeholder={dataStore.siteData.redesignObjectiveInputPlaceholder}
-                          onChange={this.handleWriteObjectiveType}
-                        />
-                      </div>
-                    )
-                }
-
-                <div className="redesign__objectives_divider_container col-xs-1">
-                  <div className="redesign__objectives_divider"></div>
-                </div>
-                <div className="redesign__objectives_more_container col-xs-3">
-                  {
-                    !isInWriteMode &&
-
-                    <button
-                      className="button button--rounded button--md redesign__objectives_more_button"
-                      onClick={this.handleLoadMoreObjectivesClick}
-                    >
-                      {dataStore.siteData.redesignMoreButtonLabel}
-                    </button>
-                  }
-                  {
-                    isInWriteMode ? (
-                      <button
-                        className="button button--rounded button--md redesign__objectives_help_button"
-                        onClick={this.handleHelpChooseClick}
-                      >
-                        {dataStore.siteData.redesignObjectiveHelpChooseText}
-                      </button>
-                    ) : (
-                        <button
-                          className="button button--rounded button--md redesign__objectives_write_button"
-                          onClick={this.handleWriteObjectiveClick}
-                        >
-                          {dataStore.siteData.redesignObjectiveUserSubmitText}
-                        </button>
-                      )
-                  }
-
-                </div>
-              </div>
-            </section>
-            <div className="redesign__visualize_section center-xs">
-              <button
-                className={`redesign__visualize_button button button--rounded button--lg ${activeObjective !== null && activeObject !== null ? 'active' : ''}`}
-                onClick={this.handleVisualizeClick}
-              >
-                {dataStore.siteData.redesignContinueButtonLabel}
-              </button>
-            </div>
-          </main>
+        <div
+          className="loading"
+        >
+          LOADING
         </div>
       )
     }
 
     return (
-      <div
-        className="loading__container"
-      >
-        LOADING
+      <div className="redesign app_screen">
+        <main>
+          <section className="redesign__inspiration_section ctnr">
+            <div className="row">
+              <div className="redesign__inspiration_title_container middle-md col-xs-4">
+                <h1 className="redesign__inspiration_title">{dataStore.siteData.redesignInspirationText}</h1>
+              </div>
+              <div className="redesign__choice_container col-xs-6 col-xs-offset-2">
+                <div className="redesign__choice center-xs">
+                  <img
+                    src={`https:${data.image.fields.file.url}?w=${redesignSettingsData.INSPIRATION_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}`}
+                    alt={data.title}
+                    className="redesign__choice_image"
+                  />
+                  <div className="redesign__choice_content">
+                    <h2 className="redesign__choice_title">{data.title}</h2>
+                    <span className="redesign__choice_text">
+                      {`${dataStore.siteData.visualizeLead} ${data.object} ${dataStore.siteData.visualizeSublead}${data.objective}`}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section className="redesign__objects_section ctnr">
+            <h3 className="redesign__objects_title">{`${dataStore.siteData.redesignObjectsTitle} ${activeObject !== null ? activeObject.title : ''}`}</h3>
+            <ScrollContainer
+              className="redesign__objects_container"
+            >
+              {objects.map((object, index) => {
+                return (
+                  <div
+                    className={`redesign__object_container ${activeObject !== null && activeObject.slug === object.slug ? 'active' : ''}`}
+                    key={`redesign__object--${object.slug}`}
+                    onClick={() => {
+                      this.handleObjectClick(object)
+                    }}
+                  >
+                    <img
+                      src={`https:${object.image.fields.file.url}?w=${redesignSettingsData.OBJECT_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}`}
+                      alt={object.title}
+                      className="redesign__object_image"
+                    />
+                    <h4 className="redesign__object_text">{object.title}</h4>
+                  </div>
+                )
+              })}
+
+            </ScrollContainer>
+          </section>
+          <section className="redesign__objectives_section ctnr">
+            <h3 className="redesign__objectives_title">{dataStore.siteData.redesignObjectivesTitle}</h3>
+            <div className="redesign__objectives_container row">
+              {
+                !isInWriteMode ? (
+                  <ScrollContainer
+                    className="redesign__objectives col-xs-8"
+                    vertical={true}
+                    horizontal={false}
+                    hideScrollbars={true}
+                  >
+                    {
+                      objectives.map((objective, index) => {
+                        return (
+                          <div
+                            className={`redesign__objective ${activeObjective !== null && activeObjective.slug === objective.slug ? 'active' : ''}`}
+                            key={`redesign__objective--${objective.slug}`}
+                            onClick={() => { this.handleObjectiveClick(objective) }}
+                          >
+                            {objective.title}
+                          </div>
+                        )
+                      })
+                    }
+                  </ScrollContainer>
+                ) : (
+                    <div className="redesign__objective_input_container col-xs-8">
+                      <input
+                        type="text"
+                        className="redesign__objective_input"
+                        placeholder={dataStore.siteData.redesignObjectiveInputPlaceholder}
+                        onChange={this.handleWriteObjectiveType}
+                      />
+                    </div>
+                  )
+              }
+
+              <div className="redesign__objectives_divider_container col-xs-1">
+                <div className="redesign__objectives_divider"></div>
+              </div>
+              <div className="redesign__objectives_more_container col-xs-3">
+                {
+                  !isInWriteMode &&
+
+                  <button
+                    className="button button--rounded button--md redesign__objectives_more_button"
+                    onClick={this.handleLoadMoreObjectivesClick}
+                  >
+                    {dataStore.siteData.redesignMoreButtonLabel}
+                  </button>
+                }
+                {
+                  isInWriteMode ? (
+                    <button
+                      className="button button--rounded button--md redesign__objectives_help_button"
+                      onClick={this.handleHelpChooseClick}
+                    >
+                      {dataStore.siteData.redesignObjectiveHelpChooseText}
+                    </button>
+                  ) : (
+                      <button
+                        className="button button--rounded button--md redesign__objectives_write_button"
+                        onClick={this.handleWriteObjectiveClick}
+                      >
+                        {dataStore.siteData.redesignObjectiveUserSubmitText}
+                      </button>
+                    )
+                }
+
+              </div>
+            </div>
+          </section>
+          <div className="redesign__visualize_section center-xs">
+            <button
+              className={`redesign__visualize_button button button--rounded button--lg ${activeObjective !== null && activeObject !== null ? 'active' : ''}`}
+              onClick={this.handleVisualizeClick}
+            >
+              {dataStore.siteData.redesignContinueButtonLabel}
+            </button>
+          </div>
+        </main>
       </div>
     )
   }

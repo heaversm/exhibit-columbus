@@ -41,7 +41,7 @@ class App extends React.Component {
         dataStore.siteData = entry.fields;
       })
       .then(() => {
-        this.contentfulClient.getEntries({
+        return this.contentfulClient.getEntries({
           content_type: 'visionsData'
         })
           .then((response) => {
@@ -52,83 +52,84 @@ class App extends React.Component {
             dataStore.visionsData = visionsArr;
             console.log('visions');
           })
-          .then(() => {
-            this.contentfulClient.getEntries({
-              content_type: 'inspirationsData'
-            })
-              .then((response) => {
-                //console.log(response.items);
-                let inspirationsArr = [];
-                response.items.map((inspiration) => {
-                  return inspirationsArr.push(inspiration.fields);
-                });
-                dataStore.inspirationsData = inspirationsArr;
-                console.log('inspirations');
-              })
-              .then(() => {
-                this.contentfulClient.getEntries({
-                  content_type: 'objectsData'
-                })
-                  .then((response) => {
-                    //console.log(response.items);
-
-                    let objectsArr = [];
-                    response.items.map((object) => {
-                      return objectsArr.push(object.fields);
-                    });
-                    dataStore.objectsData = objectsArr;
-                    console.log('objects');
-                  })
-                  .then(() => {
-                    this.contentfulClient.getEntries({
-                      content_type: 'objectivesData'
-                    })
-                      .then((response) => {
-                        //console.log(response.items);
-
-                        let objectivesArr = [];
-                        response.items.map((objective) => {
-                          return objectivesArr.push(objective.fields);
-                        });
-                        dataStore.objectivesData = objectivesArr;
-                        console.log('objectives');
-                      })
-                      .then(() => {
-                        this.contentfulClient.getEntries({
-                          content_type: 'visualizeData'
-                        })
-                          .then((response) => {
-                            let visualizeData = {
-                              "objects": [],
-                              "background": [],
-                              "foreground": [],
-                              "effects": [],
-                              "people": [],
-                            }
-                            response.items.map((visualizeItem) => {
-                              return visualizeData[visualizeItem.fields.category].push(visualizeItem.fields);
-                            });
-                            dataStore.visualizeData = visualizeData;
-                            console.log('visualize');
-                          })
-                          .then(() => {
-                            console.log('data loaded');
-                            this.setState({
-                              dataLoaded: true,
-                            })
-                          });
-                      })
-                  })
-              })
+      })
+      .then(() => {
+        return this.contentfulClient.getEntries({
+          content_type: 'inspirationsData'
+        })
+          .then((response) => {
+            //console.log(response.items);
+            let inspirationsArr = [];
+            response.items.map((inspiration) => {
+              return inspirationsArr.push(inspiration.fields);
+            });
+            dataStore.inspirationsData = inspirationsArr;
+            console.log('inspirations');
           })
       })
+      .then(() => {
+        return this.contentfulClient.getEntries({
+          content_type: 'objectsData'
+        })
+          .then((response) => {
+            //console.log(response.items);
+
+            let objectsArr = [];
+            response.items.map((object) => {
+              return objectsArr.push(object.fields);
+            });
+            dataStore.objectsData = objectsArr;
+            console.log('objects');
+          })
+      })
+      .then(() => {
+        return this.contentfulClient.getEntries({
+          content_type: 'objectivesData'
+        })
+          .then((response) => {
+            //console.log(response.items);
+
+            let objectivesArr = [];
+            response.items.map((objective) => {
+              return objectivesArr.push(objective.fields);
+            });
+            dataStore.objectivesData = objectivesArr;
+            console.log('objectives');
+          })
+      })
+      .then(() => {
+        return this.contentfulClient.getEntries({
+          content_type: 'visualizeData'
+        })
+          .then((response) => {
+            let visualizeData = {
+              "objects": [],
+              "background": [],
+              "foreground": [],
+              "effects": [],
+              "people": [],
+            }
+            response.items.map((visualizeItem) => {
+              return visualizeData[visualizeItem.fields.category].push(visualizeItem.fields);
+            });
+            dataStore.visualizeData = visualizeData;
+            console.log('visualize');
+          })
+          .then(() => {
+            console.log('data loaded');
+            this.setState({
+              dataLoaded: true,
+            })
+          });
+      })
+      .catch(console.error)
   }
 
   render() {
     const { dataLoaded } = this.state;
 
     if (!dataLoaded) {
-      return (<div>LOADING</div>)
+      return (<div className="loading">Loading</div>)
     }
     return (
       <Router>
@@ -138,7 +139,7 @@ class App extends React.Component {
           <Route exact path="/redesign" component={Redesign} />
           <Route exact path="/visualize" component={Visualize} />
           <Route exact path="/confirmation" component={Confirmation} />
-          <Reset />
+          <Reset/>
         </div>
       </Router>
     );
