@@ -3,6 +3,7 @@ import './Redesign.scss';
 import { dataStore, userState } from '../../store';
 
 import React from 'react';
+import ScrollContainer from 'react-indiana-drag-scroll'
 import _ from 'lodash';
 import { redesignSettingsData } from '../../data/dev_data';
 import { view } from 'react-easy-state';
@@ -148,7 +149,9 @@ class Redesign extends React.Component {
             </section>
             <section className="redesign__objects_section ctnr">
               <h3 className="redesign__objects_title">{`${dataStore.siteData.redesignObjectsTitle} ${activeObject !== null ? activeObject.title : ''}`}</h3>
-              <div className="redesign__objects_container">
+              <ScrollContainer 
+                className="redesign__objects_container"
+              >
                 {objects.map((object, index) => {
                   return (
                     <div
@@ -168,14 +171,19 @@ class Redesign extends React.Component {
                   )
                 })}
 
-              </div>
+              </ScrollContainer>
             </section>
             <section className="redesign__objectives_section ctnr">
               <h3 className="redesign__objectives_title">{dataStore.siteData.redesignObjectivesTitle}</h3>
               <div className="redesign__objectives_container row">
                 {
                   !isInWriteMode ? (
-                    <div className="redesign__objectives col-md-8">
+                    <ScrollContainer 
+                      className="redesign__objectives col-md-8"
+                      vertical={true}
+                      horizontal={false}
+                      hideScrollbars={true}
+                    >
                       {
                         objectives.map((objective, index) => {
                           return (
@@ -189,7 +197,7 @@ class Redesign extends React.Component {
                           )
                         })
                       }
-                    </div>
+                    </ScrollContainer>
                   ) : (
                       <div className="redesign__objective_input_container col-md-8">
                         <input

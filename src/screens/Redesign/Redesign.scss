@@ -79,9 +79,6 @@
   &__objectives {
     overflow-y: auto;
     height: 200px;
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
   &__objective {
     font-size: $fs__h4;
