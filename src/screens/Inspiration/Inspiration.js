@@ -10,11 +10,14 @@ import React from 'react';
 import { inspirationSettingsData } from '../../data/dev_data';
 import { view } from 'react-easy-state';
 
+let outroTimeout;
+
 class Inspiration extends React.Component {
 
   state = {
     activeInspirationIndex: -1,
     activeInspirations: null,
+    doOutro: false, //when true, user has selected an inspiration and is moving on to the next step
   }
 
   componentDidMount(){
@@ -22,7 +25,11 @@ class Inspiration extends React.Component {
     this.forceUpdate();
   }
   
-
+  componentWillUnmount(){
+    if (outroTimeout){
+      clearTimeout(outroTimeout);
+    }
+  }
 
   handleInspirationItemClick = (index)=>{
     this.setState({
@@ -32,12 +39,18 @@ class Inspiration extends React.Component {
 
   handleInspirationSelectClick = (data)=>{
     userState.inspirationData = data;
-    this.props.history.push(`/redesign`)
+    
+    this.setState({
+      doOutro: true
+    });
+    outroTimeout = setTimeout(()=>{
+      this.props.history.push(`/redesign`)
+    },inspirationSettingsData.DIVISIONS*inspirationSettingsData.TRANSITION_DELAY_INCREMENT);
   }
 
   render() {
 
-    const {activeInspirations, activeInspirationIndex} = this.state;
+    const {activeInspirations, activeInspirationIndex, doOutro} = this.state;
 
     if (!activeInspirations){
       return (<div className="loading">Loading</div>)
@@ -67,6 +80,7 @@ class Inspiration extends React.Component {
                     isActive={isActive}
                     onInspirationItemClick={this.handleInspirationItemClick}
                     onInspirationSelectClick={this.handleInspirationSelectClick}
+                    doOutro={doOutro}
                   />
                 )
               }

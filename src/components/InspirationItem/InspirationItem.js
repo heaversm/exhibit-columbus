@@ -35,7 +35,12 @@ class InspirationItem extends React.Component {
   }
 
   componentDidUpdate(prevProps,prevState){
-    //if (!prevProps.doOutro && this.props.doOutro)
+    if (!prevProps.doOutro && this.props.doOutro){
+      this.setState({
+        curRotate: 0,
+        curScale: 0
+      });
+    }
   }
 
   assignPositions = ()=>{
@@ -62,7 +67,7 @@ class InspirationItem extends React.Component {
   }
 
   render() {
-    const { index, data, isActive, onInspirationItemClick } = this.props;
+    const { index, data, isActive, onInspirationItemClick, doOutro } = this.props;
     const { introAnimComplete, curTranslation, curScale, curRotate} = this.state;
     const transitionDelay = introAnimComplete ? `0ms` : `${index * inspirationSettingsData.TRANSITION_DELAY_INCREMENT}ms`;
 
@@ -91,7 +96,7 @@ class InspirationItem extends React.Component {
             >
               <div className="inspiration_item__container"
                 style={{
-                  transform: `translate(-50%,-50%) scale(${isActive ? 1 : curScale})`,
+                  transform: `translate(-50%,-50%) scale(${doOutro ? 0 : isActive ? 1 : curScale})`,
                   transitionDelay: transitionDelay,
                 }}
               >
