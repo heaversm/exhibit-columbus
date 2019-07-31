@@ -181,7 +181,7 @@ class Redesign extends React.Component {
                 <h1 className="redesign__inspiration_title">{dataStore.siteData.redesignInspirationText}</h1>
               </div>
               <div className="redesign__choice_container col-xs-6 col-xs-offset-2">
-                <div className="redesign__choice center-xs">
+                <div className={`redesign__choice center-xs ${objectsAreLoaded ? 'active' : ''}`}>
                   <img
                     src={`https:${data.image.fields.file.url}?w=${redesignSettingsData.INSPIRATION_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}`}
                     alt={data.title}

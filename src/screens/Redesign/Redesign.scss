@@ -17,6 +17,11 @@
     border-radius: 50%;
     overflow: hidden;
     padding: 20px;
+    transition: transform $anim__time--std ease-in-out;
+    transform: scale(0);
+    &.active {
+      transform: scale(1);
+    }
   }
   &__choice_image {
     position: absolute;

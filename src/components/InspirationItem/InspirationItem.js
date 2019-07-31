@@ -34,6 +34,10 @@ class InspirationItem extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps,prevState){
+    //if (!prevProps.doOutro && this.props.doOutro)
+  }
+
   assignPositions = ()=>{
     const { index } = this.props;
 
