@@ -45,7 +45,6 @@ class Home extends React.Component {
   }
 
   loadVisionImages = ()=>{
-    console.log('load vision images');
     this.state.visions.map((vision, index) => {
         const visionImage = new Image();
         visionImage.src = vision.image.fields.file.url;
@@ -76,7 +75,13 @@ class Home extends React.Component {
 
   render() {
 
-    const {visionsAreLoaded} = this.state;
+    const {visionsAreLoaded, visions} = this.state;
+
+    if (!dataStore.visionsData || !visions){
+      return (
+        <div className="loading">Loading</div>
+      )
+    }
 
     return (
       <main className="Home app_screen">
@@ -92,7 +97,7 @@ class Home extends React.Component {
           <div className="home__visions_positioner">
             {
               
-              dataStore.visionsData.map((vision, index) => {
+              visions.map((vision, index) => {
                 const isActive = this.state.activeVisionIndex === index;
 
                 return (

@@ -47,9 +47,6 @@
     overflow-x: auto;
     white-space: nowrap;
     padding: 20px 0;
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
   &__object_container {
     width: 250px;
