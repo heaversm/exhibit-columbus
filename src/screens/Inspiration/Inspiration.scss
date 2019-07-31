@@ -2,6 +2,13 @@
 @import "../../scss/mixins.scss";
 
 .inspiration {
+  &__title_container {
+    opacity: 0;
+    transition: opacity $anim__time--long linear;
+    &.active {
+      opacity: 1;
+    }
+  }
   &__examples_container {
     position: relative;
     height: calc(100vh - 180px); //MH - TODO: this should probably be calculated by JS or set explicit heights

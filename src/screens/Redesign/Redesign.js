@@ -8,7 +8,7 @@ import _ from 'lodash';
 import { redesignSettingsData } from '../../data/dev_data';
 import { view } from 'react-easy-state';
 
-let introAnimTimeout;
+let introAnimTimeout, outroTimeout;
 
 class Redesign extends React.Component {
 
@@ -23,6 +23,7 @@ class Redesign extends React.Component {
     isInWriteMode: false, //true when user chooses to write their own objective
     objectsAreLoaded: false, //when object images have finished loading
     introAnimComplete: false, //true when objects have animated in (after successfully loading)
+    doOutro: false, //when true, animate page out
   }
 
   constructor(props) {
@@ -51,6 +52,10 @@ class Redesign extends React.Component {
   componentWillUnmount(){
     if (introAnimTimeout){
       clearTimeout(introAnimTimeout);
+    }
+
+    if (outroTimeout){
+      clearTimeout(outroTimeout);
     }
   }
 
@@ -155,12 +160,18 @@ class Redesign extends React.Component {
     const { activeObject, activeObjective } = this.state;
     userState.objectData = _.cloneDeep(activeObject); //MH not sure if we need deep clone here or not
     userState.objectiveData = _.cloneDeep(activeObjective); //MH not sure if we need deep clone here or not
-    this.props.history.push(`/visualize`)
+    
+    this.setState({
+      doOutro: true
+    });
+    outroTimeout = setTimeout(()=>{
+      this.props.history.push(`/visualize`)
+    },1000);
   }
 
   render() {
 
-    const { data, objects, objectives, activeObjective, activeObject, isInWriteMode, objectsAreLoaded, introAnimComplete } = this.state;
+    const { data, objects, objectives, activeObjective, activeObject, isInWriteMode, objectsAreLoaded, introAnimComplete, doOutro } = this.state;
 
     if (!data) {
       return (
@@ -174,7 +185,9 @@ class Redesign extends React.Component {
 
     return (
       <div className="redesign app_screen">
-        <main>
+        <main
+          className={`redesign__main ${!doOutro && objectsAreLoaded ? 'active' : ''}`}
+        >
           <section className="redesign__inspiration_section ctnr">
             <div className="row">
               <div className="redesign__inspiration_title_container middle-md col-xs-4">

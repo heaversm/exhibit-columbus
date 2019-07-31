@@ -10,24 +10,35 @@ import React from 'react';
 import { inspirationSettingsData } from '../../data/dev_data';
 import { view } from 'react-easy-state';
 
-let outroTimeout;
+let outroTimeout, introTimeout;
 
 class Inspiration extends React.Component {
 
   state = {
     activeInspirationIndex: -1,
     activeInspirations: null,
+    doIntro: false, //when true, do intro
     doOutro: false, //when true, user has selected an inspiration and is moving on to the next step
   }
 
   componentDidMount(){
     this.state.activeInspirations = _.sampleSize(dataStore.inspirationsData,inspirationSettingsData.DIVISIONS);
     this.forceUpdate();
+    introTimeout = setTimeout(()=>{
+      const {doIntro} = this.state;
+      this.setState({
+        doIntro: true
+      });
+    },1000);
   }
   
   componentWillUnmount(){
     if (outroTimeout){
       clearTimeout(outroTimeout);
+    }
+
+    if (introTimeout){
+      clearTimeout(introTimeout);
     }
   }
 
@@ -41,7 +52,8 @@ class Inspiration extends React.Component {
     userState.inspirationData = data;
     
     this.setState({
-      doOutro: true
+      doOutro: true,
+      doIntro: false,
     });
     outroTimeout = setTimeout(()=>{
       this.props.history.push(`/redesign`)
@@ -50,7 +62,7 @@ class Inspiration extends React.Component {
 
   render() {
 
-    const {activeInspirations, activeInspirationIndex, doOutro} = this.state;
+    const {activeInspirations, activeInspirationIndex, doOutro, doIntro} = this.state;
 
     if (!activeInspirations){
       return (<div className="loading">Loading</div>)
@@ -58,7 +70,7 @@ class Inspiration extends React.Component {
 
     return (
       <main className="Inspiration app_screen">
-        <section className="inspiration__title_container ctnr">
+        <section className={`inspiration__title_container ctnr ${doIntro ? 'active' : ''}`}>
           <div className="row center-xs">
             <div className="col-xs-6">
               <h1 className="inspiration__title">{dataStore.siteData.inspirationTitle}</h1>

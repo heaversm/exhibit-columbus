@@ -5,6 +5,7 @@ const appSettingsData = {
 const homeData = {
   "SELECTION_INTERVAL": 10000, //ms between highlighting each new vision
   "NUM_VISIONS": 14, //number of visions to show onscreen
+  "TRANSITION_DELAY_INCREMENT": 100, //ms to stagger item animations
 }
 
 const visionData = {

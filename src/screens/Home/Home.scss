@@ -2,6 +2,13 @@
 @import "../../scss/mixins.scss";
 
 .home {
+  &__title_container {
+    transition: opacity $anim__time--long linear;
+    opacity: 0;
+    &.active {
+      opacity: 1;
+    }
+  }
   &__continue_button {
     margin-top: 50px;
     font-size: $fs__h2;

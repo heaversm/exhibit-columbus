@@ -9,7 +9,7 @@ import { dataStore } from '../../store';
 import { homeData } from '../../data/dev_data';
 import { view } from 'react-easy-state';
 
-let visionSelectorInterval = null;
+let visionSelectorInterval, outroTimeout;
 
 class Home extends React.Component {
   constructor(props) {
@@ -25,6 +25,7 @@ class Home extends React.Component {
     visions: null, //will hold the array of visions sampled from the dataStore
     visionsAreLoaded: false,
     numVisionsLoaded: 0,
+    doOutro: false, //when true, perform outgoing animation
   }
 
   componentDidMount(){
@@ -34,7 +35,13 @@ class Home extends React.Component {
   }
 
   componentWillUnmount(){
-    clearInterval(visionSelectorInterval);
+    if (visionSelectorInterval){
+      clearInterval(visionSelectorInterval);
+    }
+
+    if (outroTimeout){
+      clearInterval(outroTimeout);
+    }
   }
 
   componentDidUpdate(prevProps,prevState){
@@ -73,9 +80,19 @@ class Home extends React.Component {
     })
   }
 
+  handleContinueButtonClick = ()=>{
+    
+    this.setState({
+      doOutro: true,
+    });
+    outroTimeout = setTimeout(()=>{
+      this.props.history.push('/inspiration');
+    },homeData.NUM_VISIONS * homeData.TRANSITION_DELAY_INCREMENT);
+  }
+
   render() {
 
-    const {visionsAreLoaded, visions} = this.state;
+    const {visionsAreLoaded, visions, doOutro} = this.state;
 
     if (!dataStore.visionsData || !visions){
       return (
@@ -84,12 +101,17 @@ class Home extends React.Component {
     }
 
     return (
-      <main className="Home app_screen">
-        <section className="home__title_container ctnr">
+      <main className={`Home app_screen`}>
+        <section className={`home__title_container ctnr ${!doOutro && visionsAreLoaded ? 'active' : ''}`}>
           <div className="row center-xs">
             <div className="col-xs-6">
               <h1 className="home__title">{dataStore.siteData.introTitle}</h1>
-              <Link className="home__continue_button button button--rounded" to="/inspiration">{dataStore.siteData.introContinueButtonText}</Link>
+              <div 
+                className="home__continue_button button button--rounded"
+                onClick={this.handleContinueButtonClick}
+              >
+                {dataStore.siteData.introContinueButtonText}
+              </div>
             </div>
           </div>
         </section>
@@ -106,6 +128,7 @@ class Home extends React.Component {
                     key={`vision--${vision.slug}`}
                     data={vision}
                     isActive={isActive}
+                    doOutro={doOutro}
                   />
                 )
               }

@@ -33,6 +33,15 @@ class Vision extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps,prevState){
+    if (!prevProps.doOutro && this.props.doOutro){
+      this.setState({
+        curTranslation: 0,
+        curScale: 0
+      });
+    }
+  }
+
   assignPositions = () => {
     const { index } = this.props;
     
@@ -56,7 +65,7 @@ class Vision extends React.Component {
   }
 
   render() {
-    const { index, data, isActive } = this.props;
+    const { index, data, isActive, doOutro } = this.props;
     const { curTranslation, curScale, introAnimComplete } = this.state;
 
     const transitionDelay = introAnimComplete ? `0ms` : `${index * visionData.TRANSITION_DELAY_INCREMENT}ms`;
@@ -84,7 +93,7 @@ class Vision extends React.Component {
           >
             <div className="vision__container"
               style={{
-                transform: `translate(-50%,-50%) scale(${isActive ? 1 : curScale})`,
+                transform: `translate(-50%,-50%) scale(${doOutro ? 0 : isActive ? 1 : curScale})`,
                 transitionDelay: transitionDelay
               }}
             >
