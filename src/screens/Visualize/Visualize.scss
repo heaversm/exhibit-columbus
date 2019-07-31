@@ -2,6 +2,13 @@
 @import "../../scss/mixins.scss";
 
 .visualize {
+  &__main {
+    opacity: 0;
+    transition: opacity $anim__time--long linear;
+    &.active {
+      opacity: 1;
+    }
+  }
   &__sentence_container {
     margin: 25px 0 50px 0;
     height: 80px;

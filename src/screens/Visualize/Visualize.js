@@ -9,6 +9,8 @@ import { view } from 'react-easy-state';
 
 let visualizeSuccessTimeout = null; //will hold the timeout to move to the success screen
 
+let transitionTimeout;
+
 class Visualize extends React.Component {
 
   constructor(props) {
@@ -23,12 +25,20 @@ class Visualize extends React.Component {
     helpActive: false, //true when we are showing the help modal
     isProcessing: false, //true when we have click sign and send or skip buttons
     signature: '', //fills with the value of the signature input field
+    doPageTransition: true, //when true, animate page to 0 opacity
   }
 
   componentDidMount() {
 
     window.canvasInstance.init(userState.objectData);
     this.addMutationObserver();
+
+    transitionTimeout = setTimeout(()=>{
+      this.setState({
+        doPageTransition: false
+      });
+    },1000);
+    
   }
 
   componentWillUnmount(){
@@ -91,6 +101,7 @@ class Visualize extends React.Component {
     this.setState({
       isProcessing: false,
       signModalActive: false,
+      doPageTransition: true,
     });
 
     visualizeSuccessTimeout = setTimeout(()=>{ //MH - temp - should do some sort of outro, and save timeout reference somewhere to clear it
@@ -137,11 +148,13 @@ class Visualize extends React.Component {
 
   render() {
 
-    const { signModalActive, activeImageCategory, activeImage, isProcessing, signature } = this.state;
+    const { signModalActive, activeImageCategory, activeImage, isProcessing, signature, doPageTransition } = this.state;
 
     return (
       <div className="Visualize app_screen">
-        <main>
+        <main
+          className={`visualize__main ${!doPageTransition ? 'active' : ''}`}
+        >
           <section className="visualize__sentence_section ctnr center-xs">
             <h1 className="visualize__title">{dataStore.siteData.visualizeTitle}</h1>
             <div className="visualize__sentence_container">
