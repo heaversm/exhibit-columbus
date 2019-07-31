@@ -50,90 +50,78 @@ class App extends React.Component {
               return visionsArr.push(vision.fields);
             });
             dataStore.visionsData = visionsArr;
-          })
-      })
-      .then(() => {
-        this.contentfulClient.getEntries({
-          content_type: 'inspirationsData'
-        })
-          .then((response) => {
-            //console.log(response.items);
-
-            let inspirationsArr = [];
-            response.items.map((inspiration) => {
-              return inspirationsArr.push(inspiration.fields);
-            });
-            dataStore.inspirationsData = inspirationsArr;
-          })
-      })
-      .then(() => {
-        this.contentfulClient.getEntries({
-          content_type: 'objectsData'
-        })
-          .then((response) => {
-            //console.log(response.items);
-
-            let objectsArr = [];
-            response.items.map((object) => {
-              return objectsArr.push(object.fields);
-            });
-            dataStore.objectsData = objectsArr;
-          })
-      })
-      .then(() => {
-        this.contentfulClient.getEntries({
-          content_type: 'objectivesData'
-        })
-          .then((response) => {
-            //console.log(response.items);
-
-            let objectivesArr = [];
-            response.items.map((objective) => {
-              return objectivesArr.push(objective.fields);
-            });
-            dataStore.objectivesData = objectivesArr;
-          })
-      })
-      .then(() => {
-        this.contentfulClient.getEntries({
-          content_type: 'objectivesData'
-        })
-          .then((response) => {
-            //console.log(response.items);
-
-            let objectivesArr = [];
-            response.items.map((objective) => {
-              return objectivesArr.push(objective.fields);
-            });
-            dataStore.objectivesData = objectivesArr;
-          })
-      })
-      .then(() => {
-        this.contentfulClient.getEntries({
-          content_type: 'visualizeData'
-        })
-          .then((response) => {
-            //console.log(response.items);
-            let visualizeData = {
-              "objects": [],
-              "background": [],
-              "foreground": [],
-              "effects": [],
-              "people": [],
-            }
-            response.items.map((visualizeItem) => {
-              return visualizeData[visualizeItem.fields.category].push(visualizeItem.fields);
-            });
-            dataStore.visualizeData = visualizeData;
-
+            console.log('visions');
           })
           .then(() => {
-            this.setState({
-              dataLoaded: true,
+            this.contentfulClient.getEntries({
+              content_type: 'inspirationsData'
             })
-          });
+              .then((response) => {
+                //console.log(response.items);
+                let inspirationsArr = [];
+                response.items.map((inspiration) => {
+                  return inspirationsArr.push(inspiration.fields);
+                });
+                dataStore.inspirationsData = inspirationsArr;
+                console.log('inspirations');
+              })
+              .then(() => {
+                this.contentfulClient.getEntries({
+                  content_type: 'objectsData'
+                })
+                  .then((response) => {
+                    //console.log(response.items);
+
+                    let objectsArr = [];
+                    response.items.map((object) => {
+                      return objectsArr.push(object.fields);
+                    });
+                    dataStore.objectsData = objectsArr;
+                    console.log('objects');
+                  })
+                  .then(() => {
+                    this.contentfulClient.getEntries({
+                      content_type: 'objectivesData'
+                    })
+                      .then((response) => {
+                        //console.log(response.items);
+
+                        let objectivesArr = [];
+                        response.items.map((objective) => {
+                          return objectivesArr.push(objective.fields);
+                        });
+                        dataStore.objectivesData = objectivesArr;
+                        console.log('objectives');
+                      })
+                      .then(() => {
+                        this.contentfulClient.getEntries({
+                          content_type: 'visualizeData'
+                        })
+                          .then((response) => {
+                            let visualizeData = {
+                              "objects": [],
+                              "background": [],
+                              "foreground": [],
+                              "effects": [],
+                              "people": [],
+                            }
+                            response.items.map((visualizeItem) => {
+                              return visualizeData[visualizeItem.fields.category].push(visualizeItem.fields);
+                            });
+                            dataStore.visualizeData = visualizeData;
+                            console.log('visualize');
+                          })
+                          .then(() => {
+                            console.log('data loaded');
+                            this.setState({
+                              dataLoaded: true,
+                            })
+                          });
+                      })
+                  })
+              })
+          })
       })
-      .catch(console.error)
   }
 
   render() {
@@ -150,7 +138,7 @@ class App extends React.Component {
           <Route exact path="/redesign" component={Redesign} />
           <Route exact path="/visualize" component={Visualize} />
           <Route exact path="/confirmation" component={Confirmation} />
-          <Reset/>
+          <Reset />
         </div>
       </Router>
     );

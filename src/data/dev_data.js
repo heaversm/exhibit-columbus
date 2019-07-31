@@ -28,6 +28,7 @@ const inspirationSettingsData = {
   "SCALE_BASE_VARIANCE": 0.0, //how much the scale of each item varies as a % (+ or -)
   "IMAGE_QUALITY": 70, //percent, for generating image from contentful
   "IMAGE_WIDTH": 400, //px, for generating image from contentful
+  "TRANSITION_DELAY_INCREMENT": 100, //amount of time in ms to stagger animate in
 }
 
 const redesignSettingsData = {

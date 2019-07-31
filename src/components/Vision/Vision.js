@@ -8,8 +8,7 @@ import { visionData } from '../../data/dev_data';
 
 let level, levelScaleBase, levelScaleVariance, levelRotation, levelTranslation;
 
-let posTimeout;
-let introAnimTimeout;
+let posTimeout, introAnimTimeout; //initial positions, intro animation timeouts
 
 class Vision extends React.Component {
 
@@ -58,8 +57,7 @@ class Vision extends React.Component {
 
   render() {
     const { index, data, isActive } = this.props;
-    const { curTranslation, curScale } = this.state;
-    const {introAnimComplete} = this.state;
+    const { curTranslation, curScale, introAnimComplete } = this.state;
 
     const transitionDelay = introAnimComplete ? `0ms` : `${index * visionData.TRANSITION_DELAY_INCREMENT}ms`;
 
@@ -87,7 +85,7 @@ class Vision extends React.Component {
             <div className="vision__container"
               style={{
                 transform: `translate(-50%,-50%) scale(${isActive ? 1 : curScale})`,
-                transitionDelay: isActive ? 0 : index * visionData.TRANSITION_DELAY_INCREMENT
+                transitionDelay: transitionDelay
               }}
             >
               <img

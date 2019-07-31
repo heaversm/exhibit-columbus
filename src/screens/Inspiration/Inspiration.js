@@ -38,6 +38,7 @@ class Inspiration extends React.Component {
   render() {
 
     const {activeInspirations, activeInspirationIndex} = this.state;
+    console.log(activeInspirations);
 
     if (!activeInspirations){
       return (<div>Loading</div>)
