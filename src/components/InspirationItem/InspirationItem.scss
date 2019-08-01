@@ -46,11 +46,14 @@
     overflow: hidden;
     padding: 20px;
     position: relative;
-    transform: scale(.5) translate(-100%, -100%); //MH TODO: Not sure why 100% and not 50%
+    transform: scale(.35) translate(-100%, -100%); //MH TODO: Not sure why 100% and not 50%
     transition: transform $anim__time--std ease-in-out;
     position: absolute;
     left: 50%;
     top: 50%;
+    @include media-query("md-up"){
+      transform: scale(.5) translate(-100%, -100%); //MH TODO: Not sure why 100% and not 50%
+    }
   }
   &__image {
     position: absolute;

@@ -31,18 +31,29 @@
     border-radius: $button__radius;
   }
   &--md {
-    font-size: $fs__h4;
-    height: 50px;
-    border-radius: 25px;
+    font-size: $fs__h6;
+    height: 40px;
+    border-radius: 20px;
+    @include media-query("md-up") {
+      font-size: $fs__h4;
+      height: 50px;
+      border-radius: 25px;
+    }
   }
   &--lg {
-    font-size: $fs__h3;
-    height: 90px;
-    border-radius: 45px;
-    padding: 10px 100px;
+    font-size: $fs__h4;
+    height: 80px;
+    border-radius: 40px;
+    padding: 10px 50px;
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
+    @include media-query("md-up") {
+      font-size: $fs__h3;
+      height: 90px;
+      border-radius: 45px;
+      padding: 10px 100px;
+    }
   }
 }
 
@@ -63,7 +74,8 @@ a.button {
     display: none;
     &.active {
       display: flex;
-      .modal__bg, .modal__content_container {
+      .modal__bg,
+      .modal__content_container {
         opacity: 1;
       }
     }

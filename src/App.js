@@ -8,6 +8,7 @@ import * as contentful from 'contentful'
 
 //dependencies
 import { Route, BrowserRouter as Router } from 'react-router-dom';
+import { dataStore, userState } from './store';
 
 import Confirmation from './screens/Confirmation/Confirmation';
 import Home from './screens/Home/Home';
@@ -16,12 +17,13 @@ import React from 'react';
 import Redesign from './screens/Redesign/Redesign';
 import { Reset } from './components';
 import Visualize from './screens/Visualize/Visualize';
-import { dataStore } from './store';
+import { appSettingsData } from './data/dev_data';
 
 class App extends React.Component {
 
   componentDidMount() {
     this.fetchData();
+    this.getDimensions();
   }
 
   state = {
@@ -32,6 +34,14 @@ class App extends React.Component {
     space: 'xbl068csq86a',
     accessToken: 'ok3nAinl4Tz6xrzqpM_V49TX064YXj3LQxKsU7giAeA'
   });
+
+  getDimensions = ()=>{
+    userState.screenWidth = window.innerWidth || document.body.clientWidth;
+    userState.screenHeight = window.innerHeight || document.body.clientHeight;
+    if (userState.screenWidth >= appSettingsData.SW__IPAD_PRO){
+      userState.isPro = true;
+    }
+  }
 
   fetchData = () => {
 

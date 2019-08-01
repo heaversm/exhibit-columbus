@@ -1,9 +1,10 @@
 import './InspirationItem.scss';
 
+import { appSettingsData, inspirationSettingsData } from '../../data/dev_data';
+import { dataStore, userState } from '../../store';
+
 import React from 'react';
 import _ from 'lodash';
-import { dataStore } from '../../store';
-import { inspirationSettingsData } from '../../data/dev_data';
 import { view } from 'react-easy-state';
 
 let level, levelScaleBase, levelScaleVariance, levelRotation, levelTranslation;
@@ -47,10 +48,10 @@ class InspirationItem extends React.Component {
     const { index } = this.props;
 
     level = Math.ceil((index + 1) / inspirationSettingsData.DIVISIONS); //current group of visions
-    levelScaleBase = Math.pow(inspirationSettingsData.SCALE_BASE, level); //base scale per group
+    levelScaleBase = Math.pow(userState.isPro ? inspirationSettingsData.SCALE_BASE : inspirationSettingsData.SCALE_BASE_SM, level); //base scale per group
     levelScaleVariance = inspirationSettingsData.SCALE_BASE_VARIANCE / level; //amount the scale can vary for this group
     levelRotation = inspirationSettingsData.GROUP_ROTATIONS[level - 1]; //rotation for this group
-    levelTranslation = inspirationSettingsData.GROUP_TRANSLATIONS[level - 1]; //base translation for this group
+    levelTranslation = userState.isPro ? inspirationSettingsData.GROUP_TRANSLATIONS[level - 1] : inspirationSettingsData.GROUP_TRANSLATIONS_SM[level - 1]; //base translation for this group
 
     this.setState({
       curTranslation: _.random(levelTranslation - inspirationSettingsData.GROUP_TRANSLATIONS_VARIANCE, levelTranslation + inspirationSettingsData.GROUP_TRANSLATIONS_VARIANCE), //translation amount for this particular item

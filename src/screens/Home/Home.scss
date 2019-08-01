@@ -10,8 +10,12 @@
     }
   }
   &__continue_button {
-    margin-top: 50px;
-    font-size: $fs__h2;
+    margin-top: 25px;
+    font-size: $fs__h3;
+    @include media-query("md-up"){
+      margin-top: 50px;
+      font-size: $fs__h2;
+    }
   }
   &__visions_container {
     position: relative;

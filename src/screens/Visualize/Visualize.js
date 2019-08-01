@@ -142,10 +142,6 @@ class Visualize extends React.Component {
     });
   }
 
-  handleVisualizeImageClick = (visualizeImage) => {
-    //add image to canvas
-  }
-
   render() {
 
     const { signModalActive, activeImageCategory, activeImage, isProcessing, signature, doPageTransition } = this.state;
@@ -227,9 +223,6 @@ class Visualize extends React.Component {
                               <div
                                 className={`visualize__image_container ${activeImage && activeImage.title === imageItem.title ? 'active' : ''}`}
                                 key={`visualize__image--${imageItem.title}`}
-                              // onClick={() => {
-                              //   this.handleVisualizeImageClick(imageItem)
-                              // }}
                               >
                                 <img
                                   src={`https:${imageItem.image.fields.file.url}?w=150&h=150&fit=thumb&q=50`}
@@ -337,7 +330,7 @@ class Visualize extends React.Component {
               >
                 {visualizeInstructionsData.processingMessage}
               </p>
-              <div className="visualize__sign_buttons row between-md">
+              <div className="visualize__sign_buttons row between-xs">
                 <button
                   className="visualize__sign_button visualize__sign_button--send col-xs-5 center-xs button"
                   onClick={() => {

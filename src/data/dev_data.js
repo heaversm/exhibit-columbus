@@ -1,5 +1,7 @@
 const appSettingsData = {
   "RESET_CLICKS": 3, //number of clicks to trigger an app reset
+  "SW__IPAD": 768, //px screen width of small ipad
+  "SW__IPAD_PRO": 1024, //px screen width of ipad pro
 }
 
 const homeData = {
@@ -24,8 +26,10 @@ const inspirationSettingsData = {
   "DIVISIONS": 9, //number of inspirations in each group //MH TODO: (ideally find a better way to do this, as the next "level" will contain more items than the previous, but not sure by what amount)
   "GROUP_ROTATIONS": [40], //the array of rotations of inspirations per group in degrees
   "GROUP_TRANSLATIONS": [350], //the array of translations of items in pixels per group
+  "GROUP_TRANSLATIONS_SM": [300],
   "GROUP_TRANSLATIONS_VARIANCE": 0, //max number of pixels a vision can stray from its center (+ or -)
   "SCALE_BASE": 0.5, //the largest scale each unselected item can be as a %
+  "SCALE_BASE_SM": 0.35, //the largest scale each unselected item can be as a %
   "SCALE_BASE_VARIANCE": 0.0, //how much the scale of each item varies as a % (+ or -)
   "IMAGE_QUALITY": 70, //percent, for generating image from contentful
   "IMAGE_WIDTH": 400, //px, for generating image from contentful

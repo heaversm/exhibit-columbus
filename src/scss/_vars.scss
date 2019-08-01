@@ -25,6 +25,14 @@ $fs__h5: 18px;
 $fs__h6: 16px;
 $fs__h7: 14px;
 
+$fs__h1--sm: 40px;
+$fs__h2--sm: 32px;
+$fs__h3--sm: 24px;
+$fs__h4--sm: 18px;
+$fs__h5--sm: 16px;
+$fs__h6--sm: 14px;
+$fs__h7--sm: 12px;
+
 $fs__map: (
   h1: $fs__h1,
   h2: $fs__h2,
@@ -33,6 +41,16 @@ $fs__map: (
   h5: $fs__h5,
   h6: $fs__h6,
   h7: $fs__h7,
+);
+
+$fs__map--sm: (
+  h1: $fs__h1--sm,
+  h2: $fs__h2--sm,
+  h3: $fs__h3--sm,
+  h4: $fs__h4--sm,
+  h5: $fs__h5--sm,
+  h6: $fs__h6--sm,
+  h7: $fs__h7--sm,
 );
 
 // Colors

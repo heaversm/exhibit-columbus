@@ -10,14 +10,20 @@
     }
   }
   &__sentence_container {
-    margin: 25px 0 50px 0;
+    margin: 25px 0 25px 0;
     height: 80px;
     overflow-y: auto;
     overflow-x: hidden;
+    @include media-query("md-up") {
+      margin: 25px 0 50px 0;
+    }
   }
   &__sentence {
-    font-size: $fs__h2;
+    font-size: $fs__h3;
     margin: 0;
+    @include media-query("md-up") {
+      font-size: $fs__h2;
+    }
   }
   &__sentence_entry {
     border-bottom: 1px solid black;
@@ -49,7 +55,10 @@
     margin-top: 25px;
   }
   &__signature_input {
-    font-size: $fs__h1;
+    font-size: $fs__h3;
+    @include media-query("md-up"){
+      font-size: $fs__h1;
+    }
   }
   &__sign_buttons {
     display: flex;
@@ -66,7 +75,10 @@
     }
   }
   &__images_container {
-    margin-top: 50px;
+    margin-top: 0px;
+    @include media-query("md-up") {
+      margin-top: 50px;
+    }
   }
   &__image_categories {
     display: flex;
@@ -77,10 +89,13 @@
     border: 1px solid black;
     border-radius: 10px 10px 0 0;
     border-bottom: 0;
-    font-size: $fs__h3;
+    font-size: $fs__h5;
     padding: 10px 20px;
     margin: 0 5px;
     transition: all $anim__time--std linear;
+    @include media-query("md-up") {
+      font-size: $fs__h3;
+    }
 
     &.active {
       border-color: $c__tomato;
@@ -102,12 +117,12 @@
     }
   }
   &__image_container {
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     border: 2px solid black;
     border-radius: 50%;
     display: inline-block;
-    margin-left: 20px;
+    margin-left: 10px;
     overflow: hidden;
     transition: border-color $anim__time--std linear;
     &:first-child {
@@ -115,6 +130,11 @@
     }
     &.active {
       border-color: $c__tomato;
+    }
+    @include media-query("md-up") {
+      width: 150px;
+      height: 150px;
+      margin-left: 20px;
     }
   }
   &__image {
@@ -167,9 +187,9 @@
         display: block;
       }
     }
-
   }
-  &__collage_canvas { //bad naming - the actual html canvas element inside visualize__canvas
+  &__collage_canvas {
+    //bad naming - the actual html canvas element inside visualize__canvas
     width: 100%;
     height: 100%;
     border-radius: 50%;
@@ -182,13 +202,16 @@
     position: absolute;
     top: 0;
     right: 0;
-    transform: translate(80px, 0);
+    transform: translate(40px, 0);
     &.active {
       .visualize__canvas_control:not(.inactive) {
         path {
           fill: black;
         }
       }
+    }
+    @include media-query("md-up") {
+      transform: translate(80px, 0);
     }
   }
   &__canvas_control {
