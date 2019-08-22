@@ -212,6 +212,8 @@ class Visualize extends React.Component {
                 {
                   visualizeSettingsData.CATEGORIES.map((category, index) => {
 
+                    
+
                     return (
                       <div
                         className={`visualize__images ${category} ${activeImageCategory === category ? 'active' : ''}`}
@@ -219,18 +221,29 @@ class Visualize extends React.Component {
                       >
                         {
                           dataStore.visualizeData[category].map((imageItem, index) => {
+
+                            let imageThumbSrc, imageSrc;
+
+                            if (imageItem.image){
+                              imageSrc = `https:${imageItem.image.fields.file.url}`;
+                              imageThumbSrc = `${imageSrc}?w=150&h=150&fit=thumb&q=50`;
+                            } else {
+                              imageSrc = 'assets/images/inspiration.jpg';
+                              imageThumbSrc = imageSrc;
+                            }
+
                             return (
                               <div
                                 className={`visualize__image_container ${activeImage && activeImage.title === imageItem.title ? 'active' : ''}`}
                                 key={`visualize__image--${imageItem.title}`}
                               >
                                 <img
-                                  src={`https:${imageItem.image.fields.file.url}?w=150&h=150&fit=thumb&q=50`}
+                                  src={imageThumbSrc}
                                   alt={imageItem.title}
                                   className="visualize__image image-button"
                                   data-type={activeImageCategory}
                                   data-id={`${activeImageCategory}-${imageItem.slug}`}
-                                  data-url={`https:${imageItem.image.fields.file.url}`} //url without the params
+                                  data-url={imageSrc} //url without the params
                                 />
                               </div>
                             )
