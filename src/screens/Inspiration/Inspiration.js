@@ -83,6 +83,7 @@ class Inspiration extends React.Component {
               
               activeInspirations.map((inspiration, index) => {
                 const isActive = activeInspirationIndex === index;
+                console.log(inspiration);
 
                 return (
                   <InspirationItem

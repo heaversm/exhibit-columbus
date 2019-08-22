@@ -72,6 +72,16 @@ class InspirationItem extends React.Component {
     const { introAnimComplete, curTranslation, curScale, curRotate} = this.state;
     const transitionDelay = introAnimComplete ? `0ms` : `${index * inspirationSettingsData.TRANSITION_DELAY_INCREMENT}ms`;
 
+    console.log(data);
+
+    let inspirationImage;
+    
+    if (data.image){
+      inspirationImage = `https:${data.image.fields.file.url}?w=${inspirationSettingsData.IMAGE_WIDTH}&q=${inspirationSettingsData.IMAGE_QUALITY}`;
+    } else {
+      inspirationImage = 'assets/images/temp/inspiration.jpg';
+    }
+
     return (
 
         <div
@@ -103,7 +113,7 @@ class InspirationItem extends React.Component {
               >
                 <img
                   className="inspiration_item__image"
-                  src={`https:${data.image.fields.file.url}?w=${inspirationSettingsData.IMAGE_WIDTH}&q=${inspirationSettingsData.IMAGE_QUALITY}`}
+                  src={inspirationImage}
                   alt="Inspiration"
                 />
                 <div className="inspiration_item__title_container">
