@@ -49,20 +49,30 @@ class Redesign extends React.Component {
 
   }
 
-  componentWillUnmount(){
-    if (introAnimTimeout){
+  componentWillUnmount() {
+    if (introAnimTimeout) {
       clearTimeout(introAnimTimeout);
     }
 
-    if (outroTimeout){
+    if (outroTimeout) {
       clearTimeout(outroTimeout);
     }
   }
 
   loadObjectImages = () => {
+
     this.state.objects.map((object, index) => {
+      let objectImageSrc;
+
+      if (object.image) {
+        objectImageSrc = object.image.fields.file.url;
+      } else {
+        objectImageSrc = 'assets/images/temp/inspiration.jpg';
+      }
+
+
       const objectImage = new Image();
-      objectImage.src = object.image.fields.file.url;
+      objectImage.src = objectImageSrc;
       objectImage.addEventListener('load', () => {
         const newNumObjects = this.state.numObjectsLoaded + 1;
         const objectsAreLoaded = newNumObjects >= redesignSettingsData.SAMPLE_SIZE;
@@ -71,15 +81,17 @@ class Redesign extends React.Component {
           objectsAreLoaded: objectsAreLoaded,
         });
 
-        if (objectsAreLoaded){
-          introAnimTimeout = setTimeout(()=>{
+        if (objectsAreLoaded) {
+          introAnimTimeout = setTimeout(() => {
             this.setState({
               introAnimComplete: true,
             });
-          },redesignSettingsData.SAMPLE_SIZE* redesignSettingsData.TRANSITION_DELAY_INCREMENT)
+          }, redesignSettingsData.SAMPLE_SIZE * redesignSettingsData.TRANSITION_DELAY_INCREMENT)
         }
 
       });
+
+
     });
   }
 
@@ -160,13 +172,13 @@ class Redesign extends React.Component {
     const { activeObject, activeObjective } = this.state;
     userState.objectData = _.cloneDeep(activeObject); //MH not sure if we need deep clone here or not
     userState.objectiveData = _.cloneDeep(activeObjective); //MH not sure if we need deep clone here or not
-    
+
     this.setState({
       doOutro: true
     });
-    outroTimeout = setTimeout(()=>{
+    outroTimeout = setTimeout(() => {
       this.props.history.push(`/visualize`)
-    },1000);
+    }, 1000);
   }
 
   render() {
@@ -183,6 +195,15 @@ class Redesign extends React.Component {
       )
     }
 
+    let choiceImageSrc;
+
+    if (data.image) {
+      choiceImageSrc = `https:${data.image.fields.file.url}?w=${redesignSettingsData.INSPIRATION_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}`;
+    } else {
+      choiceImageSrc = 'assets/images/temp/inspiration.jpg';
+    }
+
+
     return (
       <div className="redesign app_screen">
         <main
@@ -196,7 +217,7 @@ class Redesign extends React.Component {
               <div className="redesign__choice_container col-xs-6 col-xs-offset-2">
                 <div className={`redesign__choice center-xs ${objectsAreLoaded ? 'active' : ''}`}>
                   <img
-                    src={`https:${data.image.fields.file.url}?w=${redesignSettingsData.INSPIRATION_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}`}
+                    src={choiceImageSrc}
                     alt={data.title}
                     className="redesign__choice_image"
                   />
@@ -217,7 +238,15 @@ class Redesign extends React.Component {
             >
               {objects.map((object, index) => {
 
-                const transitionDelay = introAnimComplete ? '0ms' : `${index*redesignSettingsData.TRANSITION_DELAY_INCREMENT}ms`
+                const transitionDelay = introAnimComplete ? '0ms' : `${index * redesignSettingsData.TRANSITION_DELAY_INCREMENT}ms`;
+
+                let objectImageSrc;
+
+                if (object.image) {
+                  objectImageSrc = `https:${object.image.fields.file.url}?w=${redesignSettingsData.OBJECT_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}`;
+                } else {
+                  objectImageSrc = 'assets/images/temp/inspiration.jpg';
+                }
 
                 return (
                   <div
@@ -231,7 +260,7 @@ class Redesign extends React.Component {
                     }}
                   >
                     <img
-                      src={`https:${object.image.fields.file.url}?w=${redesignSettingsData.OBJECT_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}`}
+                      src={objectImageSrc}
                       alt={object.title}
                       className="redesign__object_image"
                     />

@@ -72,8 +72,6 @@ class InspirationItem extends React.Component {
     const { introAnimComplete, curTranslation, curScale, curRotate} = this.state;
     const transitionDelay = introAnimComplete ? `0ms` : `${index * inspirationSettingsData.TRANSITION_DELAY_INCREMENT}ms`;
 
-    console.log(data);
-
     let inspirationImage;
     
     if (data.image){
