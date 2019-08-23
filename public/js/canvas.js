@@ -143,9 +143,9 @@ canvasModule.main = function () {
     envImg.crossOrigin = "anonymous";
     let imgParams = '';
     if (type === "foreground"){
-      imgParams = `?w=${configObj.stageWidth}&h=${configObj.foregroundHeight}&q=${configObj.imageQuality}`
+      imgParams = `?w=${configObj.stageWidth}&h=${configObj.foregroundHeight}&q=${configObj.imageQuality}&fit=fill`
     } else if (type === "background"){
-      imgParams = `?w=${configObj.stageWidth}&h=${configObj.backgroundHeight}&q=${configObj.imageQuality}`
+      imgParams = `?w=${configObj.stageWidth}&h=${configObj.backgroundHeight}&q=${configObj.imageQuality}&fit=fill`
     }
     envImg.src = src + imgParams;
 

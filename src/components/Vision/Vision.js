@@ -99,7 +99,7 @@ class Vision extends React.Component {
             >
               <img
                 className="vision__image"
-                src={`https:${data.image.fields.file.url}?w=${visionData.VISION_WIDTH}&q=${visionData.VISION_QUALITY}`}
+                src={`https:${data.image.fields.file.url}?w=${visionData.VISION_WIDTH}&h=${visionData.VISION_WIDTH}&q=${visionData.VISION_QUALITY}&fit=fill`}
                 alt="Vision"
               />
               <div className="vision__content_container">

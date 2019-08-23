@@ -75,7 +75,7 @@ class InspirationItem extends React.Component {
     let inspirationImage;
     
     if (data.image){
-      inspirationImage = `https:${data.image.fields.file.url}?w=${inspirationSettingsData.IMAGE_WIDTH}&q=${inspirationSettingsData.IMAGE_QUALITY}`;
+      inspirationImage = `https:${data.image.fields.file.url}?w=${inspirationSettingsData.IMAGE_WIDTH}&h=${inspirationSettingsData.IMAGE_WIDTH}&fit=fill&q=${inspirationSettingsData.IMAGE_QUALITY}`;
     } else {
       inspirationImage = 'assets/images/temp/inspiration.jpg';
     }

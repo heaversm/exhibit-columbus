@@ -198,7 +198,7 @@ class Redesign extends React.Component {
     let choiceImageSrc;
 
     if (data.image) {
-      choiceImageSrc = `https:${data.image.fields.file.url}?w=${redesignSettingsData.INSPIRATION_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}`;
+      choiceImageSrc = `https:${data.image.fields.file.url}?w=${redesignSettingsData.INSPIRATION_WIDTH}&h=${redesignSettingsData.INSPIRATION_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}&fit=fill`;
     } else {
       choiceImageSrc = 'assets/images/temp/inspiration.jpg';
     }
@@ -243,7 +243,7 @@ class Redesign extends React.Component {
                 let objectImageSrc;
 
                 if (object.image) {
-                  objectImageSrc = `https:${object.image.fields.file.url}?w=${redesignSettingsData.OBJECT_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}`;
+                  objectImageSrc = `https:${object.image.fields.file.url}?w=${redesignSettingsData.OBJECT_WIDTH}&h=${redesignSettingsData.OBJECT_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}&fit=fill`;
                 } else {
                   objectImageSrc = 'assets/images/temp/inspiration.jpg';
                 }
