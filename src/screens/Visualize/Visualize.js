@@ -224,7 +224,7 @@ class Visualize extends React.Component {
 
                             let imageThumbSrc, imageSrc;
 
-                            if (imageItem.image){
+                            if (imageItem.image && imageItem.image.fields && imageItem.image.fields.file){
                               imageSrc = `https:${imageItem.image.fields.file.url}`;
                               imageThumbSrc = `${imageSrc}?w=150&h=150&fit=thumb&q=50`;
                             } else {

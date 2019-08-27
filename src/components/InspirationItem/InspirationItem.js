@@ -73,8 +73,8 @@ class InspirationItem extends React.Component {
     const transitionDelay = introAnimComplete ? `0ms` : `${index * inspirationSettingsData.TRANSITION_DELAY_INCREMENT}ms`;
 
     let inspirationImage;
-    
-    if (data.image){
+
+    if (data.image && data.image.fields && data.image.fields.file){
       inspirationImage = `https:${data.image.fields.file.url}?w=${inspirationSettingsData.IMAGE_WIDTH}&h=${inspirationSettingsData.IMAGE_WIDTH}&fit=fill&q=${inspirationSettingsData.IMAGE_QUALITY}`;
     } else {
       inspirationImage = 'assets/images/temp/inspiration.jpg';

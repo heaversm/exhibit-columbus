@@ -64,8 +64,8 @@ class Redesign extends React.Component {
     this.state.objects.map((object, index) => {
       let objectImageSrc;
 
-      if (object.image) {
-        objectImageSrc = object.image.fields.file.url;
+      if (object.image && object.image.fields && object.image.fields.file) {
+        objectImageSrc = `https:${object.image.fields.file.url}?w=${redesignSettingsData.OBJECT_WIDTH}&h=${redesignSettingsData.OBJECT_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}&fit=fill`;
       } else {
         objectImageSrc = 'assets/images/temp/inspiration.jpg';
       }
@@ -197,7 +197,7 @@ class Redesign extends React.Component {
 
     let choiceImageSrc;
 
-    if (data.image) {
+    if (data.image && data.image.fields && data.image.fields.file) {
       choiceImageSrc = `https:${data.image.fields.file.url}?w=${redesignSettingsData.INSPIRATION_WIDTH}&h=${redesignSettingsData.INSPIRATION_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}&fit=fill`;
     } else {
       choiceImageSrc = 'assets/images/temp/inspiration.jpg';
@@ -242,7 +242,7 @@ class Redesign extends React.Component {
 
                 let objectImageSrc;
 
-                if (object.image) {
+                if (object.image  && object.image.fields && object.image.fields.file) {
                   objectImageSrc = `https:${object.image.fields.file.url}?w=${redesignSettingsData.OBJECT_WIDTH}&h=${redesignSettingsData.OBJECT_WIDTH}&q=${redesignSettingsData.IMAGE_QUALITY}&fit=fill`;
                 } else {
                   objectImageSrc = 'assets/images/temp/inspiration.jpg';

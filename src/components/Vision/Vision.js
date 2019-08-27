@@ -70,6 +70,14 @@ class Vision extends React.Component {
 
     const transitionDelay = introAnimComplete ? `0ms` : `${index * visionData.TRANSITION_DELAY_INCREMENT}ms`;
 
+    let visionImage;
+
+    if (data.image && data.image.fields && data.image.fields.file) {
+      visionImage = `https:${data.image.fields.file.url}?w=${visionData.VISION_WIDTH}&h=${visionData.VISION_WIDTH}&q=${visionData.VISION_QUALITY}&fit=fill`;
+    } else {
+      visionImage = 'assets/images/temp/inspiration.jpg';
+    }
+
     return (
 
       <div
@@ -99,7 +107,7 @@ class Vision extends React.Component {
             >
               <img
                 className="vision__image"
-                src={`https:${data.image.fields.file.url}?w=${visionData.VISION_WIDTH}&h=${visionData.VISION_WIDTH}&q=${visionData.VISION_QUALITY}&fit=fill`}
+                src={visionImage}
                 alt="Vision"
               />
               <div className="vision__content_container">
